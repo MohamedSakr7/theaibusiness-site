@@ -245,7 +245,7 @@ footer b{color:var(--ink-dim)}
       <h1>Score your go-to-market. Find out <em>where it's leaking.</em></h1>
       <p class="subhead">Twelve questions about how you find customers and turn them into revenue. You get a score out of 100, the <b>one thing</b> capping your growth, and what to do about it.</p>
       <button class="btn big" id="begin">Start the assessment</button>
-      <p class="startnote">3 minutes · No email required · Nothing stored</p>
+      <p class="startnote">Complete the assessment in just 3 minutes.</p>
 
       <div class="exbox">
         <span class="extag">Example result</span>
@@ -316,9 +316,10 @@ footer b{color:var(--ink-dim)}
 
   var ABOUT = {
     key:"about", label:"You", title:"First, a bit about you",
-    blurb:"This only shapes how your result is written. Nothing is sent anywhere.",
+    blurb:"This shapes how your result is written.",
     fields:[
-      { id:"name", label:"Your first name", placeholder:"Alex", required:true },
+      { id:"name", label:"Full name", placeholder:"Alex Morgan", autocomplete:"name", required:true },
+      { id:"email", label:"Work email", placeholder:"Your work email", type:"email", autocomplete:"email", required:true },
       { id:"company", label:"Company name", placeholder:"Acme Consulting", required:true },
       { id:"site", label:"Website", placeholder:"acme.com", required:false, hint:"Optional." }
     ],
@@ -494,7 +495,7 @@ footer b{color:var(--ink-dim)}
     var flds = (s.fields||[]).map(function(f){
       return '<div class="field"><label for="f_'+f.id+'">'+esc(f.label)+'</label>'+
         (f.hint?'<p class="fh">'+esc(f.hint)+'</p>':'')+
-        '<input type="text" id="f_'+f.id+'" data-req="'+(f.required?1:0)+'" placeholder="'+esc(f.placeholder)+'"></div>';
+        '<input type="'+esc(f.type||"text")+'" autocomplete="'+esc(f.autocomplete||"off")+'" id="f_'+f.id+'" data-req="'+(f.required?1:0)+'" placeholder="'+esc(f.placeholder)+'"></div>';
     }).join("");
     var qs = s.questions.map(function(q,qi){
       var name = (s.key==="about" ? "ab_"+q.id : s.key+"_"+qi);
@@ -532,7 +533,11 @@ footer b{color:var(--ink-dim)}
   function checkStep(si){
     var s = allSteps[si], need = 0, done = 0;
     (s.fields||[]).forEach(function(f){
-      if(f.required){ need++; if((document.getElementById("f_"+f.id).value||"").trim()) done++; }
+      if(f.required){
+        need++;
+        var input = document.getElementById("f_"+f.id);
+        if(input.value.trim() && input.validity.valid) done++;
+      }
     });
     s.questions.forEach(function(q,qi){
       need++;
@@ -559,7 +564,7 @@ footer b{color:var(--ink-dim)}
     if(e.target.type === "radio"){ var i = ownerStep(e.target.name); if(i>=0) checkStep(i); }
   });
   stepsEl.addEventListener("input", function(e){
-    if(e.target.tagName === "INPUT" && e.target.type === "text") checkStep(0);
+    if(e.target.tagName === "INPUT" && (e.target.type === "text" || e.target.type === "email")) checkStep(0);
   });
 
   stepsEl.addEventListener("click", function(e){
@@ -580,7 +585,7 @@ footer b{color:var(--ink-dim)}
   function txt(id){ return (document.getElementById("f_"+id).value||"").trim(); }
 
   function render(){
-    var who = { name:txt("name"), company:txt("company"), site:txt("site") };
+    var who = { name:txt("name"), email:txt("email"), company:txt("company"), site:txt("site") };
     var effKey = EFFORT_MAP[val("ab_eff")];
 
     var scores = {}, total = 0;
@@ -663,7 +668,7 @@ footer b{color:var(--ink-dim)}
     // ---- save the submission ----
     var record = {
       submittedAt: new Date().toISOString(),
-      name: who.name, company: who.company, website: who.site,
+      name: who.name, email: who.email, company: who.company, website: who.site,
       revenueBand: ABOUT.questions[0].opts[val("ab_rev")][0],
       effortGoesTo: ABOUT.questions[1].opts[val("ab_eff")][0],
       totalScore: pct, band: band.band,
