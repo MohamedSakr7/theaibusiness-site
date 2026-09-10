@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Score your go-to-market in 3 minutes. Twelve questions, a score out of 100, and the one thing capping your growth.">
+<meta property="og:title" content="Score Your Go-To-Market">
+<meta property="og:description" content="Score your go-to-market in 3 minutes. Twelve questions, a score out of 100, and the one thing capping your growth.">
+<meta property="og:type" content="website">
+<title>Score Your Go-To-Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#0C0C0E; --surface:#151517; --surface-2:#1C1C1F;
+  --line:#282830; --line-soft:#1F1F24;
+  --ink:#F4F3F0; --ink-dim:#9A9AA2; --ink-faint:#6A6A73;
+  --accent:#FF6000;
+  --ok:#57B37C; --warn:#DFAE4E; --crit:#E5615F;
+  --ui:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.62;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px 80px}
+/* the assessment itself stays a comfortable reading width */
+#rail,#steps{max-width:730px;margin-inline:auto}
+#result{max-width:820px;margin-inline:auto}
+
+.masthead{border-bottom:1px solid var(--line);padding:20px 0 16px;margin-bottom:44px;display:flex;align-items:center;gap:11px}
+.mark{width:20px;height:3px;background:var(--accent);flex:none}
+.brand{font-size:11.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-dim)}
+.masthead .spacer{flex:1}
+.masthead .meta{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+
+h1{font-size:clamp(30px,5vw,44px);font-weight:700;line-height:1.14;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lede{font-size:17.5px;color:var(--ink-dim);max-width:60ch;margin:0 0 32px;line-height:1.6}
+.lede b{color:var(--ink);font-weight:600}
+
+/* what you get */
+.get{border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:24px 26px;margin:0 0 26px}
+.get .gt{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 16px}
+.get ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:15px;counter-reset:g}
+.get li{display:flex;gap:14px;align-items:flex-start;counter-increment:g}
+.get li::before{content:counter(g);font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);flex:none;padding-top:4px;min-width:14px}
+.get li b{display:block;font-size:15.5px;font-weight:600;color:var(--ink);margin-bottom:1px}
+.get li span{font-size:14px;color:var(--ink-dim);line-height:1.5}
+
+.areas-preview{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 28px}
+.areas-preview .ap{font-size:12.5px;color:var(--ink-dim);border:1px solid var(--line);background:var(--surface);padding:5px 11px;border-radius:99px}
+
+.meta-line{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin:0 0 26px;display:flex;flex-wrap:wrap;gap:6px 20px}
+
+.btn{font-family:var(--ui);font-size:15px;font-weight:600;background:var(--accent);color:#0C0C0E;border:0;border-radius:4px;padding:14px 28px;cursor:pointer;transition:background .15s ease}
+.btn:hover{background:#FF7A2B}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface-2);border-color:var(--ink-faint)}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.btn[disabled]:hover{background:var(--accent)}
+.fineprint{font-size:13px;color:var(--ink-faint);margin-top:20px;max-width:56ch}
+
+/* ---------- landing ---------- */
+.land{text-align:center;padding-block:3vh 0}
+.eyebrow{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:20px}
+.eyebrow .dash{width:18px;height:2px;background:var(--accent);flex:none}
+.eyebrow span{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+.land h1{font-size:clamp(30px,4.4vw,44px);font-weight:700;line-height:1.12;letter-spacing:-.025em;margin:0 0 18px;text-wrap:balance}
+.land h1 em{font-style:normal;color:var(--accent)}
+.subhead{font-size:17.5px;color:var(--ink-dim);line-height:1.55;margin:0 auto 30px;max-width:52ch;text-wrap:pretty}
+.subhead b{color:var(--ink);font-weight:600}
+.btn.big{font-size:16.5px;padding:16px 38px}
+.startnote{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin:18px 0 0;letter-spacing:.02em}
+
+/* example result — shows what you actually get */
+.exbox{
+  border:1px solid var(--line);background:var(--surface);border-radius:6px;
+  padding:24px 26px 22px;margin-top:38px;text-align:left;position:relative;
+}
+.extag{
+  position:absolute;top:-9px;left:24px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);
+  background:var(--ground);padding:0 9px;
+}
+.exgrid{display:grid;grid-template-columns:150px 1fr;gap:32px;align-items:center}
+.exscore b{display:block;font-size:52px;font-weight:700;color:var(--accent);line-height:.95;font-variant-numeric:tabular-nums}
+.exscore i{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);letter-spacing:.07em;margin-top:5px}
+.exscore em{display:block;font-style:normal;font-size:14.5px;font-weight:600;margin-top:11px}
+.exbars{display:flex;flex-direction:column;gap:9px}
+.exbar{display:flex;align-items:center;gap:12px}
+.exbar .bn{font-size:13px;color:var(--ink-dim);width:104px;flex:none}
+.exbar .bt{flex:1;height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+.exbar .bt i{display:block;height:100%;border-radius:3px}
+.exbar .bv{font-family:var(--mono);font-size:10.5px;width:96px;flex:none;text-align:right;color:var(--ink-faint);white-space:nowrap}
+.exbar.hit .bn{color:var(--ink);font-weight:600}
+.exbar.hit .bv{color:var(--accent);font-weight:700}
+.exnote{
+  margin:20px 0 0;padding-top:16px;border-top:1px solid var(--line);
+  font-size:14.5px;color:var(--ink-dim);line-height:1.55;
+}
+.exnote b{color:var(--ink);font-weight:600}
+
+.scope{margin-top:26px;font-size:13.5px;color:var(--ink-faint);line-height:1.7}
+.scope b{color:var(--ink-dim);font-weight:400}
+
+@media (max-width:620px){
+  .exgrid{grid-template-columns:1fr;gap:20px}
+  .exbar .bn{width:88px;font-size:12.5px}
+  .exbar .bv{width:88px}
+}
+
+.rail{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:36px;position:sticky;top:0;background:var(--ground);padding:14px 0 12px;z-index:5;border-bottom:1px solid var(--line-soft)}
+.rail .seg{border-top:2px solid var(--line);padding-top:8px}
+.rail .seg.done{border-top-color:#8A3600}
+.rail .seg.now{border-top-color:var(--accent)}
+.rail .seg .l{font-size:10.5px;font-weight:600;color:var(--ink-faint);display:block;line-height:1.25}
+.rail .seg.now .l{color:var(--ink)}
+.rail .seg.done .l{color:var(--ink-dim)}
+
+.step{display:none}
+.step.active{display:block}
+.step-head{margin-bottom:30px}
+.step-head .kicker{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:9px}
+.step-head h2{font-size:clamp(23px,3.6vw,30px);font-weight:700;letter-spacing:-.015em;line-height:1.18;margin:0 0 9px}
+.step-head p{color:var(--ink-dim);font-size:15px;margin:0;max-width:60ch}
+
+.q{margin-bottom:32px}
+.q .qt{font-size:16.5px;font-weight:600;margin:0 0 4px;line-height:1.42;text-wrap:balance}
+.q .qh{font-size:13.5px;color:var(--ink-faint);margin:0 0 13px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);background:var(--surface);padding:12px 15px;border-radius:4px;cursor:pointer;transition:border-color .13s ease,background .13s ease}
+.opt:hover{border-color:var(--ink-faint);background:var(--surface-2)}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt .dot{width:13px;height:13px;border:1px solid var(--ink-faint);border-radius:50%;flex:none;margin-top:5px;position:relative}
+.opt .lb{font-size:15px;line-height:1.45;color:var(--ink-dim)}
+.opt:has(input:checked){border-color:var(--accent);background:rgba(255,96,0,.055)}
+.opt:has(input:checked) .dot{border-color:var(--accent)}
+.opt:has(input:checked) .dot::after{content:"";position:absolute;inset:2px;border-radius:50%;background:var(--accent)}
+.opt:has(input:checked) .lb{color:var(--ink)}
+.opt:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:2px}
+
+/* text fields */
+.field{margin-bottom:22px}
+.field label{display:block;font-size:15.5px;font-weight:600;margin-bottom:7px}
+.field .fh{font-size:13.5px;color:var(--ink-faint);margin:-4px 0 9px}
+.field input{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:12px 14px;color:var(--ink);font-family:var(--ui);font-size:15px}
+.field input:focus{outline:none;border-color:var(--accent)}
+.field input::placeholder{color:var(--ink-faint)}
+
+.nav{display:flex;gap:12px;align-items:center;margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.nav .note{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-left:auto}
+
+/* ---- results ---- */
+.rhead{margin-bottom:26px}
+.rhead .for{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin:0 0 6px}
+.rhead h2{font-size:clamp(24px,4vw,34px);font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.15}
+
+.headline{border:1px solid var(--accent);background:rgba(255,96,0,.05);border-radius:4px;padding:26px 28px;margin-bottom:14px}
+.headline .hk{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.11em;text-transform:uppercase;margin:0 0 8px}
+.headline .hn{font-size:clamp(26px,4.4vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 16px}
+.headline p{margin:0 0 12px;font-size:15.5px;color:var(--ink-dim);max-width:62ch;line-height:1.6}
+.headline p:last-child{margin-bottom:0}
+.headline p b{color:var(--ink);font-weight:600}
+
+.scorestrip{display:flex;align-items:center;gap:20px;border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:18px 24px;margin-bottom:26px}
+.scorestrip .sn{font-size:40px;font-weight:700;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.scorestrip .sl{font-family:var(--mono);font-size:11px;color:var(--ink-faint);display:block;margin-top:3px}
+.scorestrip .sv b{display:block;font-size:16px;font-weight:600}
+.scorestrip .sv span{font-size:14px;color:var(--ink-dim)}
+
+.misalloc{border-left:3px solid var(--warn);padding:3px 0 3px 17px;margin:0 0 26px}
+.misalloc .ml{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--warn);display:block;margin-bottom:6px}
+.misalloc p{margin:0;font-size:15.5px;color:var(--ink-dim);max-width:62ch;line-height:1.6}
+.misalloc p b{color:var(--ink);font-weight:600}
+
+.leave{border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:22px 26px;margin-bottom:30px}
+.leave h4{font-size:19px;font-weight:700;margin:0 0 9px;letter-spacing:-.01em}
+.leave p{margin:0 0 14px;font-size:14.5px;color:var(--ink-dim);max-width:62ch}
+.leave ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.leave li{font-size:14.5px;color:var(--ink-dim);border-left:2px solid var(--line);padding-left:13px}
+.leave li b{color:var(--ink);font-weight:600}
+
+h3.sec{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:14px}
+.gauge{background:var(--surface);padding:15px 18px}
+.gauge.mult{background:var(--surface-2)}
+.gauge .gh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.gauge .gn{font-size:14px;font-weight:600;color:var(--ink)}
+.gauge .gv{font-family:var(--mono);font-size:11px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gauge .track{height:4px;background:var(--line);position:relative;overflow:hidden;border-radius:2px}
+.gauge .fill{position:absolute;left:0;top:0;bottom:0;border-radius:2px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.glabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 9px}
+
+.fix{border-top:1px solid var(--line);padding:20px 0}
+.fix:first-of-type{border-top:0;padding-top:2px}
+.fix .ft{font-size:17px;font-weight:700;line-height:1.3;margin:0 0 9px;letter-spacing:-.01em}
+.fix .fb{font-size:15px;color:var(--ink-dim);margin:0 0 12px;max-width:64ch;line-height:1.6}
+.fix .warn{font-size:14px;color:var(--ink-faint);max-width:64ch;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
+.fix .warn .wl{color:var(--warn);font-weight:700;flex:none;font-family:var(--mono);font-size:11px;padding-top:2px}
+
+.cta{border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:26px 28px;margin-top:36px}
+.cta h4{font-size:20px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
+.cta p{color:var(--ink-dim);font-size:15px;margin:0 0 18px;max-width:58ch}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-faint);line-height:1.65}
+footer b{color:var(--ink-dim)}
+
+@media (max-width:640px){
+  .gauges{grid-template-columns:1fr}
+  .rail .seg .l{font-size:9.5px}
+  .scorestrip{flex-wrap:wrap;gap:14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media print{
+  :root{--ground:#fff;--surface:#fff;--surface-2:#fafafa;--line:#d5d5da;--ink:#111;--ink-dim:#444;--ink-faint:#777}
+  body{background:#fff;color:#111}
+  .wrap{max-width:100%;padding:0}
+  .rail,.nav,.btnrow,.noprint{display:none!important}
+  .headline{border:1px solid #FF6000;background:#fff8f3}
+  .gauges,.leave,.cta,.scorestrip{break-inside:avoid}
+  a{color:#111}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <span class="mark"></span>
+    <span class="brand">The AI Business</span>
+    <span class="spacer"></span>
+    <span class="meta" id="mastheadMeta">3 minutes</span>
+  </div>
+
+  <section class="step active" id="step0">
+    <div class="land">
+      <div class="eyebrow"><span class="dash"></span><span>Free assessment</span></div>
+      <h1>Score your go-to-market. Find out <em>where it's leaking.</em></h1>
+      <p class="subhead">Twelve questions about how you find customers and turn them into revenue. You get a score out of 100, the <b>one thing</b> capping your growth, and what to do about it.</p>
+      <button class="btn big" id="begin">Start the assessment</button>
+      <p class="startnote">3 minutes · No email required · Nothing stored</p>
+
+      <div class="exbox">
+        <span class="extag">Example result</span>
+        <div class="exgrid">
+          <div class="exscore">
+            <b>52</b>
+            <i>OUT OF 100</i>
+            <em>Two weak spots</em>
+          </div>
+          <div class="exbars">
+            <div class="exbar"><span class="bn">Your offer</span><span class="bt"><i style="width:83%;background:var(--ok)"></i></span><span class="bv">5/6</span></div>
+            <div class="exbar"><span class="bn">Getting found</span><span class="bt"><i style="width:67%;background:var(--ok)"></i></span><span class="bv">4/6</span></div>
+            <div class="exbar hit"><span class="bn">Conversations</span><span class="bt"><i style="width:33%;background:var(--accent)"></i></span><span class="bv">2/6 · Bottleneck</span></div>
+            <div class="exbar"><span class="bn">Closing</span><span class="bt"><i style="width:50%;background:var(--warn)"></i></span><span class="bv">3/6</span></div>
+          </div>
+        </div>
+        <p class="exnote"><b>You're losing people between interest and conversation.</b> Interest arrives and doesn't turn into calls — so working on your closing process won't move revenue until this is fixed.</p>
+      </div>
+
+      <p class="scope">Scores six areas — <b>your offer, getting found, conversations, closing, tracking, and whether your AI tools return anything.</b><br>Built for B2B companies selling services or software, inbound or outbound.</p>
+    </div>
+  </section>
+
+  <div id="rail" class="rail" hidden></div>
+  <div id="steps"></div>
+  <section class="step" id="result"></section>
+
+  <footer id="foot" hidden>
+    <b>Where the numbers come from.</b>
+    Response time and close rates: Optifai benchmark, 939 B2B companies, 2025–26.
+    Follow-up statistics: Martal, 2026.
+    AI return figures: BCG (1,250 companies), PwC CEO Survey (4,454 CEOs), Gartner (782 leaders).
+    These are industry averages, not promises. Your own numbers matter more.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     SUBMISSION EMAIL
+     Every completed test is emailed to the address below.
+     No account, no setup — the first submission sends you a
+     one-time confirmation email. Click the link in it once and
+     every result after that arrives automatically.
+     Leave empty and the test still works, it just emails nothing.
+     ============================================================ */
+  var NOTIFY_EMAIL = "moh.sakr.07@gmail.com";
+
+  function saveSubmission(payload){
+    if(!NOTIFY_EMAIL) return;
+    try{
+      fetch("https://formsubmit.co/ajax/" + encodeURIComponent(NOTIFY_EMAIL), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(Object.assign({
+          _subject: "Scorecard: " + (payload.company || "unknown") +
+                    " scored " + payload.totalScore +
+                    " - " + payload.bottleneck,
+          _template: "table",
+          _captcha: "false"
+        }, payload))
+      });
+    }catch(e){ /* never block the viewer's result on a failed send */ }
+  }
+
+  var ABOUT = {
+    key:"about", label:"You", title:"First, a bit about you",
+    blurb:"This only shapes how your result is written. Nothing is sent anywhere.",
+    fields:[
+      { id:"name", label:"Your first name", placeholder:"Alex", required:true },
+      { id:"company", label:"Company name", placeholder:"Acme Consulting", required:true },
+      { id:"site", label:"Website", placeholder:"acme.com", required:false, hint:"Optional." }
+    ],
+    questions:[
+      { id:"rev", q:"Roughly how big is the business?",
+        opts:[["Under $500k a year",0],["$500k – $1M",1],["$1M – $5M",2],["$5M – $15M",3],["Over $15M",4]] },
+      { id:"eff", q:"Where does most of your time and money go right now?",
+        hint:"Be honest about where it actually goes, not where you'd like it to go.",
+        opts:[
+          ["Working out our offer and who it's for",0],
+          ["Getting attention — content, outreach, ads",1],
+          ["Getting interested people into conversations",2],
+          ["Closing — sales calls and follow-up",3],
+          ["Tools, data and automation",4]] }
+    ]
+  };
+
+  var AREAS = [
+    { key:"offer", stage:true, name:"Your offer", label:"Offer",
+      title:"Your offer", blurb:"Whether it's clear who you're for and why they pick you over someone else.",
+      questions:[
+        { q:"If you asked five recent customers why they chose you, would they say roughly the same thing?",
+          opts:[["Yes — pretty much the same reason",3],["Similar, in different words",2],["No, quite different answers",1],["I don't know",0]] },
+        { q:"How clearly can you describe who you're for?",
+          opts:[["Specific enough that I could build a list of them",3],["A clear type, but a list would be hard",2],["A broad category",1],["We take good work when it comes",0]] }
+      ] },
+    { key:"create", stage:true, name:"Getting found", label:"Found",
+      title:"Getting found", blurb:"Whether enough of the right people hear about you through something you control.",
+      questions:[
+        { q:"Each month, do new people who've never heard of you find out about you?",
+          hint:"Through content, outreach, ads, partnerships — anything you run yourself.",
+          opts:[["Yes, a steady number we can predict",3],["Yes, but it goes up and down a lot",2],["A trickle",1],["Not really — it's word of mouth",0]] },
+        { q:"If you stopped all marketing tomorrow, how long until new enquiries dried up?",
+          opts:[["Months — things keep working without us",3],["A few weeks",2],["Days",1],["We'd notice straight away",0]] }
+      ] },
+    { key:"capture", stage:true, name:"Turning interest into conversations", label:"Talk",
+      title:"Turning interest into conversations", blurb:"What happens between someone showing interest and actually speaking with you.",
+      questions:[
+        { q:"Of the people who show interest, how many end up in a real conversation with you?",
+          opts:[["Most of them, and I know the number",3],["A fair few — roughly",2],["Not many, or I'm not sure",1],["No way to tell",0]] },
+        { q:"How quickly does someone hear back from a real person?",
+          hint:"Companies that reply within 5 minutes close about 2.6× more than those taking over a day.",
+          opts:[["Within an hour, every time",3],["Same working day",2],["A day or two",1],["Longer, or it depends",0]] }
+      ] },
+    { key:"convert", stage:true, name:"Closing", label:"Close",
+      title:"Closing", blurb:"Whether those conversations reliably turn into paying customers.",
+      questions:[
+        { q:"Do you know what share of your sales conversations turn into deals?",
+          opts:[["Yes, and it's steady",3],["Yes, but it jumps around",2],["Roughly",1],["No",0]] },
+        { q:"When you lose a deal, do you know why?",
+          hint:"Most deals need five or more follow-ups. Most salespeople stop after four.",
+          opts:[["Yes — we write it down and look for patterns",3],["Usually, from memory",2],["Sometimes",1],["No",0]] }
+      ] },
+    { key:"data", stage:false, name:"Tracking", label:"Track",
+      title:"Tracking", blurb:"Whether you can actually see what's happening. Without this, everything above is guesswork.",
+      questions:[
+        { q:"Could you show me, today, what happened to every enquiry from the last three months?",
+          opts:[["Yes, it's all in one place",3],["Yes, with a day of digging",2],["Partly",1],["No",0]] },
+        { q:"Is one person responsible for these numbers?",
+          hint:"Not who does the work — who answers for the results.",
+          opts:[["Yes, one person, and they report on them",3],["It's shared",1],["No one really",0]] }
+      ] },
+    { key:"ai", stage:false, name:"AI tools", label:"AI",
+      title:"AI tools", blurb:"Whether the AI you've added is doing anything measurable. Most companies' isn't.",
+      questions:[
+        { q:"Of the AI tools you've added in the last year, how many are still genuinely used?",
+          hint:"Across 1,250 companies, only 5% report real value from AI.",
+          opts:[["Most — and I can say what each one changed",3],["Some, but the effect is unclear",2],["Few — we tried them and stopped",1],["We haven't added any",2]] },
+        { q:"Before adding a tool, do you decide what it has to improve?",
+          opts:[["Yes — with a number attached",3],["Loosely",1],["No, we try it and see",0],["We haven't added any",2]] }
+      ] }
+  ];
+
+  var VERDICT = {
+    offer:{ head:"Your offer is the bottleneck", body:[
+      "The problem is at the very start: <b>who this is for, and why they'd pick you</b>. Everything after it inherits that fuzziness.",
+      "This is the least comfortable one to have, because you can't fix it by installing something — you have to make a decision and stick to it. But it's also the most valuable. When the offer gets sharper, every other number improves at once: better-fit enquiries, shorter sales cycles, higher close rates, cheaper marketing. Working on anything else first just makes you better at attracting people who were never going to buy."] },
+    create:{ head:"Not enough people know you exist", body:[
+      "Your bottleneck is <b>getting found</b>. Not enough of the right people hear about you through anything you actually control.",
+      "The giveaway is what happens when you stop. If enquiries would dry up within days or weeks, you don't have a marketing engine — you have a marketing habit. This is the one case where working on your sales process really is the wrong move: you can't improve a funnel that nothing is going into. Your offer is good enough to show to more people. That's the job now."] },
+    capture:{ head:"You're losing people between interest and conversation", body:[
+      "Your bottleneck sits in the gap between <b>someone showing interest and someone speaking to you</b>.",
+      "This is the most commonly misread problem in B2B, because from the inside it looks like you need more leads. Interest comes in, conversations don't happen, so the instinct is to go get more interest. <b>Across 939 companies, those who reply within five minutes close 32% of deals. Those who take over a day close 12%.</b> Same demand, nearly three times the result. You're already paying to create interest you aren't picking up."] },
+    convert:{ head:"Conversations aren't turning into customers", body:[
+      "Your bottleneck is <b>closing</b>. Enough of the right people are reaching a conversation — not enough of those conversations end in a sale.",
+      "This is a good problem to have, because everything before it is working and the fix is contained. It's usually one of two things. Follow-up stops too early: <b>80% of B2B deals need five or more follow-ups, and 92% of salespeople stop at four</b> — so most abandoned deals sit exactly where deals actually close. Or nobody writes down why deals are lost, so you can't tell a price problem from a fit problem, and you end up fixing neither."] },
+    data:{ head:"You can't see what's happening", body:[
+      "No single part is clearly broken — but you also can't see any of it. <b>Tracking is your bottleneck.</b>",
+      "This is an awkward spot. Nothing is visibly on fire, so the real problem stays hidden and never gets fixed. Every improvement you make from here is a guess you can't check. Getting to one clear view of what happens between first contact and payment — with one person responsible for it — is what tells you where to go next. It usually turns up something the team didn't expect."] },
+    ai:{ head:"Your AI tools aren't returning anything", body:[
+      "The main parts of your business are working. The weak spot is <b>whether the AI you've added is doing anything measurable</b>.",
+      "You're in the majority, not the exception. <b>56% of CEOs saw no revenue growth and no cost saving from AI in the past year</b>, and only 5% of companies report real value from it. The research is consistent about why: no one owns it, no one decided what it had to improve, and no one measured it. That's a management fix, not a technology one — and it's cheaper than it sounds."] },
+    none:{ head:"Nothing here is badly broken", body:[
+      "No part scored badly enough to be a real bottleneck. <b>You're in improvement territory, not repair territory.</b>",
+      "That's genuinely uncommon, and it changes what's worth doing. The gains left aren't in fixing something broken — they're in raising the whole thing: a tighter focus on your best customer type, marketing that compounds instead of resets, and using AI to multiply what already works rather than to patch what doesn't."] }
+  };
+
+  var FIXES = {
+    offer:[
+      { t:"Ask your customers, don't guess in a meeting",
+        b:"Call five recent customers and five people who said no. Ask what else they were considering and what decided it. The answer is almost never what the team thinks it is. Write the pattern down as one sentence someone else could repeat back to you.",
+        w:"Don't ask AI to write your positioning from your website. It'll give you a tidy version of what you already say — which is the thing that isn't working." },
+      { t:"Make your customer type countable",
+        b:"If you can't build a list of them, it isn't a customer type — it's a feeling. Turn it into filters: size, industry, role, what's just happened to them. Then check how many real companies pass. If the number is tiny or enormous, the definition needs work.",
+        w:"Don't widen it just because the list came back small. A small, precise list beats a big vague one, and it's the only kind you can actually run a campaign against." }
+    ],
+    create:[
+      { t:"Build one thing that keeps working when you stop",
+        b:"Pick a single channel and go deep instead of spreading thin. The test: would this still bring enquiries if you went quiet for a month? Search, a body of published work, and partnerships pass. Most outreach doesn't.",
+        w:"Don't just send more cold outreach. AI made generic outreach free for everyone, which is exactly why replies collapsed. Sending more of it competes on the one thing where everybody is now equal." },
+      { t:"Work out whether it's reach or the message",
+        b:"Two very different problems look the same on a dashboard: not enough people see you, or plenty see you and nothing lands. Measure them separately — views versus replies and clicks — before spending money on either. Otherwise you'll scale the wrong one.",
+        w:"Don't let AI write all of it. Content with no real expertise behind it reads as filler to exactly the people you want, and it's obvious now." }
+    ],
+    capture:[
+      { t:"Set a rule for how fast you reply",
+        b:"Decide a maximum time to first reply and make it hold evenings and weekends. In practice that means: who gets the alert, who covers which hours, and what happens when it's missed. Within an hour is the line worth defending. Within five minutes is where the numbers get dramatic.",
+        w:"Don't put a generic chatbot in front of this. Your buyers don't trust them, and one that can't answer properly or book a call just adds a step. Automate the alerts and the routing. Keep the actual conversation human until the rules are proven." },
+      { t:"Count the steps in the middle",
+        b:"Most companies can tell you their website traffic and their closed deals, and nothing in between. Start counting the middle: enquiry received, replied to, qualified, booked. The leak is always in a step nobody counts.",
+        w:"Don't buy software for this first. You almost certainly already own something that can show it. What's missing is agreeing the steps and having someone keep it accurate." }
+    ],
+    convert:[
+      { t:"Keep following up past the fourth attempt",
+        b:"Build one sequence that runs to at least five touches, changes channel, and varies with what the person originally asked about. This is the cheapest money on the page — you're recovering deals you already earned and then dropped.",
+        w:"Don't have AI write every message from scratch. Generic AI follow-up is recognisable on sight and it costs you the relationship. Use it to write variations of messages you've already approved." },
+      { t:"Write down why you lose, in their words",
+        b:"One field, filled in when the deal is lost, using what the customer actually said rather than a dropdown. Read them once a month. Within three months you'll be able to tell a price objection from a fit problem from bad timing — and those need completely different fixes.",
+        w:"Don't accept 'too expensive' without asking one more question. It's the polite answer, and it's usually covering something else." }
+    ],
+    data:[
+      { t:"Get everything into one view",
+        b:"Every enquiry from the last three months, what happened to it, how long each step took, and where it stopped. One place, kept current, and trusted enough that nobody keeps their own private spreadsheet next to it.",
+        w:"Don't start by buying a new system. Migrating costs you a quarter and wipes out the history you were trying to build." },
+      { t:"Put one person's name on each number",
+        b:"Not who does the work — who answers for the result and reports it on a regular schedule. Across all the research into why automation and AI projects fail, unclear ownership is the single most common cause.",
+        w:"Don't make it the team's number. A number everyone owns is a number nobody moves." }
+    ],
+    ai:[
+      { t:"Decide what it has to improve before you add it",
+        b:"One sentence with a number in it: what this should improve, by how much, by when. If you can't write that, it's an experiment — which is fine, but call it one and give it a deadline.",
+        w:"Don't judge it by whether it works. Judge it by whether the number moved. Plenty of automations run perfectly and change nothing." },
+      { t:"Review what's already running and switch things off",
+        b:"List every AI tool touching sales and marketing, what it was meant to improve, and whether it did. Expect a good share to be doing nothing. Turning those off is a real win — in money, in attention, and in how seriously people take the next thing you introduce.",
+        w:"Don't automate a process you haven't written down. Automating a vague process just makes it inconsistent faster and much harder to inspect." }
+    ]
+  };
+
+  var BANDS = [
+    { min:83, band:"Strong", note:"Solid across the board. What's left is fine-tuning." },
+    { min:64, band:"One weak spot", note:"Most of it works. One part is capping the rest." },
+    { min:42, band:"Two weak spots", note:"More than one part is soft, so progress anywhere tends to evaporate." },
+    { min:22, band:"Disconnected", note:"The parts are running separately rather than feeding each other." },
+    { min:0,  band:"Not yet a system", note:"Growth is arriving by chance. That means the upside is large." }
+  ];
+
+  var EFFORT_MAP = ["offer","create","capture","convert","data"];
+  var EFFORT_LABEL = { offer:"working out your offer", create:"getting attention",
+    capture:"getting people into conversations", convert:"closing", data:"tools, data and automation" };
+
+  var stepsEl = document.getElementById("steps");
+  var railEl  = document.getElementById("rail");
+  var allSteps = [ABOUT].concat(AREAS);
+  var current = 0;
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  railEl.innerHTML = allSteps.map(function(s,i){
+    return '<div class="seg" data-i="'+i+'"><span class="l">'+esc(s.label)+'</span></div>';
+  }).join("");
+
+  stepsEl.innerHTML = allSteps.map(function(s,si){
+    var flds = (s.fields||[]).map(function(f){
+      return '<div class="field"><label for="f_'+f.id+'">'+esc(f.label)+'</label>'+
+        (f.hint?'<p class="fh">'+esc(f.hint)+'</p>':'')+
+        '<input type="text" id="f_'+f.id+'" data-req="'+(f.required?1:0)+'" placeholder="'+esc(f.placeholder)+'"></div>';
+    }).join("");
+    var qs = s.questions.map(function(q,qi){
+      var name = (s.key==="about" ? "ab_"+q.id : s.key+"_"+qi);
+      var opts = q.opts.map(function(o,oi){
+        return '<label class="opt"><input type="radio" name="'+name+'" value="'+oi+'"><span class="dot"></span><span class="lb">'+esc(o[0])+'</span></label>';
+      }).join("");
+      return '<div class="q"><p class="qt">'+esc(q.q)+'</p>'+
+             (q.hint?'<p class="qh">'+esc(q.hint)+'</p>':'')+
+             '<div class="opts">'+opts+'</div></div>';
+    }).join("");
+    return '<section class="step" id="step'+(si+1)+'">'+
+      '<div class="step-head">'+
+        '<span class="kicker">'+(si===0?'About you':'Part '+si+' of 6')+'</span>'+
+        '<h2>'+esc(s.title)+'</h2><p>'+esc(s.blurb)+'</p></div>'+ flds + qs +
+      '<div class="nav">'+
+        (si>0?'<button class="btn ghost" data-back="'+si+'">Back</button>':'')+
+        '<button class="btn" data-next="'+si+'" disabled>'+(si===allSteps.length-1?'See my result':'Continue')+'</button>'+
+        '<span class="note" data-note="'+si+'"></span>'+
+      '</div></section>';
+  }).join("");
+
+  function show(id){
+    var els = document.querySelectorAll(".step");
+    for(var i=0;i<els.length;i++) els[i].classList.remove("active");
+    document.getElementById(id).classList.add("active");
+    window.scrollTo(0,0);
+  }
+  function updateRail(){
+    var segs = railEl.querySelectorAll(".seg");
+    for(var i=0;i<segs.length;i++){
+      segs[i].classList.toggle("done", i<current);
+      segs[i].classList.toggle("now", i===current);
+    }
+  }
+  function checkStep(si){
+    var s = allSteps[si], need = 0, done = 0;
+    (s.fields||[]).forEach(function(f){
+      if(f.required){ need++; if((document.getElementById("f_"+f.id).value||"").trim()) done++; }
+    });
+    s.questions.forEach(function(q,qi){
+      need++;
+      var name = (s.key==="about" ? "ab_"+q.id : s.key+"_"+qi);
+      if(document.querySelector('input[name="'+name+'"]:checked')) done++;
+    });
+    document.querySelector('[data-next="'+si+'"]').disabled = done < need;
+    document.querySelector('[data-note="'+si+'"]').textContent = done + " / " + need;
+  }
+
+  document.getElementById("begin").addEventListener("click", function(){
+    railEl.hidden = false;
+    current = 0; updateRail(); show("step1");
+  });
+
+  function ownerStep(name){
+    for(var i=0;i<allSteps.length;i++){
+      var pre = allSteps[i].key==="about" ? "ab_" : allSteps[i].key+"_";
+      if(name.indexOf(pre) === 0) return i;
+    }
+    return -1;
+  }
+  stepsEl.addEventListener("change", function(e){
+    if(e.target.type === "radio"){ var i = ownerStep(e.target.name); if(i>=0) checkStep(i); }
+  });
+  stepsEl.addEventListener("input", function(e){
+    if(e.target.tagName === "INPUT" && e.target.type === "text") checkStep(0);
+  });
+
+  stepsEl.addEventListener("click", function(e){
+    if(!e.target.getAttribute) return;
+    var n = e.target.getAttribute("data-next"), b = e.target.getAttribute("data-back");
+    if(n !== null){
+      var si = parseInt(n,10);
+      if(si === allSteps.length-1){ render(); }
+      else { current = si+1; updateRail(); show("step"+(si+2)); }
+    }
+    if(b !== null){ var bi = parseInt(b,10); current = bi-1; updateRail(); show("step"+bi); }
+  });
+
+  function val(name){
+    var el = document.querySelector('input[name="'+name+'"]:checked');
+    return el ? parseInt(el.value,10) : 0;
+  }
+  function txt(id){ return (document.getElementById("f_"+id).value||"").trim(); }
+
+  function render(){
+    var who = { name:txt("name"), company:txt("company"), site:txt("site") };
+    var effKey = EFFORT_MAP[val("ab_eff")];
+
+    var scores = {}, total = 0;
+    AREAS.forEach(function(a){
+      var s = 0;
+      a.questions.forEach(function(q,qi){ s += q.opts[val(a.key+"_"+qi)][1]; });
+      scores[a.key] = s; total += s;
+    });
+    var pct = Math.round(total / 36 * 100);
+    var band = BANDS.find(function(b){ return pct >= b.min; });
+
+    var stages = AREAS.filter(function(a){ return a.stage; });
+    var mults  = AREAS.filter(function(a){ return !a.stage; });
+    var cArea = stages.find(function(a){ return scores[a.key] <= 3; });
+    if(!cArea){
+      var wm = mults.slice().sort(function(x,y){ return scores[x.key]-scores[y.key]; })[0];
+      cArea = scores[wm.key] <= 4 ? wm : null;
+    }
+    var cKey = cArea ? cArea.key : "none";
+    var v = VERDICT[cKey];
+
+    function gauge(a, isMult){
+      var s = scores[a.key], w = Math.round(s/6*100);
+      var isC = cArea && a.key === cArea.key;
+      var col = isC ? "var(--accent)" : (s >= 5 ? "var(--ok)" : (s >= 3 ? "var(--warn)" : "var(--crit)"));
+      var lab = isC ? "BOTTLENECK" : (s >= 5 ? "Strong" : (s >= 3 ? "OK" : "Weak"));
+      return '<div class="gauge'+(isMult?' mult':'')+'"><div class="gh">'+
+        '<span class="gn">'+esc(a.name)+'</span>'+
+        '<span class="gv" style="color:'+col+'">'+s+'/6 · '+lab+'</span></div>'+
+        '<div class="track"><span class="fill" style="width:'+w+'%;background:'+col+'"></span></div></div>';
+    }
+
+    var cIdx = cArea && cArea.stage ? stages.indexOf(cArea) : -1;
+    var downstream = cIdx >= 0 ? stages.slice(cIdx+1) : [];
+    var leaveHtml = downstream.length ?
+      '<div class="leave"><h4>What to leave alone for now</h4>'+
+      '<p>These might well have real problems too. Fixing them now still won\'t grow your revenue, because not enough is reaching them in the first place. Come back to these once the bottleneck above is cleared.</p><ul>'+
+      downstream.map(function(a){ return '<li><b>'+esc(a.name)+'</b> — scored '+scores[a.key]+'/6, but it sits after your bottleneck.</li>'; }).join("")+
+      '</ul></div>' : "";
+
+    var misHtml = "";
+    if(cArea && effKey && effKey !== cArea.key){
+      misHtml = '<div class="misalloc"><span class="ml">Worth noticing</span><p>You said most of your time and money currently goes into <b>'+esc(EFFORT_LABEL[effKey])+'</b>. Your bottleneck is <b>'+esc(cArea.name.toLowerCase())+'</b>. Those aren\'t the same thing — so most of what you\'re spending is buying you very little right now. Moving even part of that effort across is the cheapest win available, because it doesn\'t cost anything new.</p></div>';
+    } else if(cArea && effKey === cArea.key){
+      misHtml = '<div class="misalloc" style="border-left-color:var(--ok)"><span class="ml" style="color:var(--ok)">Worth noticing</span><p>Your effort is already going into your bottleneck — most companies\' isn\'t. So the question for you isn\'t <i>where</i> to work, it\'s <i>whether the approach is right</i>. Sustained effort on the correct problem should be showing up in the numbers by now.</p></div>';
+    }
+
+    var fixes = (FIXES[cKey] || FIXES.data).map(function(f){
+      return '<div class="fix"><p class="ft">'+esc(f.t)+'</p><p class="fb">'+esc(f.b)+'</p>'+
+        '<div class="warn"><span class="wl">Don\'t</span><span>'+esc(f.w)+'</span></div></div>';
+    }).join("");
+
+    document.getElementById("result").innerHTML =
+      '<div class="rhead"><p class="for">Result for '+esc(who.name)+' at '+esc(who.company)+(who.site?' · '+esc(who.site):'')+'</p>'+
+      '<h2>Your score</h2></div>'+
+
+      '<div class="scorestrip"><div><span class="sn">'+pct+'</span><span class="sl">OUT OF 100</span></div>'+
+      '<div class="sv"><b>'+esc(band.band)+'</b><span>'+esc(band.note)+'</span></div></div>'+
+
+      '<div class="headline"><p class="hk">The one thing holding you back most</p>'+
+        '<p class="hn">'+esc(v.head)+'</p>'+
+        v.body.map(function(p){ return '<p>'+p+'</p>'; }).join("")+
+      '</div>'+
+
+      misHtml + leaveHtml +
+
+      '<h3 class="sec">How each part scored</h3>'+
+      '<p class="glabel">The four stages, in order</p>'+
+      '<div class="gauges">'+ stages.map(function(a){return gauge(a,false);}).join("") +'</div>'+
+      '<p class="glabel" style="margin-top:18px">Two things that affect all four</p>'+
+      '<div class="gauges" style="margin-bottom:30px">'+ mults.map(function(a){return gauge(a,true);}).join("") +'</div>'+
+
+      '<h3 class="sec">Do these two things first</h3>'+ fixes +
+
+      '<div class="cta noprint"><h4>Want this checked properly?</h4>'+
+      '<p>This assessment scores twelve answers about your business. A full audit looks at the same six areas against what your marketing and sales actually do — your real numbers, your real sequences — and gives you the same verdict backed by evidence instead of self-assessment. If your result here surprised you, that gap is usually where the money is.</p>'+
+      '<div class="btnrow"><button class="btn" id="save">Download as PDF</button>'+
+      '<button class="btn ghost" id="again">Start over</button></div></div>';
+
+    // ---- save the submission ----
+    var record = {
+      submittedAt: new Date().toISOString(),
+      name: who.name, company: who.company, website: who.site,
+      revenueBand: ABOUT.questions[0].opts[val("ab_rev")][0],
+      effortGoesTo: ABOUT.questions[1].opts[val("ab_eff")][0],
+      totalScore: pct, band: band.band,
+      bottleneck: cArea ? cArea.name : "None",
+      bottleneckHeadline: v.head
+    };
+    AREAS.forEach(function(a){
+      record["score_" + a.key] = scores[a.key];
+      a.questions.forEach(function(q,qi){
+        record["a_" + a.key + "_" + (qi+1)] = q.opts[val(a.key+"_"+qi)][0];
+      });
+    });
+    saveSubmission(record);
+
+    document.getElementById("foot").hidden = false;
+    document.getElementById("mastheadMeta").textContent = "Your result";
+    railEl.hidden = true;
+    show("result");
+
+    document.getElementById("save").addEventListener("click", function(){ window.print(); });
+    document.getElementById("again").addEventListener("click", function(){
+      var ins = document.querySelectorAll('#steps input');
+      for(var i=0;i<ins.length;i++){ if(ins[i].type==="radio") ins[i].checked=false; else ins[i].value=""; }
+      for(var j=0;j<allSteps.length;j++) checkStep(j);
+      document.getElementById("foot").hidden = true;
+      document.getElementById("mastheadMeta").textContent = "3 minutes";
+      show("step0");
+    });
+  }
+
+  for(var i=0;i<allSteps.length;i++) checkStep(i);
+})();
+</script>
+</body>
+</html>

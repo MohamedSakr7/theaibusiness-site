@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI Business</title>
+<meta name="description" content="AI go-to-market for B2B services and software. A newsletter, and tools that tell you what's actually holding your growth back.">
+<meta property="og:title" content="The AI Business">
+<meta property="og:description" content="AI go-to-market for B2B services and software.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#0C0C0E; --surface:#151517; --surface-2:#1C1C1F;
+  --line:#282830;
+  --ink:#F4F3F0; --ink-dim:#9A9AA2; --ink-faint:#6A6A73;
+  --accent:#FF6000;
+  --ui:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+img{max-width:100%}
+body{
+  background:var(--ground);color:var(--ink);font-family:var(--ui);
+  font-size:16px;line-height:1.6;margin:0;
+  padding-block:0 80px;padding-left:24px;padding-right:24px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto}
+
+.masthead{
+  border-bottom:1px solid var(--line);padding:20px 0 16px;margin-bottom:0;
+  display:flex;align-items:center;gap:11px;
+}
+.mark{width:20px;height:3px;background:var(--accent);flex:none}
+.brand{font-size:11.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-dim)}
+
+.hero{padding-block:8vh 0}
+.eyebrow{display:flex;align-items:center;gap:9px;margin-bottom:20px}
+.eyebrow .dash{width:18px;height:2px;background:var(--accent);flex:none}
+.eyebrow span{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+h1{
+  font-size:clamp(32px,5vw,50px);font-weight:700;line-height:1.08;
+  letter-spacing:-.03em;margin:0 0 20px;text-wrap:balance;
+}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{font-size:18px;color:var(--ink-dim);line-height:1.55;margin:0 0 40px;max-width:56ch}
+.lede b{color:var(--ink);font-weight:600}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px}
+.card{
+  display:block;text-decoration:none;color:inherit;
+  border:1px solid var(--line);background:var(--surface);border-radius:6px;
+  padding:22px 24px;transition:border-color .15s ease,background .15s ease;
+}
+.card:hover{border-color:var(--accent);background:var(--surface-2)}
+.card .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:11px}
+.card b{display:block;font-size:19px;font-weight:600;letter-spacing:-.01em;margin-bottom:7px;line-height:1.25}
+.card span{font-size:14.5px;color:var(--ink-dim);line-height:1.5;display:block}
+.card .go{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:14px;display:block}
+.card:hover .go{color:var(--accent)}
+
+.who{
+  border-top:1px solid var(--line);padding-top:28px;margin-top:8px;
+  font-size:15px;color:var(--ink-dim);line-height:1.65;max-width:60ch;
+}
+.who b{color:var(--ink);font-weight:600}
+.who a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(255,96,0,.35)}
+.who a:hover{border-bottom-color:var(--accent)}
+
+footer{
+  margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);
+  display:flex;gap:8px 22px;flex-wrap:wrap;
+}
+footer a{color:var(--ink-faint);text-decoration:none}
+footer a:hover{color:var(--ink-dim)}
+
+a:focus-visible,.card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media (max-width:640px){
+  .cards{grid-template-columns:1fr}
+  .hero{padding-block:5vh 0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <span class="mark"></span>
+    <span class="brand">The AI Business</span>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow"><span class="dash"></span><span>AI go-to-market for B2B</span></div>
+    <h1>Most companies don't have a demand problem. They have a <em>handling problem.</em></h1>
+    <p class="lede">The AI Business is a newsletter and a set of tools for B2B service and software companies — about where growth actually breaks, and where AI genuinely helps versus where it quietly adds noise.</p>
+
+    <div class="cards">
+      <a class="card" href="/score-your-gtm">
+        <span class="k">Free assessment</span>
+        <b>Score your go-to-market</b>
+        <span>Twelve questions. A score out of 100, and the one thing capping your growth.</span>
+        <span class="go">Start &rarr;</span>
+      </a>
+      <a class="card" href="https://theaibusiness.beehiiv.com">
+        <span class="k">Newsletter</span>
+        <b>The AI Business</b>
+        <span>What's actually working in AI go-to-market, and what isn't. Free.</span>
+        <span class="go">Subscribe &rarr;</span>
+      </a>
+    </div>
+
+    <p class="who">Written by <b>Mohamed Sakr</b>. I build AI systems for go-to-market — the parts that find customers, qualify them, and turn them into revenue. Mostly I write about why so much of it doesn't work yet. <a href="https://www.linkedin.com/in/mohamed-sakr-ai/">Find me on LinkedIn.</a></p>
+
+    <footer>
+      <span>&copy; 2026 The AI Business</span>
+      <a href="https://theaibusiness.beehiiv.com">Newsletter</a>
+      <a href="/score-your-gtm">Scorecard</a>
+      <a href="https://www.linkedin.com/in/mohamed-sakr-ai/">LinkedIn</a>
+    </footer>
+  </div>
+
+</div>
+</body>
+</html>
