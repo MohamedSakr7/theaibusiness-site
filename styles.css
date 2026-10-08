@@ -360,3 +360,11 @@ html[data-motion="off"] .scope-signal-track i{animation:none}
 
 /* Launch: keep About audience figures inside very narrow screens. */
 @media(max-width:370px){.about-audience{grid-template-columns:minmax(0,1fr);row-gap:20px}.about-audience>p{max-width:100%}}
+
+/* Booking remains accessible while the external calendar loads. */
+.booking-help{display:flex;align-items:center;justify-content:center;gap:12px 24px;flex-wrap:wrap;margin:0 auto 20px;max-width:1100px;text-align:center}
+.booking-help p{margin:0;color:var(--muted,#aaa);font-size:14px}
+.booking-help p[hidden]{display:none}
+.booking-direct{display:inline-flex;align-items:center;gap:8px;color:var(--orange,#ff6000);font-size:14px;padding:10px 14px;border:1px solid rgba(255,96,0,.28);border-radius:8px;text-decoration:none;transition:background .2s,border-color .2s}
+.booking-direct:hover,.booking-direct:focus-visible,.booking-help.is-slow .booking-direct{background:rgba(255,96,0,.12);border-color:#ff6000}
+.booking-direct:focus-visible{outline:2px solid #ff6000;outline-offset:3px}
