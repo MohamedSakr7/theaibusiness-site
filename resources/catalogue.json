@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "score-your-gtm",
+    "title": "Score your go-to-market",
+    "shortDescription": "Twelve questions. A score out of 100. Find the one thing capping your growth and what to do about it.",
+    "longDescription": [
+      "Where is your go-to-market leaking? This free assessment asks twelve questions about how you find customers and turn them into revenue. It takes about three minutes and gives you a score out of 100, the one thing capping your growth, and what to do about it.",
+      "It looks at six areas: your offer, getting found, turning interest into conversations, closing, tracking, and whether your AI tools return anything. Use the result to decide where to focus before adding more activity or another tool."
+    ],
+    "type": "assessment",
+    "buttonLabel": "Start the assessment",
+    "gatedUrl": "/score-your-gtm/",
+    "thumbnail": "/assets/resource-score-your-gtm.svg",
+    "thumbnailAlt": "Example assessment result: 52 out of 100, with conversations highlighted as the bottleneck.",
+    "dateAdded": "2026-10-18",
+    "seoTitle": "Score Your Go-to-Market: Free B2B Assessment | The AI Business",
+    "metaDescription": "Score your B2B go-to-market in three minutes. Answer 12 questions, see your score out of 100, and find the bottleneck to focus on next.",
+    "duration": "About 3 minutes",
+    "overviewHeading": "Where is the leak?",
+    "audienceHeading": "Built for B2B teams.",
+    "thumbnailCaption": "An example of what you get. Your result depends on your answers.",
+    "whatsInside": [
+      { "title": "A score out of 100", "description": "A quick view of your go-to-market, based on twelve answers about your business." },
+      { "title": "Your main bottleneck", "description": "Find the weak spot that is holding back the rest of your go-to-market." },
+      { "title": "A breakdown across six areas", "description": "See your offer, getting found, conversations, closing, tracking and AI tools side by side." },
+      { "title": "What to work on next", "description": "Get practical next steps tied to your result, rather than a longer list of things to do." }
+    ],
+    "whoItsFor": [
+      "Founders and teams at B2B service or software companies.",
+      "Businesses using inbound, outbound, or a mix of both to find customers.",
+      "People deciding where to focus their next go-to-market improvement."
+    ],
+    "faq": [
+      { "question": "What is Score your go-to-market?", "answer": "It is a free, twelve-question self-assessment for B2B companies. You get a score out of 100, a breakdown across six areas, and a bottleneck to focus on next." },
+      { "question": "How long does it take?", "answer": "Allow about three minutes to answer the assessment questions." },
+      { "question": "Who is it for?", "answer": "It is built for B2B companies selling services or software, whether they use inbound or outbound to find customers." },
+      { "question": "Is this a full go-to-market audit?", "answer": "No. The result is based on your answers. A full audit examines what your marketing and sales actually do, using evidence and real business numbers." },
+      { "question": "How do I get access?", "answer": "Enter your name and email in the form on this page. The assessment button appears immediately; you do not need to wait for an email. By submitting, you also subscribe to The AI Business newsletter. You can unsubscribe at any time." }
+    ]
+  }
+]

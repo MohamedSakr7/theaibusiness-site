@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{SEO_TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#0c0c0e">
+  <link rel="canonical" href="{{CANONICAL}}">
+  <meta property="og:title" content="{{SEO_TITLE}}">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{CANONICAL}}">
+  <meta property="og:site_name" content="The AI Business">
+  <meta property="og:image" content="https://theaibusiness.net/assets/social-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The AI Business — practical B2B go-to-market resources">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{SEO_TITLE}}">
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+  <meta name="twitter:image" content="https://theaibusiness.net/assets/social-preview.jpg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/satoshi-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=35">
+  <link rel="stylesheet" href="/resource-page.css?v=1">
+  <script src="/app.js?v=14" defer></script>
+  <script src="/resource-config.js?v=1" defer></script>
+  <script src="/resource-gate.js?v=1" defer></script>
+  <script type="application/ld+json">{{STRUCTURED_DATA}}</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  {{HEADER}}
+  <main id="main" class="wrap resource-page" data-resource-slug="{{SLUG}}" data-gated-url="{{GATED_URL}}">
+    <nav class="resource-breadcrumb" aria-label="Breadcrumb">
+      <a href="/resources/">Resources</a><span aria-hidden="true">/</span><span>{{TITLE}}</span>
+    </nav>
+    <section class="resource-hero" aria-labelledby="resource-title">
+      <div class="resource-intro">
+        <div class="resource-meta"><span class="eyebrow">Free {{TYPE}}</span><span>{{DURATION}}</span></div>
+        <h1 id="resource-title">{{TITLE}}</h1>
+        <p class="resource-lede">{{SHORT_DESCRIPTION}}</p>
+        <a class="button" href="#get-resource">Get free access <span aria-hidden="true">↗</span></a>
+        <p class="resource-hero-note">Opens here after signup. No email to wait for.</p>
+      </div>
+      <figure class="resource-preview">
+        <img src="{{THUMBNAIL}}" alt="{{THUMBNAIL_ALT}}" width="640" height="500" fetchpriority="high">
+        <figcaption>{{THUMBNAIL_CAPTION}}</figcaption>
+      </figure>
+    </section>
+    <div class="resource-body-grid">
+      <div class="resource-copy">
+        <section aria-labelledby="resource-overview"><span class="eyebrow">The overview</span><h2 id="resource-overview">{{OVERVIEW_HEADING}}</h2>{{LONG_DESCRIPTION}}</section>
+        <section aria-labelledby="resource-inside"><span class="eyebrow">The resource</span><h2 id="resource-inside">What's inside</h2><ol class="resource-inside-list">{{WHATS_INSIDE}}</ol></section>
+        <section aria-labelledby="resource-audience"><span class="eyebrow">Who it's for</span><h2 id="resource-audience">{{AUDIENCE_HEADING}}</h2><ul class="resource-audience-list">{{WHO_ITS_FOR}}</ul></section>
+      </div>
+      <aside id="get-resource" class="resource-gate" aria-labelledby="gate-heading">
+        <span class="eyebrow">Free access</span>
+        <h2 id="gate-heading">Put it to work.</h2>
+        <p class="gate-intro">A few details, then it's yours to use.</p>
+        <form id="resource-signup" aria-labelledby="gate-heading">
+          <div class="resource-field"><label for="signup-name">Full name <span>(required)</span></label><input id="signup-name" name="name" type="text" autocomplete="name" required maxlength="200"></div>
+          <div class="resource-field"><label for="signup-email">Email <span>(required)</span></label><input id="signup-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+          <div class="resource-field"><label for="signup-role">Role <span>(optional)</span></label><input id="signup-role" name="role" type="text" autocomplete="organization-title" maxlength="200"></div>
+          <div class="resource-field"><label for="signup-company">Company <span>(optional)</span></label><input id="signup-company" name="company" type="text" autocomplete="organization" maxlength="200"></div>
+          <div class="resource-honeypot" aria-hidden="true"><label for="signup-website">Leave this empty</label><input id="signup-website" name="website" type="text" value="" tabindex="-1" autocomplete="off" maxlength="200"></div>
+          <button class="button resource-submit" type="submit">Get free access <span aria-hidden="true">↗</span></button>
+          <p class="resource-consent">By submitting, you're subscribing to <strong>The AI Business newsletter</strong>. You can unsubscribe at any time.</p>
+        </form>
+        <div id="resource-access" hidden>
+          <p class="resource-access-note" role="status">You're ready to go. Open your resource below.</p>
+          <a id="resource-link" class="button">{{BUTTON_LABEL}} <span aria-hidden="true">↗</span></a>
+          <button id="resource-forget" class="resource-forget" type="button">Use different details</button>
+        </div>
+        <noscript><p class="resource-noscript">Please enable JavaScript to use the access form. You can still read the resource overview and questions on this page.</p></noscript>
+      </aside>
+    </div>
+    <section class="resource-faq" aria-labelledby="resource-faq-heading"><span class="eyebrow">A few questions</span><h2 id="resource-faq-heading">Before you start.</h2><div class="resource-faq-list">{{FAQ}}</div></section>
+  </main>
+  {{FOOTER}}
+</body>
+</html>
