@@ -1,47 +1,44 @@
-# Resource catalogue and pages
+# Resource catalogue, library and pages
 
-`catalogue.json` is the single source of truth. Only `score-your-gtm` is included in this migration so far.
+`catalogue.json` is the single source of truth for all five library cards. Only `score-your-gtm` has its own resource page so far. The other four retain their existing Beehiiv destinations until step 5.
 
-To add a resource:
+## Add a resource
 
-1. Copy the existing entry in `catalogue.json` and replace its slug, copy, type, button label, tool/download URL, thumbnail, date, SEO fields, inside/audience lists, and FAQ. Use a unique lowercase slug, for example `prepare-sales-calls`. Thumbnails can reuse an existing asset or use an HTTPS image URL.
-2. Run `node scripts/build-resources.cjs` from the repository folder. It creates `/resources/<slug>/index.html` from `templates/resource-page.html` and adds the sitemap entry automatically. Do not edit the generated HTML by hand.
-3. Run `node --test tests/resource-gate.test.cjs`, preview, then commit and publish the catalogue and generated output. Adding an entry does not require changes to the template, gate code, or tests.
+1. Add an entry with `slug`, `title`, `shortDescription`, `type`, `thumbnail`, `pageUrl`, and optionally `cardButtonLabel` and `order`.
+2. Run `node scripts/build-resources.cjs`. This generates the library cards, filters, CollectionPage/ItemList metadata and enabled resource pages. It retains the library sitemap entry.
+3. Run `node --test tests/resource-gate.test.cjs tests/resource-library.test.cjs`, preview and publish the source and generated output.
 
-No per-resource JavaScript, manually copied gate, navigation edit, or hand-written sitemap entry is needed. The library and homepage navigation are unchanged in this step; a later library migration can read this catalogue.
+Cards use **manual order**, lowest number first; current entries are numbered 10–50. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
+
+`pageUrl` is the one-line destination switch. Keep the current external link until the dedicated page is ready. For a dedicated page, supply the full content fields shown in `score-your-gtm`, then change `pageUrl` to `/resources/<slug>/`. The generator requires the full copy before creating a detail page; card-only entries do not create placeholder pages.
+
+For a minimal card, reuse an existing thumbnail or an HTTPS image. To generate a branded cover from the entry's title/type, set `thumbnail` to `/assets/resource-covers/<slug>.svg`.
 
 ## Shared pieces
 
-- `templates/resource-page.html`: public page layout, form, metadata, and site chrome. The build copies existing header/footer markup from the current library without modifying it.
-- `resource-page.css`: styles for detail pages only; uses the site's existing fonts, colors, header, and footer.
-- `resource-gate.js`: signup, immediate access, attribution, and browser remembering. It does not fetch page copy or metadata at runtime.
-- `resource-config.js`: the one public `/exec` endpoint setting. No Notion credentials belong here.
+- `templates/resource-library.html`: library layout, optional access panel and SEO shell.
+- `templates/resource-page.html`: public detail-page layout and metadata.
+- `templates/resource-form.html`: the one form partial used by both pages, with the same fields, honeypot and newsletter consent.
+- `templates/site-header.html` and `site-footer.html`: shared chrome for generated pages; existing footer and newsletter destinations are preserved.
+- `scripts/update-navigation.cjs`: idempotent conversion of old dropdowns to Resources links; leaves other content unchanged.
+- `resource-gate.js`: shared validation, immediate access, attribution and remembering.
+- `resource-library.js`: the type filter. All cards and links work without JavaScript.
+- `resource-config.js`: the single public Apps Script endpoint setting. The Notion token stays in Apps Script Properties.
 
-## Gate behavior
+## Access and remembering
 
-Name and email are required. Role and company are optional. A visually hidden `website` honeypot is sent empty for humans. The submit button includes a clear newsletter subscription line.
+Valid submission unlocks immediately, before storage/network work. Errors are console-only. The library sends `type: signup`, `source: library`, `resource: ""`; detail pages send their slug for source and resource. Both use JSON sent as `text/plain;charset=utf-8`, with no custom headers or browser credentials. No email is sent by the gate.
 
-Valid submission immediately reveals the tool/download button, before storage or network work. The browser then sends plain-text JSON to Apps Script in the background (`type: signup`, `source` and `resource` equal to the catalogue slug). Errors are console-only and do not remove access. No email is sent by this gate. It is a client-side access gate, not private-file hosting; the underlying static resource URL remains accessible directly.
+Name and normalized email use the existing `aib.resource-visitor.v1` browser storage key. The library hides its form and shows **You have access to everything.** Revisiting the library does not send a silent return. A remembered detail-page visit skips the form and sends one minimal return per resource/browser, marked in `aib.resource-returns.v1`. Storage failures fall back to the form; network failures never remove access. **Use different details** clears the identity and opens the form again.
 
-Name and normalized email are saved under localStorage key `aib.resource-visitor.v1`. Remembered visitors skip the form. The first automatic visit to each resource sends only `type: return`, `email`, and `resource`; the resource slug is marked in `aib.resource-returns.v1` before sending, so later reloads do not send it again. The signup itself does not consume that one return. Failed automatic return requests are not retried. If storage cannot be read or the return marker cannot be written, the form remains available. A submitted form still unlocks the current page if storage fails.
+Remembering is limited to this website/browser. The four legacy Beehiiv pages may still ask for signup until they migrate in step 5; the library explains that transition. This is a client-side access gate, not private-file hosting.
 
-The **Use different details** button removes the remembered name/email and shows the form again. It does not erase the browser's resource-return markers. Remembering applies on the same browser and origin; localhost and the live site have separate storage.
-
-Channel is captured at the resource-page landing: `utm_source` first, then referrer, then Direct. Unknown sources become Other. ChatGPT, Perplexity, Gemini, Claude, and Copilot are AI search; LinkedIn and Google have their own channels.
+Channel is captured on landing: utm_source first, then referrer, otherwise Direct. Unknown values become Other. ChatGPT, Perplexity, Gemini, Claude and Copilot map to AI search.
 
 ## Verification
 
-Local checks: `node --test tests/resource-gate.test.cjs`.
+Run `node scripts/preview.cjs 4186`, then open `http://127.0.0.1:4186/resources/`.
 
-Preview: `node scripts/preview.cjs 4186`, then open `http://127.0.0.1:4186/resources/score-your-gtm/`.
+Check all cards and filters, library signup (First source = library, initially no resource tag), remembered assessment access and its return, remembered library confirmation, every page's Resources link, and desktop/mobile layout. Inspect console/network for CORS errors and preflight requests. Delete temporary Notion rows and clear only the resource-gate test browser keys afterwards.
 
-Test the real form locally and live, checking Notion after each action:
-
-1. New test email: one row with Signups = 1.
-2. Use different details and resubmit the same email: same row, Signups = 2.
-3. Reload as the remembered visitor: no form, same row with Signups = 3.
-4. Reload again: no extra return; count stays at 3.
-5. Inspect browser console/network: no CORS errors, no OPTIONS preflight, readable JSON from the Apps Script redirect.
-6. Delete only the temporary test rows in Notion and remove the test browser's remembered details afterwards.
-
-The automated suite also covers a backend that never responds, backend errors, blocked storage, invalid fields, channel detection, public metadata/FAQ, and preservation of the original homepage, library, and assessment.
+The automated tests cover shared form reuse, immediate access during backend failure, storage fallback, future-card generation from a minimal entry, unchanged detail-page content, preserved footer/newsletter links, and nav-only changes elsewhere.

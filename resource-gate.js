@@ -93,19 +93,23 @@
     const link = doc.getElementById('resource-link');
     const forget = doc.getElementById('resource-forget');
     const slug = page.dataset.resourceSlug;
+    const isLibrary = page.dataset.resourceKind === 'library';
+    const libraryPanel = doc.getElementById('library-access-panel');
     // Snapshot attribution on page arrival, not after the visitor has filled the form.
     const channel = detectChannel(root.location.search, doc.referrer);
 
     function unlock(focus) {
-      link.href = page.dataset.gatedUrl;
+      if (link) link.href = page.dataset.gatedUrl;
       access.hidden = false;
       form.hidden = true;
-      if (focus) link.focus({ preventScroll: true });
+      if (libraryPanel) libraryPanel.hidden = true;
+      const focusTarget = link || doc.getElementById('resource-access-status');
+      if (focus && focusTarget) focusTarget.focus({ preventScroll: true });
     }
 
     const identity = readIdentity(root);
     if (identity) {
-      const sendReturn = claimReturn(root, slug);
+      const sendReturn = isLibrary ? false : claimReturn(root, slug);
       if (sendReturn !== null) {
         unlock(false);
         if (sendReturn) sendBackground(root, { type: 'return', email: identity.email, resource: slug });
@@ -132,7 +136,7 @@
       if (website === '') rememberIdentity(root, { name: name, email: email });
       sendBackground(root, {
         type: 'signup', name: name, email: email, role: value('role').trim(), company: value('company').trim(),
-        source: slug, resource: slug, channel: channel, website: website
+        source: slug, resource: isLibrary ? '' : slug, channel: channel, website: website
       });
     });
 
@@ -140,6 +144,7 @@
       try { root.localStorage.removeItem(IDENTITY_KEY); } catch (_) { /* Storage is optional. */ }
       access.hidden = true;
       form.hidden = false;
+      if (libraryPanel) { libraryPanel.hidden = false; libraryPanel.open = true; }
       form.reset();
       form.elements.namedItem('name').focus();
     });

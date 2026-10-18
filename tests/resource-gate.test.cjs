@@ -23,17 +23,23 @@ function page(options = {}) {
   const access = { hidden: true };
   const link = { focus() { this.focused = true; } };
   const forget = { addEventListener: (_, task) => { events.forget = task; } };
+  const panel = { hidden: false, open: false };
   const elements = { 'resource-signup': form, 'resource-access': access, 'resource-link': link, 'resource-forget': forget };
+  if (options.kind === 'library') {
+    delete elements['resource-link'];
+    elements['library-access-panel'] = panel;
+    elements['resource-access-status'] = { focus() {} };
+  }
   const requests = [], errors = [];
   const win = {
-    document: { referrer: options.referrer || '', querySelector: () => ({ dataset: { resourceSlug: options.slug || 'score-your-gtm', gatedUrl: '/score-your-gtm/' } }),
+    document: { referrer: options.referrer || '', querySelector: () => ({ dataset: { resourceSlug: options.slug || 'score-your-gtm', resourceKind: options.kind, gatedUrl: '/score-your-gtm/' } }),
       getElementById: id => elements[id] },
     location: { search: options.search || '?utm_source=linkedin' }, localStorage: options.storage || storage(),
     RESOURCE_SIGNUP_CONFIG: { endpoint: 'https://script.google.com/macros/s/example/exec' },
     fetch: (...args) => { requests.push(args); return options.fetch ? options.fetch(...args) : Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true, status: 'created' }) }); },
     console: { error: (...args) => errors.push(args) }
   };
-  return { win, form, access, link, fields, requests, errors,
+  return { win, form, access, link, panel, fields, requests, errors,
     submit() { events.submit({ preventDefault() {} }); }, forget() { events.forget(); } };
 }
 
@@ -142,9 +148,30 @@ test('Generated page has static public content, unique metadata, matching JSON-L
   assert.equal(sitemap.split('<loc>https://theaibusiness.net/resources/score-your-gtm/</loc>').length - 1, 1);
 });
 
-test('Homepage, library, existing assessment, and shared CSS/JS remain unchanged (Git line endings normalized)', () => {
-  for (const file of ['index.html', 'resources/index.html', 'score-your-gtm/index.html', 'styles.css', 'app.js']) {
-    const base = execFileSync('git', ['show', 'origin/main:' + file], { cwd: rootPath });
+test('Existing assessment, shared CSS, and shared application code remain unchanged', () => {
+  for (const file of ['score-your-gtm/index.html', 'styles.css', 'app.js']) {
+    const base = execFileSync('git', ['show', '6efe75adff6884b0e887e2fa72fa1a837b5b2c2c:' + file], { cwd: rootPath });
     assert.equal(fs.readFileSync(path.join(rootPath, file), 'utf8').replace(/\r\n/g, '\n'), base.toString('utf8').replace(/\r\n/g, '\n'), file + ' changed outside scope');
   }
+});
+
+test('Library form reuses signup logic, source library, empty resource, and immediate remembering', async () => {
+  const env = page({ kind: 'library', slug: 'library', fetch: () => new Promise(() => {}) });
+  gate.init(env.win); env.submit();
+  assert.equal(env.access.hidden, false); assert.equal(env.form.hidden, true); assert.equal(env.panel.hidden, true);
+  await tick();
+  const payload = JSON.parse(env.requests[0][1].body);
+  assert.equal(payload.type, 'signup'); assert.equal(payload.source, 'library'); assert.equal(payload.resource, '');
+  const next = page({ storage: env.win.localStorage }); gate.init(next.win); await tick();
+  assert.equal(next.form.hidden, true); assert.equal(next.access.hidden, false);
+  assert.deepEqual(JSON.parse(next.requests[0][1].body), { type: 'return', email: payload.email, resource: 'score-your-gtm' });
+});
+
+test('Remembered library visitor sees access confirmation without sending a return or requiring writable storage', async () => {
+  const env = page({ kind: 'library', slug: 'library' });
+  gate.rememberIdentity(env.win, { name: 'Test Person', email: 'test@example.com' });
+  gate.init(env.win); await tick();
+  assert.equal(env.access.hidden, false); assert.equal(env.form.hidden, true); assert.equal(env.panel.hidden, true);
+  assert.equal(env.requests.length, 0);
+  env.forget(); assert.equal(env.panel.hidden, false); assert.equal(env.panel.open, true);
 });

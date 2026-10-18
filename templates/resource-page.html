@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/resource-page.css?v=1">
   <script src="/app.js?v=14" defer></script>
   <script src="/resource-config.js?v=1" defer></script>
-  <script src="/resource-gate.js?v=1" defer></script>
+  <script src="/resource-gate.js?v=2" defer></script>
   <script type="application/ld+json">{{STRUCTURED_DATA}}</script>
 </head>
 <body>
@@ -60,15 +60,7 @@
         <span class="eyebrow">Free access</span>
         <h2 id="gate-heading">Put it to work.</h2>
         <p class="gate-intro">A few details, then it's yours to use.</p>
-        <form id="resource-signup" aria-labelledby="gate-heading">
-          <div class="resource-field"><label for="signup-name">Full name <span>(required)</span></label><input id="signup-name" name="name" type="text" autocomplete="name" required maxlength="200"></div>
-          <div class="resource-field"><label for="signup-email">Email <span>(required)</span></label><input id="signup-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
-          <div class="resource-field"><label for="signup-role">Role <span>(optional)</span></label><input id="signup-role" name="role" type="text" autocomplete="organization-title" maxlength="200"></div>
-          <div class="resource-field"><label for="signup-company">Company <span>(optional)</span></label><input id="signup-company" name="company" type="text" autocomplete="organization" maxlength="200"></div>
-          <div class="resource-honeypot" aria-hidden="true"><label for="signup-website">Leave this empty</label><input id="signup-website" name="website" type="text" value="" tabindex="-1" autocomplete="off" maxlength="200"></div>
-          <button class="button resource-submit" type="submit">Get free access <span aria-hidden="true">↗</span></button>
-          <p class="resource-consent">By submitting, you're subscribing to <strong>The AI Business newsletter</strong>. You can unsubscribe at any time.</p>
-        </form>
+        {{SIGNUP_FORM}}
         <div id="resource-access" hidden>
           <p class="resource-access-note" role="status">You're ready to go. Open your resource below.</p>
           <a id="resource-link" class="button">{{BUTTON_LABEL}} <span aria-hidden="true">↗</span></a>

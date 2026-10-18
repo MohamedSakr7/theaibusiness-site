@@ -1,6 +1,9 @@
 [
   {
     "slug": "score-your-gtm",
+    "order": 10,
+    "pageUrl": "/resources/score-your-gtm/",
+    "cardButtonLabel": "View the assessment",
     "title": "Score your go-to-market",
     "shortDescription": "Twelve questions. A score out of 100. Find the one thing capping your growth and what to do about it.",
     "longDescription": [
@@ -37,5 +40,45 @@
       { "question": "Is this a full go-to-market audit?", "answer": "No. The result is based on your answers. A full audit examines what your marketing and sales actually do, using evidence and real business numbers." },
       { "question": "How do I get access?", "answer": "Enter your name and email in the form on this page. The assessment button appears immediately; you do not need to wait for an email. By submitting, you also subscribe to The AI Business newsletter. You can unsubscribe at any time." }
     ]
+  },
+  {
+    "slug": "build-your-gtm-in-one-ai-workflow",
+    "order": 20,
+    "title": "Build your whole go-to-market in one AI workflow",
+    "shortDescription": "One connected AI workflow for your go-to-market.",
+    "type": "guide",
+    "cardButtonLabel": "Get the guide",
+    "pageUrl": "https://theaibusiness.beehiiv.com/build-your-gtm-in-one-ai-workflow",
+    "thumbnail": "/assets/resource-covers/build-your-gtm-in-one-ai-workflow.svg"
+  },
+  {
+    "slug": "prepare-sales-calls-using-ai",
+    "order": 30,
+    "title": "Prepare your sales calls using AI",
+    "shortDescription": "Research buyers and prepare for sales calls with 12 ready-to-paste AI prompts.",
+    "type": "guide",
+    "cardButtonLabel": "Get the guide",
+    "pageUrl": "https://theaibusiness.beehiiv.com/prepare-sales-calls-using-ai",
+    "thumbnail": "/assets/resource-covers/prepare-sales-calls-using-ai.svg"
+  },
+  {
+    "slug": "does-chatgpt-recommend-you",
+    "order": 40,
+    "title": "Does ChatGPT recommend your company when your buyers ask?",
+    "shortDescription": "12 buying questions, setup prompts, a results tracker and a fix plan.",
+    "type": "guide",
+    "cardButtonLabel": "Get the guide",
+    "pageUrl": "https://theaibusiness.beehiiv.com/does-chatgpt-recommend-you",
+    "thumbnail": "/assets/resource-covers/does-chatgpt-recommend-you.svg"
+  },
+  {
+    "slug": "the-ultimate-future-proof-gtm-tool-stack",
+    "order": 50,
+    "title": "The future-proof B2B GTM stack",
+    "shortDescription": "Tools for building your B2B go-to-market stack.",
+    "type": "tool list",
+    "cardButtonLabel": "Explore the tools",
+    "pageUrl": "https://theaibusiness.beehiiv.com/the-ultimate-future-proof-gtm-tool-stack",
+    "thumbnail": "/assets/resource-covers/the-ultimate-future-proof-gtm-tool-stack.svg"
   }
 ]
