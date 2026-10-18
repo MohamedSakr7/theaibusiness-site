@@ -24,6 +24,7 @@ function page(options = {}) {
   const link = { focus() { this.focused = true; } };
   const forget = { addEventListener: (_, task) => { events.forget = task; } };
   const panel = { hidden: false, open: false };
+  const resourceClicks = {};
   const elements = { 'resource-signup': form, 'resource-access': access, 'resource-link': link, 'resource-forget': forget };
   if (options.kind === 'library') {
     delete elements['resource-link'];
@@ -32,7 +33,7 @@ function page(options = {}) {
   }
   const requests = [], errors = [];
   const win = {
-    document: { referrer: options.referrer || '', querySelector: () => ({ dataset: { resourceSlug: options.slug || 'score-your-gtm', resourceKind: options.kind, gatedUrl: '/score-your-gtm/' } }),
+    document: { referrer: options.referrer || '', querySelector: () => ({ dataset: { resourceSlug: options.slug || 'score-your-gtm', resourceKind: options.kind, gatedUrl: '/score-your-gtm/' }, querySelectorAll: () => ['score-your-gtm', 'example-guide'].map(slug => ({ dataset: { libraryResource: slug }, addEventListener: (_, fn) => { resourceClicks[slug] = fn; } })) }),
       getElementById: id => elements[id] },
     location: { search: options.search || '?utm_source=linkedin' }, localStorage: options.storage || storage(),
     RESOURCE_SIGNUP_CONFIG: { endpoint: 'https://script.google.com/macros/s/example/exec' },
@@ -40,6 +41,7 @@ function page(options = {}) {
     console: { error: (...args) => errors.push(args) }
   };
   return { win, form, access, link, panel, fields, requests, errors,
+    openResource(slug) { resourceClicks[slug](); },
     submit() { events.submit({ preventDefault() {} }); }, forget() { events.forget(); } };
 }
 
@@ -53,6 +55,21 @@ test('Channel captures UTM first, then referrer, including all five AI sources',
   for (const referrer of ['https://chatgpt.com/', 'https://chat.openai.com/', 'https://perplexity.ai/', 'https://gemini.google.com/', 'https://claude.ai/', 'https://copilot.microsoft.com/']) assert.equal(gate.detectChannel('', referrer), 'AI search');
   assert.equal(gate.detectChannel('', 'https://google.com.example.org/'), 'Other');
   assert.equal(gate.detectChannel('', 'https://linkedin.com.evil.example/'), 'Other');
+});
+
+test('Library access buttons record each resource once without waiting or repeating on reload', async () => {
+  const saved = storage();
+  const env = page({ kind: 'library', slug: 'library', storage: saved }); gate.init(env.win);
+  env.submit(); await tick();
+  env.openResource('example-guide'); env.openResource('example-guide'); await tick();
+  assert.deepEqual(env.requests.map(request => JSON.parse(request[1].body).type), ['signup', 'return']);
+  assert.equal(JSON.parse(env.requests[1][1].body).resource, 'example-guide');
+  const back = page({ kind: 'library', slug: 'library', storage: saved }); gate.init(back.win);
+  back.openResource('example-guide'); back.openResource('score-your-gtm'); await tick();
+  assert.equal(back.requests.length, 1);
+  assert.equal(JSON.parse(back.requests[0][1].body).resource, 'score-your-gtm');
+  back.forget(); back.openResource('score-your-gtm'); await tick();
+  assert.equal(back.requests.length, 1);
 });
 
 test('Valid submit unlocks synchronously, without waiting even for a never-ending fetch', async () => {

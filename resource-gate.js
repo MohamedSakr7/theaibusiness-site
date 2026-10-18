@@ -3,6 +3,7 @@
   const api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root && root.document) {
+    root.ResourceGate = api;
     if (root.document.readyState === 'loading') root.document.addEventListener('DOMContentLoaded', function () { api.init(root); }, { once: true });
     else api.init(root);
   }
@@ -103,11 +104,19 @@
       access.hidden = false;
       form.hidden = true;
       if (libraryPanel) libraryPanel.hidden = true;
+      if (focus && isLibrary && page.scrollIntoView) page.scrollIntoView({ block: 'start', behavior: 'instant' });
       const focusTarget = link || doc.getElementById('resource-access-status');
       if (focus && focusTarget) focusTarget.focus({ preventScroll: true });
     }
 
-    const identity = readIdentity(root);
+    let identity = readIdentity(root);
+    if (isLibrary && page.querySelectorAll) page.querySelectorAll('[data-library-resource]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (identity && claimReturn(root, button.dataset.libraryResource)) {
+          sendBackground(root, { type: 'return', email: identity.email, resource: button.dataset.libraryResource });
+        }
+      });
+    });
     if (identity) {
       const sendReturn = isLibrary ? false : claimReturn(root, slug);
       if (sendReturn !== null) {
@@ -133,7 +142,10 @@
       const website = value('website');
       // Unlock synchronously, before storage or any network work.
       unlock(true);
-      if (website === '') rememberIdentity(root, { name: name, email: email });
+      if (website === '') {
+        identity = { name: name, email: email };
+        rememberIdentity(root, identity);
+      }
       sendBackground(root, {
         type: 'signup', name: name, email: email, role: value('role').trim(), company: value('company').trim(),
         source: slug, resource: isLibrary ? '' : slug, channel: channel, website: website
@@ -141,6 +153,7 @@
     });
 
     forget.addEventListener('click', function () {
+      identity = null;
       try { root.localStorage.removeItem(IDENTITY_KEY); } catch (_) { /* Storage is optional. */ }
       access.hidden = true;
       form.hidden = false;

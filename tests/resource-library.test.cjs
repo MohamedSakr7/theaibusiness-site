@@ -21,10 +21,10 @@ test('Every catalogue entry generates a correctly ordered card, image, descripti
   catalogue.forEach((resource, index) => {
     assert.ok(cards[index].includes(resource.title));
     assert.ok(cards[index].includes(resource.shortDescription));
-    assert.ok(cards[index].includes('src="' + resource.thumbnail + '"'));
-    assert.ok(cards[index].includes('href="' + resource.pageUrl + '"'));
-    assert.ok(cards[index].includes('>' + resource.type + '</span>'));
-    if (resource.pageUrl.startsWith('/')) assert.ok(!cards[index].includes('target="_blank"'));
+    assert.ok(cards[index].includes('src="' + (resource.libraryThumbnail || resource.thumbnail) + '"'));
+    assert.ok(cards[index].includes('href="' + resource.accessUrl + '"'));
+    assert.ok(cards[index].includes('>' + resource.format + '</span>'));
+    if (resource.accessUrl.startsWith('/')) assert.ok(!cards[index].includes('target="_blank"'));
     else assert.ok(cards[index].includes('rel="noopener noreferrer"'));
   });
 });
@@ -39,8 +39,28 @@ test('Library has canonical, Open Graph, CollectionPage and the catalogue ItemLi
   const list = graph.find(item => item['@type'] === 'ItemList');
   assert.equal(page.mainEntity['@id'], list['@id']);
   assert.equal(list.numberOfItems, catalogue.length);
-  assert.deepEqual(list.itemListElement.map(entry => entry.item.url), catalogue.map(resource => new URL(resource.pageUrl, 'https://theaibusiness.net').href));
+  assert.deepEqual(list.itemListElement.map(entry => entry.item.url), catalogue.map(resource => new URL(resource.pageUrl.startsWith('/resources/') ? resource.pageUrl : '/resources/#' + resource.slug, 'https://theaibusiness.net').href));
   assert.equal(read('sitemap.xml').split('<loc>https://theaibusiness.net/resources/</loc>').length - 1, 1);
+});
+
+test('Public landing content, answers and resource count are generated before JavaScript runs', () => {
+  const html = read('resources/index.html');
+  const publicView = html.slice(html.indexOf('<div id="library-access-panel">'), html.indexOf('<section id="resource-access"'));
+  assert.match(publicView, /<h1>Your free B2B/);
+  assert.match(publicView, /go-to-market library/);
+  assert.ok(publicView.includes('<strong>' + catalogue.length + '</strong> free resources'));
+  const copy = JSON.parse(read('resources/library.json'));
+  for (const resource of catalogue) assert.ok(publicView.includes(resource.title));
+  for (const faq of copy.faq) {
+    assert.ok(publicView.includes(faq.question));
+    assert.ok(publicView.includes(faq.answer));
+  }
+  assert.equal((publicView.match(/<ol class="library-preview-list">[\s\S]*?<\/ol>/) || [''])[0].match(/<li\b/g).length, catalogue.length);
+  assert.ok(publicView.includes('href="#library-signup"'));
+  assert.ok(publicView.includes('href="#inside-library"'));
+  assert.ok(!publicView.includes('data-library-resource='));
+  assert.match(html, /<section id="resource-access"[^>]* hidden/);
+  assert.match(read('robots.txt'), /Allow: \//);
 });
 
 test('All existing navigation becomes a direct Resources link; other page content remains intact', () => {
@@ -60,10 +80,10 @@ test('Resource detail content remains unchanged and both pages use the same form
   const main = html => html.match(/<main\b[\s\S]*?<\/main>/)[0].replace(/\s+/g, ' ');
   assert.equal(main(read('resources/score-your-gtm/index.html')), main(original('resources/score-your-gtm/index.html')));
   const form = html => html.match(/<form id="resource-signup"[\s\S]*?<\/form>/)[0].replace(/\s+/g, ' ');
-  assert.equal(form(read('resources/index.html')), form(read('resources/score-your-gtm/index.html')));
+  assert.equal(form(read('resources/index.html')).replace('Unlock the library', 'Get free access'), form(read('resources/score-your-gtm/index.html')));
   assert.ok(read('templates/resource-page.html').includes('{{SIGNUP_FORM}}'));
   assert.ok(read('templates/resource-library.html').includes('{{SIGNUP_FORM}}'));
-  assert.match(read('resources/index.html'), /You have access to everything\./);
+  assert.match(read('resources/index.html'), /All the guides\. All the tools\./);
   assert.equal(fs.readdirSync(path.join(root, 'resources'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length, catalogue.filter(resource => resource.pageUrl === '/resources/' + resource.slug + '/').length);
 });
 
@@ -83,6 +103,19 @@ test('Filters show the selected type, reset to All, and announce the visible cou
   assert.equal(buttons[0]['aria-pressed'], 'true');
 });
 
+test('Mobile access CTA hides when the signup form is visible and reappears away from it', () => {
+  const cta = { hidden: false }, form = {};
+  let callback, observed;
+  function IntersectionObserver(fn) { callback = fn; this.observe = element => { observed = element; }; }
+  vm.runInNewContext(read('resource-library.js'), { IntersectionObserver, document: {
+    querySelector: selector => selector === '.library-mobile-cta' ? cta : null,
+    getElementById: () => form
+  } });
+  assert.equal(observed, form);
+  callback([{ isIntersecting: true }]); assert.equal(cta.hidden, true);
+  callback([{ isIntersecting: false }]); assert.equal(cta.hidden, false);
+});
+
 test('Adding one minimal catalogue entry automatically adds its card and does not create a resource page', () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'resource-catalogue-test-'));
   try {
@@ -90,10 +123,12 @@ test('Adding one minimal catalogue entry automatically adds its card and does no
     fs.copyFileSync(path.join(root, 'scripts/build-resources.cjs'), path.join(temp, 'scripts/build-resources.cjs'));
     for (const file of fs.readdirSync(path.join(root, 'templates'))) fs.copyFileSync(path.join(root, 'templates', file), path.join(temp, 'templates', file));
     fs.copyFileSync(path.join(root, 'sitemap.xml'), path.join(temp, 'sitemap.xml'));
-    const resources = [...catalogue, { slug: 'future-example', title: 'Future example', shortDescription: 'A future card', type: 'template', order: 100, pageUrl: 'https://example.com/resource', thumbnail: '/assets/social-preview.jpg' }];
+    fs.copyFileSync(path.join(root, 'resources/library.json'), path.join(temp, 'resources/library.json'));
+    const resources = [...catalogue, { slug: 'future-example', title: 'Future example', shortDescription: 'A future card', type: 'template', order: 100, pageUrl: 'https://example.com/resource', accessUrl: 'https://example.com/direct.pdf', thumbnail: '/assets/social-preview.jpg' }];
     fs.writeFileSync(path.join(temp, 'resources/catalogue.json'), JSON.stringify(resources));
     execFileSync(process.execPath, [path.join(temp, 'scripts/build-resources.cjs')], { cwd: temp });
     assert.match(fs.readFileSync(path.join(temp, 'resources/index.html'), 'utf8'), /Future example/);
+    assert.ok(fs.readFileSync(path.join(temp, 'resources/index.html'), 'utf8').includes('<strong>' + resources.length + '</strong> free resources'));
     assert.equal(fs.existsSync(path.join(temp, 'resources/future-example')), false);
   } finally {
     const resolved = fs.realpathSync(temp);

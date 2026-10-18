@@ -23,10 +23,22 @@
     "audienceHeading": "Built for B2B teams.",
     "thumbnailCaption": "An example of what you get. Your result depends on your answers.",
     "whatsInside": [
-      { "title": "A score out of 100", "description": "A quick view of your go-to-market, based on twelve answers about your business." },
-      { "title": "Your main bottleneck", "description": "Find the weak spot that is holding back the rest of your go-to-market." },
-      { "title": "A breakdown across six areas", "description": "See your offer, getting found, conversations, closing, tracking and AI tools side by side." },
-      { "title": "What to work on next", "description": "Get practical next steps tied to your result, rather than a longer list of things to do." }
+      {
+        "title": "A score out of 100",
+        "description": "A quick view of your go-to-market, based on twelve answers about your business."
+      },
+      {
+        "title": "Your main bottleneck",
+        "description": "Find the weak spot that is holding back the rest of your go-to-market."
+      },
+      {
+        "title": "A breakdown across six areas",
+        "description": "See your offer, getting found, conversations, closing, tracking and AI tools side by side."
+      },
+      {
+        "title": "What to work on next",
+        "description": "Get practical next steps tied to your result, rather than a longer list of things to do."
+      }
     ],
     "whoItsFor": [
       "Founders and teams at B2B service or software companies.",
@@ -34,12 +46,32 @@
       "People deciding where to focus their next go-to-market improvement."
     ],
     "faq": [
-      { "question": "What is Score your go-to-market?", "answer": "It is a free, twelve-question self-assessment for B2B companies. You get a score out of 100, a breakdown across six areas, and a bottleneck to focus on next." },
-      { "question": "How long does it take?", "answer": "Allow about three minutes to answer the assessment questions." },
-      { "question": "Who is it for?", "answer": "It is built for B2B companies selling services or software, whether they use inbound or outbound to find customers." },
-      { "question": "Is this a full go-to-market audit?", "answer": "No. The result is based on your answers. A full audit examines what your marketing and sales actually do, using evidence and real business numbers." },
-      { "question": "How do I get access?", "answer": "Enter your name and email in the form on this page. The assessment button appears immediately; you do not need to wait for an email. By submitting, you also subscribe to The AI Business newsletter. You can unsubscribe at any time." }
-    ]
+      {
+        "question": "What is Score your go-to-market?",
+        "answer": "It is a free, twelve-question self-assessment for B2B companies. You get a score out of 100, a breakdown across six areas, and a bottleneck to focus on next."
+      },
+      {
+        "question": "How long does it take?",
+        "answer": "Allow about three minutes to answer the assessment questions."
+      },
+      {
+        "question": "Who is it for?",
+        "answer": "It is built for B2B companies selling services or software, whether they use inbound or outbound to find customers."
+      },
+      {
+        "question": "Is this a full go-to-market audit?",
+        "answer": "No. The result is based on your answers. A full audit examines what your marketing and sales actually do, using evidence and real business numbers."
+      },
+      {
+        "question": "How do I get access?",
+        "answer": "Enter your name and email in the form on this page. The assessment button appears immediately; you do not need to wait for an email. By submitting, you also subscribe to The AI Business newsletter. You can unsubscribe at any time."
+      }
+    ],
+    "accessUrl": "/score-your-gtm/",
+    "accessLabel": "Start the assessment",
+    "format": "Interactive assessment",
+    "libraryThumbnail": "/assets/resource-covers/score-your-gtm-library.svg",
+    "libraryThumbnailAlt": "Assessment preview: an illustrative score of 52 out of 100 and conversations highlighted as the bottleneck."
   },
   {
     "slug": "build-your-gtm-in-one-ai-workflow",
@@ -49,7 +81,14 @@
     "type": "guide",
     "cardButtonLabel": "Get the guide",
     "pageUrl": "https://theaibusiness.beehiiv.com/build-your-gtm-in-one-ai-workflow",
-    "thumbnail": "/assets/resource-covers/build-your-gtm-in-one-ai-workflow.svg"
+    "thumbnail": "/assets/resource-covers/build-your-gtm-in-one-ai-workflow.webp",
+    "accessUrl": "https://drive.google.com/file/d/1jLs-FoBJMHQ4XRpcgOxdoXpZP8D8V7Zz/view",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "thumbnailAlt": "Actual cover of Build your whole go-to-market in one AI workflow",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055,
+    "coverStyle": "publication"
   },
   {
     "slug": "prepare-sales-calls-using-ai",
@@ -59,7 +98,14 @@
     "type": "guide",
     "cardButtonLabel": "Get the guide",
     "pageUrl": "https://theaibusiness.beehiiv.com/prepare-sales-calls-using-ai",
-    "thumbnail": "/assets/resource-covers/prepare-sales-calls-using-ai.svg"
+    "thumbnail": "/assets/resource-covers/prepare-sales-calls-using-ai.webp",
+    "accessUrl": "https://drive.google.com/file/d/11ulSind1vxKraRxVJbRQ_51yA7nKix3V/view",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "thumbnailAlt": "Actual cover of Prepare your sales calls using AI",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055,
+    "coverStyle": "publication"
   },
   {
     "slug": "does-chatgpt-recommend-you",
@@ -69,7 +115,14 @@
     "type": "guide",
     "cardButtonLabel": "Get the guide",
     "pageUrl": "https://theaibusiness.beehiiv.com/does-chatgpt-recommend-you",
-    "thumbnail": "/assets/resource-covers/does-chatgpt-recommend-you.svg"
+    "thumbnail": "/assets/resource-covers/does-chatgpt-recommend-you.webp",
+    "accessUrl": "https://drive.google.com/file/d/1JZ9IPHK3cnySM3whrqc44CGKkrzxSuIT/view",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "thumbnailAlt": "Actual cover of Does ChatGPT recommend your company when your buyers ask?",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055,
+    "coverStyle": "publication"
   },
   {
     "slug": "the-ultimate-future-proof-gtm-tool-stack",
@@ -79,6 +132,13 @@
     "type": "tool list",
     "cardButtonLabel": "Explore the tools",
     "pageUrl": "https://theaibusiness.beehiiv.com/the-ultimate-future-proof-gtm-tool-stack",
-    "thumbnail": "/assets/resource-covers/the-ultimate-future-proof-gtm-tool-stack.svg"
+    "thumbnail": "/assets/resource-covers/the-ultimate-future-proof-gtm-tool-stack.webp",
+    "accessUrl": "https://drive.google.com/file/d/1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j/view",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "thumbnailAlt": "Actual cover of The future-proof B2B GTM stack",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055,
+    "coverStyle": "publication"
   }
 ]

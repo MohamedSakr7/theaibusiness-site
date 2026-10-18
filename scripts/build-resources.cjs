@@ -9,6 +9,7 @@ const siteUrl = 'https://theaibusiness.net';
 const catalogue = JSON.parse(fs.readFileSync(path.join(root, 'resources/catalogue.json'), 'utf8'));
 const template = fs.readFileSync(path.join(root, 'templates/resource-page.html'), 'utf8');
 const libraryTemplate = fs.readFileSync(path.join(root, 'templates/resource-library.html'), 'utf8');
+const libraryCopy = JSON.parse(fs.readFileSync(path.join(root, 'resources/library.json'), 'utf8'));
 const header = fs.readFileSync(path.join(root, 'templates/site-header.html'), 'utf8');
 const footer = fs.readFileSync(path.join(root, 'templates/site-footer.html'), 'utf8');
 const signupForm = fs.readFileSync(path.join(root, 'templates/resource-form.html'), 'utf8');
@@ -31,18 +32,6 @@ for (const resource of catalogue) {
   seen.add(resource.slug);
   for (const key of ['pageUrl', 'thumbnail']) {
     assert.match(resource[key], /^(?:\/(?!\/)|https:\/\/)/, key + ' must be a root-relative or HTTPS URL.');
-  }
-  if (resource.thumbnail.startsWith('/assets/resource-covers/')) {
-    assert.equal(resource.thumbnail, '/assets/resource-covers/' + resource.slug + '.svg', 'Cover paths must match their resource slug.');
-    const lines = [];
-    for (const word of resource.title.split(' ')) {
-      if (!lines.length || (lines[lines.length - 1] + ' ' + word).length > 29) lines.push(word);
-      else lines[lines.length - 1] += ' ' + word;
-    }
-    const cover = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400" role="img" aria-label="${esc(resource.title)}"><rect width="640" height="400" fill="#0c0c0e"/><rect x="24" y="24" width="592" height="352" rx="10" fill="#151517" stroke="#ffffff16"/><g font-family="Arial,Helvetica,sans-serif"><text x="54" y="61" font-size="12" letter-spacing="2" fill="#ff8a43">THE AI BUSINESS / ${esc(resource.type.toUpperCase())}</text>${lines.map((line, i) => `<text x="54" y="${112 + i * 35}" font-size="28" font-weight="600" fill="#f4f4f5">${esc(line)}</text>`).join('')}<path d="M84 301h472" stroke="#ff600044" stroke-width="2"/><rect x="54" y="273" width="148" height="56" rx="8" fill="#1c1c1f" stroke="#ff600066"/><rect x="246" y="273" width="148" height="56" rx="8" fill="#1c1c1f" stroke="#ffffff22"/><rect x="438" y="273" width="148" height="56" rx="8" fill="#1c1c1f" stroke="#ffffff22"/><circle cx="82" cy="301" r="6" fill="#ff6000"/><path d="M103 301h68m104 0h90m104 0h90" stroke="#b0b0ba" stroke-width="3"/><text x="54" y="354" font-size="11" letter-spacing="1.5" fill="#aaaab2">A PRACTICAL RESOURCE FOR YOUR GO-TO-MARKET</text></g></svg>`;
-    const coverPath = path.join(root, resource.thumbnail.slice(1));
-    fs.mkdirSync(path.dirname(coverPath), { recursive: true });
-    fs.writeFileSync(coverPath, cover + '\n');
   }
   // A single pageUrl change switches a card from its old destination to its website page.
   // Card-only entries require no body or metadata and do not create placeholder pages.
@@ -94,23 +83,29 @@ for (const resource of catalogue) {
   fs.writeFileSync(destination, html);
   console.log('Built /resources/' + resource.slug + '/');
 }
-const cards = catalogue.map(resource => {
-  const external = resource.pageUrl.startsWith('https://');
-  const link = esc(resource.pageUrl);
+const cards = catalogue.map((resource, index) => {
+  const destination = resource.accessUrl || resource.gatedUrl;
+  assert.ok(destination, 'Add a direct accessUrl for ' + resource.slug);
+  assert.match(destination, /^(?:\/(?!\/)|https:\/\/)/, 'accessUrl must be root-relative or HTTPS');
+  const external = destination.startsWith('https://');
   const extra = external ? ' target="_blank" rel="noopener noreferrer"' : '';
-  const coverAlt = esc(resource.thumbnailAlt || resource.title + ' resource cover');
-  return `<article class="library-card" data-resource-type="${esc(resource.type)}"><a class="library-card-cover" href="${link}"${extra} tabindex="-1" aria-hidden="true"><img src="${esc(resource.thumbnail)}" alt="${coverAlt}" width="640" height="400" loading="lazy"></a><div class="library-card-body"><span class="library-card-type">${esc(resource.type)}</span><h2><a href="${link}"${extra}>${esc(resource.title)}</a></h2><p>${esc(resource.shortDescription)}</p><a class="library-card-button" href="${link}"${extra} aria-label="${esc((resource.cardButtonLabel || 'View resource') + ': ' + resource.title + (external ? ' (opens in a new tab)' : ''))}">${esc(resource.cardButtonLabel || 'View resource')} <span aria-hidden="true">↗</span></a><span class="library-card-location">${external ? 'Opens on Beehiiv · new tab' : 'On this website'}</span></div></article>`;
+  return '<article class="library-card" data-resource-type="' + esc(resource.type) + '"><div class="library-card-cover ' + (resource.coverStyle === 'publication' ? 'is-publication' : 'is-assessment') + '"><img src="' + esc(resource.libraryThumbnail || resource.thumbnail) + '" alt="' + esc(resource.libraryThumbnailAlt || resource.thumbnailAlt || resource.title) + '" width="640" height="400" loading="lazy"><span class="library-card-number">0' + (index + 1) + '</span></div><div class="library-card-body"><span class="library-card-type">' + esc(resource.format || resource.type) + '</span><h2>' + esc(resource.title) + '</h2><p>' + esc(resource.shortDescription) + '</p><a class="library-card-button" data-library-resource="' + esc(resource.slug) + '" href="' + esc(destination) + '"' + extra + '>' + esc(resource.accessLabel || 'Open resource') + ' <span aria-hidden="true">↗</span></a><span class="library-card-location">' + (external ? 'Opens in a new tab' : 'Interactive tool · about 3 minutes') + '</span></div></article>';
 }).join('\n');
+const previews = catalogue.map((resource, index) => '<li id="' + esc(resource.slug) + '"><span class="preview-number">' + String(index+1).padStart(2,'0') + '</span><div><h3>' + esc(resource.title) + '</h3><span class="preview-format">' + esc(resource.format || resource.type) + '</span></div><span class="preview-included" aria-label="Included">✓</span></li>').join('\n');
+const libraryFAQ = libraryCopy.faq.map(item => '<details><summary>' + esc(item.question) + '</summary><p>' + esc(item.answer) + '</p></details>').join('\n');
 const types = Array.from(new Set(catalogue.map(resource => resource.type)));
 const typeLabels = { assessment: 'Assessments', guide: 'Guides', template: 'Templates', tool: 'Tools', 'tool list': 'Tools' };
 const filters = types.length < 2 ? '' : '<button type="button" data-resource-filter="all" aria-pressed="true">All</button>' + types.map(type => `<button type="button" data-resource-filter="${esc(type)}" aria-pressed="false">${esc(typeLabels[type] || type)}</button>`).join('');
 const itemListId = siteUrl + '/resources/#items';
 const libraryData = { '@context': 'https://schema.org', '@graph': [
-  { '@type': 'CollectionPage', '@id': siteUrl + '/resources/#page', url: siteUrl + '/resources/', name: 'Free B2B Go-to-Market Guides & Tools | The AI Business', description: 'Practical B2B go-to-market guides, AI workflows, a tool stack and a free assessment.', mainEntity: { '@id': itemListId } },
-  { '@type': 'ItemList', '@id': itemListId, numberOfItems: catalogue.length, itemListOrder: 'https://schema.org/ItemListOrderAscending', itemListElement: catalogue.map((resource, index) => ({ '@type': 'ListItem', position: index + 1, item: { '@type': 'CreativeWork', name: resource.title, description: resource.shortDescription, url: new URL(resource.pageUrl, siteUrl).href, image: new URL(resource.thumbnail, siteUrl).href } })) }
+  { '@type': 'Organization', '@id': siteUrl + '/#organization', name: 'The AI Business', url: siteUrl + '/' },
+  { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl + '/' }, { '@type': 'ListItem', position: 2, name: 'Resources', item: siteUrl + '/resources/' }] },
+  { '@type': 'CollectionPage', '@id': siteUrl + '/resources/#page', url: siteUrl + '/resources/', name: libraryCopy.seoTitle, description: libraryCopy.metaDescription, inLanguage: 'en', isAccessibleForFree: true, publisher: { '@id': siteUrl + '/#organization' }, about: ['B2B go-to-market', 'AI workflows', 'Sales preparation', 'AI search visibility'], mainEntity: { '@id': itemListId } },
+  { '@type': 'ItemList', '@id': itemListId, numberOfItems: catalogue.length, itemListOrder: 'https://schema.org/ItemListOrderAscending', itemListElement: catalogue.map((resource, index) => ({ '@type': 'ListItem', position: index + 1, item: { '@type': 'CreativeWork', name: resource.title, description: resource.shortDescription, url: new URL(resource.pageUrl.startsWith('/resources/') ? resource.pageUrl : '/resources/#' + resource.slug, siteUrl).href, image: new URL(resource.thumbnail, siteUrl).href } })) }
 ] };
 fs.writeFileSync(path.join(root, 'resources/index.html'), render(libraryTemplate, {
-  HEADER: header, FOOTER: footer, SIGNUP_FORM: signupForm, CARDS: cards, FILTERS: filters,
+  LIBRARY_FAQ: libraryFAQ, LIBRARY_SEO_TITLE: esc(libraryCopy.seoTitle), LIBRARY_META_DESCRIPTION: esc(libraryCopy.metaDescription),
+  HEADER: header, FOOTER: footer, SIGNUP_FORM: signupForm.replace('Get free access', 'Unlock the library'), CARDS: cards, PREVIEWS: previews, FILTERS: filters,
   RESOURCE_COUNT: String(catalogue.length), STRUCTURED_DATA: JSON.stringify(libraryData).replace(/</g, '\\u003c')
 }));
 console.log('Built /resources/ with ' + catalogue.length + ' catalogue cards.');

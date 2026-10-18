@@ -1,5 +1,13 @@
 (function () {
   'use strict';
+  const mobileCTA = document.querySelector('.library-mobile-cta');
+  const signup = document.getElementById('library-signup');
+  if (mobileCTA && signup && typeof IntersectionObserver === 'function') {
+    const observer = new IntersectionObserver(function (entries) {
+      mobileCTA.hidden = entries[0].isIntersecting;
+    }, { threshold: 0.1 });
+    observer.observe(signup);
+  }
   const filters = document.querySelector('.library-filters');
   if (!filters) return;
   const buttons = Array.from(filters.querySelectorAll('[data-resource-filter]'));
