@@ -1,6 +1,6 @@
 # Library redesign preview — 18 October 2026
 
-Status: local only; no commit, push or production deployment for this redesign.
+Current status: published and live-verified on 18 October 2026. See verification-step4-final.md for the final acceptance results. The sections below record the earlier local preview history.
 
 - Two views: public signup landing page with resource descriptions, and an unlocked catalogue library.
 - Direct access URLs were taken from the corresponding resource records in the Notion Content Assets database. All four Google Drive PDF viewers opened without signing in; the assessment uses the existing /score-your-gtm/ tool.
