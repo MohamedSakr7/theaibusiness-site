@@ -125,9 +125,8 @@ test('Use different details shows form again and the same email can be submitted
 });
 
 test('Generated page has static public content, unique metadata, matching JSON-LD and sitemap', () => {
-  const resource = JSON.parse(fs.readFileSync(path.join(rootPath, 'resources/catalogue.json')))[0];
+  const resource = JSON.parse(fs.readFileSync(path.join(rootPath, 'resources/catalogue.json'))).find(item => item.slug === 'score-your-gtm');
   const html = fs.readFileSync(path.join(rootPath, 'resources/score-your-gtm/index.html'), 'utf8');
-  assert.equal(JSON.parse(fs.readFileSync(path.join(rootPath, 'resources/catalogue.json'))).length, 1);
   assert.match(html, /<h1 id="resource-title">Score your go-to-market<\/h1>/);
   for (const text of [...resource.longDescription, ...resource.faq.map(item => item.question)]) assert.ok(html.includes(text.replace(/'/g, '&#39;')));
   assert.ok(html.includes('<title>' + resource.seoTitle + '</title>'));

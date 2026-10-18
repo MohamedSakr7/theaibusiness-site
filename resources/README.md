@@ -6,7 +6,7 @@ To add a resource:
 
 1. Copy the existing entry in `catalogue.json` and replace its slug, copy, type, button label, tool/download URL, thumbnail, date, SEO fields, inside/audience lists, and FAQ. Use a unique lowercase slug, for example `prepare-sales-calls`. Thumbnails can reuse an existing asset or use an HTTPS image URL.
 2. Run `node scripts/build-resources.cjs` from the repository folder. It creates `/resources/<slug>/index.html` from `templates/resource-page.html` and adds the sitemap entry automatically. Do not edit the generated HTML by hand.
-3. Run `node --test tests/resource-gate.test.cjs`, preview, then commit and publish the catalogue and generated output. The current scope test deliberately expects one resource; expand that assertion when adding the next resource.
+3. Run `node --test tests/resource-gate.test.cjs`, preview, then commit and publish the catalogue and generated output. Adding an entry does not require changes to the template, gate code, or tests.
 
 No per-resource JavaScript, manually copied gate, navigation edit, or hand-written sitemap entry is needed. The library and homepage navigation are unchanged in this step; a later library migration can read this catalogue.
 
