@@ -8,6 +8,7 @@ When the user asks to **add a new resource**, or update, replace, retire or audi
 - Build and test locally, show the concrete preview and wait for publication approval. Honor approval already given for that preview; do not repeatedly ask for routine steps covered by it.
 - Keep public copy specific: guide, assessment, toolkit or tool. Resources is the collection/navigation name.
 - Reuse the existing form, remembering and Apps Script bridge. Company website is the `company` request field and Notion `Company` text property; `website` is the hidden honeypot. Keep secrets in Apps Script Properties.
+- Preserve first-page attribution, per-email return markers and durable pending request IDs. When changing that contract, follow [apps-script/RELIABILITY-UPDATE.md](apps-script/RELIABILITY-UPDATE.md): the backend and Notion `Request IDs` text property must be ready before the retrying frontend is published.
 - Do not mark work complete until the applicable SOP checklist passes. Clearly distinguish a local preview, a published change and a verified live result.
 
 These instructions do not authorize unrelated website edits, messages, Notion changes or deletion of existing signup history.

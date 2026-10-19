@@ -8,6 +8,23 @@
 <meta property="og:description" content="Score your go-to-market in 3 minutes. Twelve questions, a score out of 100, and the one thing capping your growth.">
 <meta property="og:type" content="website">
 <title>Score Your Go-To-Market</title>
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://theaibusiness.net/resources/score-your-gtm/">
+<script src="/resource-config.js?v=1" defer></script>
+<script src="/resource-gate.js?v=5"></script>
+<script>
+  (function () {
+    // Keep an external arrival before the redirect becomes an internal visit.
+    window.ResourceGate.captureChannel(window);
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('embedded') !== '1') {
+      query.delete('embedded');
+      const search = query.toString();
+      window.location.replace('/resources/score-your-gtm/' + (search ? '?' + search : '') + window.location.hash);
+    }
+  })();
+</script>
+<noscript><meta http-equiv="refresh" content="0;url=/resources/score-your-gtm/"></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
@@ -286,42 +303,10 @@ footer b{color:var(--ink-dim)}
 <script>
 (function(){
   "use strict";
-  // The resource-page embed uses the existing website signup and sends no result emails.
-  var RESOURCE_EMBED = new URLSearchParams(window.location.search).get('embedded') === '1';
-
-  /* ============================================================
-     SUBMISSION EMAIL
-     Every completed test is emailed to the address below.
-     No account, no setup — the first submission sends you a
-     one-time confirmation email. Click the link in it once and
-     every result after that arrives automatically.
-     Leave empty and the test still works, it just emails nothing.
-     ============================================================ */
-  var NOTIFY_EMAIL = "moh.sakr.07@gmail.com";
-
-  function saveSubmission(payload){
-    if(RESOURCE_EMBED || !NOTIFY_EMAIL) return;
-    try{
-      fetch("https://formsubmit.co/ajax/" + encodeURIComponent(NOTIFY_EMAIL), {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(Object.assign({
-          _subject: "Scorecard: " + (payload.company || "unknown") +
-                    " scored " + payload.totalScore +
-                    " - " + payload.bottleneck,
-          _template: "table",
-          _captcha: "false"
-        }, payload))
-      });
-    }catch(e){ /* never block the viewer's result on a failed send */ }
-  }
-
   var ABOUT = {
-    key:"about", label:"You", title:"First, a bit about you",
-    blurb:"This shapes how your result is written.",
+    key:"about", label:"You", title:"About your business",
+    blurb:"Two context questions help shape your result.",
     fields:[
-      { id:"name", label:"Full name", placeholder:"Alex Morgan", autocomplete:"name", required:true },
-      { id:"email", label:"Work email", placeholder:"Your work email", type:"email", autocomplete:"email", required:true },
       { id:"company", label:"Company website", placeholder:"example.com", autocomplete:"url", inputmode:"url", required:false }
     ],
     questions:[
@@ -394,13 +379,6 @@ footer b{color:var(--ink-dim)}
       ] }
   ];
 
-  if (RESOURCE_EMBED) {
-    ABOUT.title = "About your business";
-    ABOUT.blurb = "Two context questions help shape your result.";
-    ABOUT.fields = ABOUT.fields.filter(function(field){ return field.id !== 'name' && field.id !== 'email'; });
-    ABOUT.fields.forEach(function(field){ field.required = false; });
-  }
-
   var VERDICT = {
     offer:{ head:"Your offer is the bottleneck", body:[
       "The problem is at the very start: <b>who this is for, and why they'd pick you</b>. Everything after it inherits that fuzziness.",
@@ -426,6 +404,14 @@ footer b{color:var(--ink-dim)}
   };
 
   var FIXES = {
+    none:[
+      { t:"Keep the parts working together",
+        b:"Keep reviewing your offer, marketing and sales numbers together. Watch for a stage starting to slip, and protect the routines that are already bringing good clients.",
+        w:"Replace a working process just because a new tool is available." },
+      { t:"Run one measured experiment",
+        b:"Choose one opportunity to improve: a sharper focus on your best clients, a channel that can compound, or AI that saves time in a proven workflow. Set a baseline, test one change and compare the result before scaling it.",
+        w:"Change several things at once. You need to know which change earned the improvement." }
+    ],
     offer:[
       { t:"Ask your customers, don't guess in a meeting",
         b:"Call five recent customers and five people who said no. Ask what else they were considering and what decided it. The answer is almost never what the team thinks it is. Write the pattern down as one sentence someone else could repeat back to you.",
@@ -593,7 +579,7 @@ footer b{color:var(--ink-dim)}
   function txt(id){ var field = document.getElementById("f_"+id); return field ? (field.value||"").trim() : ""; }
 
   function render(){
-    var who = { name:txt("name"), email:txt("email"), company:txt("company"), site:txt("site") };
+    var who = { company:txt("company") };
     var effKey = EFFORT_MAP[val("ab_eff")];
 
     var scores = {}, total = 0;
@@ -614,6 +600,9 @@ footer b{color:var(--ink-dim)}
     }
     var cKey = cArea ? cArea.key : "none";
     var v = VERDICT[cKey];
+    var bandNote = cArea && pct >= 83
+      ? "Your overall score is strong, but " + cArea.name.toLowerCase() + " is the weak spot. Focus there before fine-tuning the rest."
+      : band.note;
 
     function gauge(a, isMult){
       var s = scores[a.key], w = Math.round(s/6*100);
@@ -641,19 +630,19 @@ footer b{color:var(--ink-dim)}
       misHtml = '<div class="misalloc" style="border-left-color:var(--ok)"><span class="ml" style="color:var(--ok)">Worth noticing</span><p>Your effort is already going into your bottleneck — most companies\' isn\'t. So the question for you isn\'t <i>where</i> to work, it\'s <i>whether the approach is right</i>. Sustained effort on the correct problem should be showing up in the numbers by now.</p></div>';
     }
 
-    var fixes = (FIXES[cKey] || FIXES.data).map(function(f){
+    var fixes = FIXES[cKey].map(function(f){
       return '<div class="fix"><p class="ft">'+esc(f.t)+'</p><p class="fb">'+esc(f.b)+'</p>'+
         '<div class="warn"><span class="wl">Don\'t</span><span>'+esc(f.w)+'</span></div></div>';
     }).join("");
 
     document.getElementById("result").innerHTML =
-      '<div class="rhead"><p class="for">'+(RESOURCE_EMBED ? (who.company ? 'Result for '+esc(who.company) : 'Your assessment result') : 'Result for '+esc(who.name)+' at '+esc(who.company))+(who.site?' · '+esc(who.site):'')+'</p>'+
+      '<div class="rhead"><p class="for">'+(who.company ? 'Result for '+esc(who.company) : 'Your assessment result')+'</p>'+
       '<h2>Your score</h2></div>'+
 
       '<div class="scorestrip"><div><span class="sn">'+pct+'</span><span class="sl">OUT OF 100</span></div>'+
-      '<div class="sv"><b>'+esc(band.band)+'</b><span>'+esc(band.note)+'</span></div></div>'+
+      '<div class="sv"><b>'+esc(band.band)+'</b><span>'+esc(bandNote)+'</span></div></div>'+
 
-      '<div class="headline"><p class="hk">The one thing holding you back most</p>'+
+      '<div class="headline"><p class="hk">'+(cArea ? 'The one thing holding you back most' : 'What your result means')+'</p>'+
         '<p class="hn">'+esc(v.head)+'</p>'+
         v.body.map(function(p){ return '<p>'+p+'</p>'; }).join("")+
       '</div>'+
@@ -666,30 +655,14 @@ footer b{color:var(--ink-dim)}
       '<p class="glabel" style="margin-top:18px">Two things that affect all four</p>'+
       '<div class="gauges" style="margin-bottom:30px">'+ mults.map(function(a){return gauge(a,true);}).join("") +'</div>'+
 
-      '<h3 class="sec">Do these two things first</h3>'+ fixes +
+      '<h3 class="sec">'+(cArea ? 'Do these two things first' : 'Your next two moves')+'</h3>'+ fixes +
 
       '<div class="cta noprint"><h4>Want this checked properly?</h4>'+
       '<p>This assessment scores twelve answers about your business. A full audit looks at the same six areas against what your marketing and sales actually do — your real numbers, your real sequences — and gives you the same verdict backed by evidence instead of self-assessment. If your result here surprised you, that gap is usually where the money is.</p>'+
       '<div class="btnrow"><button class="btn" id="save">Download as PDF</button>'+
       '<button class="btn ghost" id="again">Start over</button></div></div>';
 
-    // ---- save the submission ----
-    var record = {
-      submittedAt: new Date().toISOString(),
-      name: who.name, email: who.email, company: who.company, website: who.site,
-      revenueBand: ABOUT.questions[0].opts[val("ab_rev")][0],
-      effortGoesTo: ABOUT.questions[1].opts[val("ab_eff")][0],
-      totalScore: pct, band: band.band,
-      bottleneck: cArea ? cArea.name : "None",
-      bottleneckHeadline: v.head
-    };
-    AREAS.forEach(function(a){
-      record["score_" + a.key] = scores[a.key];
-      a.questions.forEach(function(q,qi){
-        record["a_" + a.key + "_" + (qi+1)] = q.opts[val(a.key+"_"+qi)][0];
-      });
-    });
-    saveSubmission(record);
+
 
     document.getElementById("foot").hidden = false;
     document.getElementById("mastheadMeta").textContent = "Your result";

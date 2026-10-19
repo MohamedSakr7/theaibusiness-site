@@ -78,6 +78,7 @@ function environment() {
         row.properties['Promote to CRM'] = { checkbox: false };
         row.properties.Notes = { rich_text: [] };
         state.rows.push(row);
+        if (state.failAfterWrite) { state.failAfterWrite = false; throw Error('Simulated reply lost after create'); }
         return response(200, clone(row));
       }
       if (requestPath.startsWith('/pages/')) {
@@ -85,6 +86,7 @@ function environment() {
         const row = state.rows.find(item => '/pages/' + item.id === requestPath);
         assert.ok(row);
         Object.assign(row.properties, properties(payload.properties));
+        if (state.failAfterWrite) { state.failAfterWrite = false; throw Error('Simulated reply lost after update'); }
         return response(200, clone(row));
       }
       throw Error('Unexpected API path: ' + requestPath);
@@ -93,6 +95,7 @@ function environment() {
   vm.runInContext(source, context);
   return { state, context, post: body => JSON.parse(context.doPost({ postData: { contents: JSON.stringify(body) } }).text) };
 }
+if (require.main === module) {
 const signup = (extra = {}) => ({ type: 'signup', email: 'test+1@theaibusiness.net', name: 'Original Name',
   source: 'score-your-gtm', resource: 'score-your-gtm', channel: 'LinkedIn', ...extra });
 let passed = 0;
@@ -228,3 +231,5 @@ test('Supplied six-test live runner works end to end against the offline API sim
   assert.equal(env.state.rows[0].properties.Signups.number, 4);
 });
 console.log('\n' + passed + ' offline test groups passed. Live Notion and browser tests still require deployment.');
+}
+module.exports = { environment };

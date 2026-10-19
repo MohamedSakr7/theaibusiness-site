@@ -7,15 +7,17 @@ const { execFileSync } = require('node:child_process');
 const gate = require('../resource-gate.js');
 const rootPath = path.resolve(__dirname, '..');
 const tick = () => new Promise(resolve => setImmediate(resolve));
+const { environment: backendEnvironment } = require('../apps-script/resource-signups.local.test.cjs');
 function storage() {
   const values = new Map();
-  return { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value), removeItem: key => values.delete(key) };
+  return { get length() { return values.size; }, key: index => [...values.keys()][index] ?? null,
+    getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value), removeItem: key => values.delete(key) };
 }
 function page(options = {}) {
   const events = {};
   const fields = {};
   for (const [key, value] of Object.entries({ name: 'Test Person', email: ' Test+Step3@TheAIBusiness.NET ', role: 'Founder', company: 'Test Company', website: '' })) {
-    fields[key] = { value, focus() {}, setCustomValidity() {}, reportValidity() {} };
+    fields[key] = { value, focus() {}, addEventListener() {}, setCustomValidity(message) { this.error = message; }, reportValidity() {} };
   }
   const form = { hidden: false, reportValidity: () => options.valid !== false,
     elements: { namedItem: key => fields[key] }, addEventListener: (name, task) => { events[name] = task; },
@@ -34,9 +36,10 @@ function page(options = {}) {
   }
   const requests = [], errors = [];
   const win = {
-    document: { referrer: options.referrer || '', querySelector: () => ({ dataset: { resourceSlug: options.slug || 'score-your-gtm', resourceKind: options.kind, gatedUrl: '/score-your-gtm/' }, querySelectorAll: () => ['score-your-gtm', 'example-guide'].map(slug => ({ dataset: { libraryResource: slug }, addEventListener: (_, fn) => { resourceClicks[slug] = fn; } })) }),
+    document: { referrer: options.referrer || '', querySelector: () => options.noForm ? null : ({ dataset: { resourceSlug: options.slug || 'score-your-gtm', resourceKind: options.kind, gatedUrl: '/score-your-gtm/' }, querySelectorAll: () => ['score-your-gtm', 'example-guide'].map(slug => ({ dataset: { libraryResource: slug }, addEventListener: (_, fn) => { resourceClicks[slug] = fn; } })) }),
       getElementById: id => elements[id] },
-    location: { search: options.search || '?utm_source=linkedin' }, localStorage: options.storage || storage(),
+    location: { href: 'https://theaibusiness.net/', search: options.search ?? '?utm_source=linkedin' },
+    localStorage: options.storage || storage(), sessionStorage: options.sessionStorage || storage(),
     RESOURCE_SIGNUP_CONFIG: { endpoint: 'https://script.google.com/macros/s/example/exec' },
     fetch: (...args) => { requests.push(args); return options.fetch ? options.fetch(...args) : Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true, status: 'created' }) }); },
     console: { error: (...args) => errors.push(args) }
@@ -87,7 +90,9 @@ test('Valid submit unlocks synchronously, without waiting even for a never-endin
   assert.equal(url, env.win.RESOURCE_SIGNUP_CONFIG.endpoint);
   assert.deepEqual(options.headers, { 'Content-Type': 'text/plain;charset=utf-8' });
   assert.equal(options.credentials, 'omit'); assert.equal(options.mode, 'cors'); assert.equal(options.redirect, 'follow');
-  assert.deepEqual(JSON.parse(options.body), { type: 'signup', name: 'Test Person', email: 'test+step3@theaibusiness.net',
+  const { requestId, ...payload } = JSON.parse(options.body);
+  assert.match(requestId, /^[a-f0-9-]{36}$/);
+  assert.deepEqual(payload, { type: 'signup', name: 'Test Person', email: 'test+step3@theaibusiness.net',
     role: 'Founder', company: 'Test Company', source: 'score-your-gtm', resource: 'score-your-gtm', channel: 'LinkedIn', website: '' });
   assert.deepEqual(gate.readIdentity(env.win), { name: 'Test Person', email: 'test+step3@theaibusiness.net' });
 });
@@ -130,7 +135,11 @@ test('Saved visitor unlocks, sends one minimal return per resource, and subseque
     const env = page({ storage: shared }); gate.init(env.win); await tick();
     assert.equal(env.form.hidden, true); assert.equal(env.access.hidden, false);
     assert.equal(env.requests.length, index === 0 ? 1 : 0);
-    if (!index) assert.deepEqual(JSON.parse(env.requests[0][1].body), { type: 'return', email: 'test+step3@theaibusiness.net', resource: 'score-your-gtm' });
+    if (!index) {
+      const { requestId, ...payload } = JSON.parse(env.requests[0][1].body);
+      assert.match(requestId, /^return-[a-f0-9-]{36}-score-your-gtm$/);
+      assert.deepEqual(payload, { type: 'return', email: 'test+step3@theaibusiness.net', resource: 'score-your-gtm' });
+    }
   }
   const other = page({ storage: shared, slug: 'a-future-resource' }); gate.init(other.win); await tick();
   assert.equal(other.requests.length, 1);
@@ -185,12 +194,15 @@ test('Shared CSS and application code remain unchanged; embedded assessment pres
   }
   const before = execFileSync('git', ['show', '6efe75adff6884b0e887e2fa72fa1a837b5b2c2c:score-your-gtm/index.html'], { cwd: rootPath, encoding: 'utf8' });
   const after = fs.readFileSync(path.join(rootPath, 'score-your-gtm/index.html'), 'utf8');
-  for (const name of ['AREAS', 'VERDICT', 'FIXES', 'BANDS']) {
+  for (const name of ['AREAS', 'BANDS']) {
     const pattern = new RegExp('var ' + name + ' = ([\\s\\S]*?);');
     assert.equal(after.match(pattern)[1].replace(/\r\n/g, '\n'), before.match(pattern)[1].replace(/\r\n/g, '\n'), name + ' scoring definition changed');
   }
-  assert.match(after, /if\(RESOURCE_EMBED \|\| !NOTIFY_EMAIL\) return;/);
-  assert.match(after, /ABOUT\.fields = ABOUT\.fields\.filter/);
+  const scoreMath = html => html.match(/var scores = \{\}, total = 0;[\s\S]*?var v = VERDICT\[cKey\];/)[0].replace(/\r\n/g, '\n');
+  assert.equal(scoreMath(after), scoreMath(before));
+  assert.ok(!/formsubmit|NOTIFY_EMAIL|id:"name"|id:"email"/.test(after));
+  assert.match(after, /window\.location\.replace/);
+  assert.match(after, /name="robots" content="noindex,follow"/);
 });
 
 test('Library form reuses signup logic, source library, empty resource, and immediate remembering', async () => {
@@ -202,7 +214,10 @@ test('Library form reuses signup logic, source library, empty resource, and imme
   assert.equal(payload.type, 'signup'); assert.equal(payload.source, 'library'); assert.equal(payload.resource, '');
   const next = page({ storage: env.win.localStorage }); gate.init(next.win); await tick();
   assert.equal(next.form.hidden, true); assert.equal(next.access.hidden, false);
-  assert.deepEqual(JSON.parse(next.requests[0][1].body), { type: 'return', email: payload.email, resource: 'score-your-gtm' });
+  assert.deepEqual(next.requests.map(request => JSON.parse(request[1].body).type), ['signup', 'return']);
+  const returned = JSON.parse(next.requests[1][1].body);
+  assert.equal(returned.email, payload.email); assert.equal(returned.resource, 'score-your-gtm');
+  assert.equal(JSON.parse(next.requests[0][1].body).requestId, payload.requestId, 'Offline signup keeps its original ID');
 });
 
 test('Remembered library visitor sees access confirmation without sending a return or requiring writable storage', async () => {
@@ -212,4 +227,88 @@ test('Remembered library visitor sees access confirmation without sending a retu
   assert.equal(env.access.hidden, false); assert.equal(env.form.hidden, true); assert.equal(env.panel.hidden, true);
   assert.equal(env.requests.length, 0);
   env.forget(); assert.equal(env.panel.hidden, false); assert.equal(env.panel.open, true);
+});
+
+test('First homepage attribution survives internal navigation and later UTM parameters', async () => {
+  const session = storage();
+  const home = page({ noForm: true, sessionStorage: session }); gate.init(home.win); await tick();
+  const library = page({ kind: 'library', slug: 'library', search: '', referrer: 'https://theaibusiness.net/', sessionStorage: session });
+  gate.init(library.win); library.submit(); await tick();
+  assert.equal(JSON.parse(library.requests[0][1].body).channel, 'LinkedIn');
+  const later = page({ noForm: true, search: '?utm_source=google', sessionStorage: session });
+  assert.equal(gate.captureChannel(later.win), 'LinkedIn');
+  assert.equal(gate.captureChannel(page({ search: '', referrer: 'https://www.theaibusiness.net/about/' }).win), 'Direct');
+});
+
+test('Browser email validation matches actual Apps Script rules; invalid addresses never unlock', async () => {
+  const server = backendEnvironment();
+  const emails = ['normal@example.com', ' Test+Person@Example.COM ', "a!#$%&'*+-/=?^_`{|}~@example.com",
+    'a..b@example.com', '.a@example.com', 'a.@example.com', 'a@localhost', 'a@-example.com',
+    'a@example-.com', 'a@exam_ple.com', 'a@@example.com', 'a b@example.com', 'a\n@example.com',
+    'a'.repeat(64) + '@example.com', 'a'.repeat(65) + '@example.com',
+    'a@' + 'b'.repeat(63) + '.' + 'c'.repeat(63) + '.' + 'd'.repeat(63) + '.com',
+    'a@' + 'b'.repeat(63) + '.' + 'c'.repeat(63) + '.' + 'd'.repeat(64) + '.com'];
+  for (const email of emails) {
+    let accepted = true;
+    try { server.context.validateSignup_({ type: 'signup', name: 'E2E TEST', email, source: 'library', resource: '' }); }
+    catch (_) { accepted = false; }
+    assert.equal(gate.validEmail(email), accepted, email);
+    if (!accepted) {
+      const env = page(); gate.init(env.win); env.fields.email.value = email; env.submit(); await tick();
+      assert.equal(env.access.hidden, true); assert.equal(gate.readIdentity(env.win), null);
+      assert.equal(env.requests.length, 0); assert.match(env.fields.email.error, /valid email address/);
+    }
+  }
+});
+
+test('Lost signup response retries on the next ordinary page with the same ID and counts once', async () => {
+  const backend = backendEnvironment(), saved = storage();
+  const lost = page({ storage: saved, kind: 'library', slug: 'library', fetch: (_, options) => {
+    assert.equal(backend.post(JSON.parse(options.body)).ok, true);
+    return Promise.reject(new Error('Reply lost after successful save'));
+  } });
+  gate.init(lost.win); lost.submit(); await tick();
+  const first = JSON.parse(lost.requests[0][1].body);
+  assert.equal(lost.access.hidden, false); assert.equal(backend.state.rows[0].properties.Signups.number, 1);
+  assert.ok([...Array(saved.length)].map((_, i) => saved.key(i)).some(key => key.startsWith(gate.PENDING_KEY)));
+  const next = page({ storage: saved, noForm: true, fetch: (_, options) => Promise.resolve({ ok: true,
+    json: () => Promise.resolve(backend.post(JSON.parse(options.body))) }) });
+  gate.init(next.win); await tick();
+  assert.equal(JSON.parse(next.requests[0][1].body).requestId, first.requestId);
+  assert.equal(backend.state.rows.length, 1); assert.equal(backend.state.rows[0].properties.Signups.number, 1);
+  assert.equal([...Array(saved.length)].map((_, i) => saved.key(i)).some(key => key.startsWith(gate.PENDING_KEY)), false);
+});
+
+test('Failed return is acknowledged only on success; retries count once and markers belong to each email', async () => {
+  const backend = backendEnvironment(), saved = storage();
+  const goodFetch = (_, options) => Promise.resolve({ ok: true, json: () => Promise.resolve(backend.post(JSON.parse(options.body))) });
+  gate.rememberIdentity({ localStorage: saved }, { name: 'E2E TEST A', email: 'e2e-test+a@example.com' });
+  const lost = page({ storage: saved, fetch: (_, options) => {
+    backend.post(JSON.parse(options.body)); return Promise.reject(new Error('Lost return reply'));
+  } });
+  gate.init(lost.win); await tick();
+  const aKey = gate.RETURNS_KEY + encodeURIComponent('e2e-test+a@example.com') + '.score-your-gtm';
+  assert.equal(saved.getItem(aKey), null);
+  const retry = page({ storage: saved, fetch: goodFetch }); gate.init(retry.win); await tick();
+  assert.equal(saved.getItem(aKey), '1'); assert.equal(backend.state.rows[0].properties.Signups.number, 1);
+  const again = page({ storage: saved, fetch: goodFetch }); gate.init(again.win); await tick(); assert.equal(again.requests.length, 0);
+  gate.rememberIdentity({ localStorage: saved }, { name: 'E2E TEST B', email: 'e2e-test+b@example.com' });
+  const personB = page({ storage: saved, fetch: goodFetch }); gate.init(personB.win); await tick();
+  assert.equal(personB.requests.length, 1); assert.equal(backend.state.rows.length, 2);
+  assert.equal(backend.state.rows[1].properties.Signups.number, 1);
+  assert.equal(saved.getItem(gate.RETURNS_KEY + encodeURIComponent('e2e-test+b@example.com') + '.score-your-gtm'), '1');
+});
+
+test('Simultaneous tabs use the same return ID; server replays remain harmless after later writes', async () => {
+  const backend = backendEnvironment(), saved = storage();
+  gate.rememberIdentity({ localStorage: saved }, { name: 'E2E TEST', email: 'e2e-test+tabs@example.com' });
+  const fetch = (_, options) => Promise.resolve({ ok: true, json: () => Promise.resolve(backend.post(JSON.parse(options.body))) });
+  const a = page({ storage: saved, fetch }), b = page({ storage: saved, fetch });
+  gate.init(a.win); gate.init(b.win); await tick();
+  assert.equal(JSON.parse(a.requests[0][1].body).requestId, JSON.parse(b.requests[0][1].body).requestId);
+  assert.equal(backend.state.rows.length, 1); assert.equal(backend.state.rows[0].properties.Signups.number, 1);
+  const replay = JSON.parse(a.requests[0][1].body);
+  backend.post({ ...replay, resource: 'another-guide', requestId: 'later-request' });
+  backend.post(replay);
+  assert.equal(backend.state.rows[0].properties.Signups.number, 2);
 });

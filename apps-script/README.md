@@ -4,6 +4,8 @@ Google Apps Script bridge: static website → web app → Notion. No Google Shee
 The bridge is deployed. All six live tests passed on 18 October 2026, confirmed by the execution log shared in this chat.
 The resource-page frontend uses the public endpoint in `../resource-config.js`.
 
+The reliability update adds request-ID deduplication and requires a `Request IDs` text property in Notion. It keeps the latest **20 IDs per person**, hidden from the two working views. Follow [RELIABILITY-UPDATE.md](RELIABILITY-UPDATE.md) for coordinated deployment; backend first, frontend second. The historical six-test result below predates this update; see the publication report for its live results.
+
 | File | Purpose |
 | --- | --- |
 | [resource-signups.gs](resource-signups.gs) | Paste into Apps Script's Code.gs. |

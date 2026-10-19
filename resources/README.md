@@ -8,7 +8,7 @@ Follow [SOP.md](SOP.md) for the complete source review, approval, publication an
 
 1. Add a complete entry following the existing examples, including the public copy, metadata, cover, delivery, related links and manual order. Every published guide/tool should have its own `/resources/<slug>/` page.
 2. Run `node scripts/build-resources.cjs`. This generates the library cards, filters, CollectionPage/ItemList metadata and enabled resource pages. It retains the library sitemap entry.
-3. Run `node --test tests/resource-gate.test.cjs tests/resource-library.test.cjs tests/resource-viewer.test.cjs`, preview and publish the source and generated output after approval.
+3. Run `node --test tests/resource-*.test.cjs`, preview and publish the source and generated output after approval.
 
 Cards use **manual order**, lowest number first; current entries are numbered 10–90. The order is assessment → ten-workflow overview → complete GTM plan → AI visibility → homepage → sales calls → lost deals → channels → tool stack. This moves from diagnosis and planning through attracting/converting buyers, reviewing results and choosing supporting tools. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
 
@@ -20,7 +20,7 @@ For a complete page, copy a full catalogue entry. Include `longDescription` para
 
 For Google Drive PDFs, `resourceUrl` and `accessUrl` use `https://drive.google.com/file/d/FILE_ID/view`; `viewerUrl` uses the same path ending `/preview`; `gatedUrl` uses `https://drive.google.com/uc?export=download&id=FILE_ID`. Check anonymous sharing. Set `delivery` to `pdf`, `buttonLabel` to `Download PDF`, and accurate image dimensions/alt text. Optional `attachments` contain `label` and `url`, such as the homepage guide's skill ZIP.
 
-The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and library destination. That mode removes the second name/email form, leaves Company website optional and disables the legacy submission email. Scoring definitions remain intact. The builder extracts its twelve questions for public HTML without copying answer options or result definitions. The library image is a screenshot of the real tool; all eight PDFs use their actual first-page covers.
+The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and library destination. Its old contact form and FormSubmit code have been removed entirely. Company website is optional context only. Without `embedded=1`, a browser redirect sends visitors to the public landing page, retaining other query parameters and the hash. The implementation URL is noindex with the public landing page as canonical. Scoring definitions remain intact. The builder extracts its twelve questions for public HTML without copying answer options or result definitions. The library image is a screenshot of the real tool; all eight PDFs use their actual first-page covers.
 
 ## Shared pieces
 
@@ -39,15 +39,21 @@ The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and libr
 
 Valid submission unlocks immediately, before storage/network work. Errors are console-only. The library sends `type: signup`, `source: library`, `resource: ""`; detail pages send their slug for source and resource. Both use JSON sent as `text/plain;charset=utf-8`, with no custom headers or browser credentials. No email is sent by the gate.
 
-Name and normalized email use the existing `aib.resource-visitor.v1` browser storage key. The library hides its landing/form view and shows the unlocked resource catalogue. Revisiting the library does not send a silent return. A remembered detail-page visit skips the form and sends one minimal return per resource/browser, marked in `aib.resource-returns.v1`. Storage failures fall back to the form; network failures never remove access. **Use different details** clears the identity and opens the form again.
+Name and normalized email use the existing `aib.resource-visitor.v1` browser storage key. The library hides its landing/form view and shows the unlocked resource catalogue. Revisiting the library does not send a silent return. A remembered detail-page visit skips the form and sends one return per email/resource/browser. Successful returns use individual `aib.resource-returns.v2.<encoded-email>.<slug>` keys. Old unscoped v1 markers are ignored because they cannot identify the person. Storage failures fall back to the form; network failures never remove access. **Use different details** clears the identity and opens the form again without erasing other people's history.
 
 Remembering is limited to this website/browser, not an account login. Library buttons open the original guides on Google Drive or the assessment directly; no Beehiiv gate is involved. Direct library clicks send one silent return per resource/browser, using the same marker as detail-page visits. This is a client-side access gate, not private-file hosting.
 
-Channel is captured on landing: utm_source first, then referrer, otherwise Direct. Unknown values become Other. ChatGPT, Perplexity, Gemini, Claude and Copilot map to AI search.
+The shared gate/config scripts load on every site page. Channel is captured on the first page of the tab's visit: utm_source first, then external referrer, otherwise Direct. `aib.resource-channel.v1` in sessionStorage preserves it through internal navigation; our own hostname never replaces a saved source. Unknown values become Other. ChatGPT, Perplexity, Gemini, Claude and Copilot map to AI search. A fresh tab/session starts a new attribution visit; blocking sessionStorage prevents retention across pages.
+
+Email validation uses the same rules as Apps Script, including the 200-character maximum. Invalid addresses show an error, never unlock and are not remembered.
+
+Requests carry a `requestId`. Pending payloads use separate `aib.resource-pending.v1.<encoded-email>.<requestId>` localStorage keys and retry once on each later page load. Signups flush before returns to preserve first-touch details. Only an `{ok:true}` response clears a pending request and marks a return done. Return IDs use the browser ID in `aib.resource-browser.v1` plus the slug, scoped to the email's row. The backend saves request IDs with the count in Notion's `Request IDs` text property and ignores repeats, including when the original reply was lost. See [the coordinated deployment steps](../apps-script/RELIABILITY-UPDATE.md): deploy the backend before publishing this frontend. If browser storage is blocked/full, immediate access and an in-memory send still work, but persistence across page loads is unavailable.
 
 ## Verification
 
-Run `node scripts/preview.cjs 4186 --mock-signups`, then open `http://127.0.0.1:4186/resources/`. This explicit local preview mode substitutes a localhost signup endpoint in the served config, so reviewing forms does not write to Notion. `/__preview-signups` shows request type, source and resource without retaining names or emails. The production config file is unchanged. Without this flag, the preview uses the real signup service.
+The request-ID field retains only the latest **20 IDs per person**, and is hidden from **All signups** and **To review**. Duplicate protection applies to that recent window; replaying an ID after 20 newer accepted requests can count again. Do not describe this as unlimited historical deduplication.
+
+Run `node scripts/preview.cjs 4186 --mock-signups`, then open `http://127.0.0.1:4186/resources/`. This explicit local preview mode substitutes a localhost signup endpoint and runs the actual Apps Script code against an in-memory Notion simulator, so reviewing forms does not write to Notion. `/__preview-signups` shows request IDs, channel, source, resource and simulated counts without displaying names or emails. Synthetic identities exist only in the process's memory until it stops. The production config file is unchanged. Without this flag, the preview uses the real signup service.
 
 Check all cards and filters, library signup (First source = library, initially no resource tag), remembered assessment access and its return, remembered library confirmation, every page's Resources link, and desktop/mobile layout. Inspect console/network for CORS errors and preflight requests. Delete temporary Notion rows and clear only the resource-gate test browser keys afterwards.
 

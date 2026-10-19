@@ -73,7 +73,11 @@ test('All existing navigation becomes a direct Resources link; other page conten
     assert.equal(html.match(/<footer\b[\s\S]*?<\/footer>/)[0], old.match(/<footer\b[\s\S]*?<\/footer>/)[0], file + ' footer changed');
     const newsletterLinks = source => [...source.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>Newsletter[\s\S]*?<\/a>/g)].map(match => match[1]);
     assert.deepEqual(newsletterLinks(html), newsletterLinks(old), file + ' newsletter links changed');
-    if (!file.startsWith('resources/')) assert.equal(normalize(html), normalize(simplifyNavigation(old)), file + ' changed beyond nav');
+    if (!file.startsWith('resources/')) {
+      const withoutTracking = html.replace('<script src="/resource-config.js?v=1" defer></script><script src="/resource-gate.js?v=5" defer></script>', '');
+      assert.equal(normalize(withoutTracking), normalize(simplifyNavigation(old)), file + ' changed beyond nav/tracking');
+      assert.equal((html.match(/src="\/resource-gate\.js\?v=5"/g) || []).length, 1);
+    }
   }
 });
 

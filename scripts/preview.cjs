@@ -5,6 +5,7 @@ const root = path.resolve(__dirname, '..');
 const port = Number(process.argv[2] || 4175);
 const mockSignups = process.argv.includes('--mock-signups');
 const previewRequests = [];
+const signupSimulator = mockSignups ? require('../apps-script/resource-signups.local.test.cjs').environment() : null;
 const types = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.xml': 'application/xml' };
 http.createServer((req, res) => {
   // Explicit local-only UI testing mode. Production configuration is never edited.
@@ -23,10 +24,15 @@ http.createServer((req, res) => {
       req.on('end', () => {
         try {
           const input = JSON.parse(body);
+          const result = signupSimulator.post(input);
           previewRequests.push({ type: input.type, source: input.source, resource: input.resource,
-            namePresent: !!input.name, emailPresent: !!input.email, channel: input.channel });
+            namePresent: !!input.name, emailPresent: !!input.email, channel: input.channel, requestId: input.requestId,
+            result: result, rows: signupSimulator.state.rows.map(row => ({ id: row.id,
+              signups: row.properties.Signups.number, source: row.properties['First source'].select.name,
+              channel: row.properties.Channel.select.name,
+              resources: row.properties['Resources taken'].multi_select.map(tag => tag.name) })) });
           res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ ok: true, status: input.type === 'signup' ? 'created' : 'updated' }));
+          res.end(JSON.stringify(result));
         } catch (_) { res.writeHead(400); res.end(); }
       });
       return;

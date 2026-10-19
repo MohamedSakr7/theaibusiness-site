@@ -59,7 +59,7 @@ test('PDF guides use the Guides filter and interactive assessments use Assessmen
 
 test('Public assessment exposes the twelve real questions without answer options or result definitions', () => {
   const source = read('score-your-gtm/index.html');
-  const literal = source.match(/var AREAS = ([\s\S]*?);\s*if \(RESOURCE_EMBED\)/)[1];
+  const literal = source.match(/var AREAS = ([\s\S]*?);\s*var VERDICT/)[1];
   const areas = vm.runInNewContext('(' + literal + ')');
   const html = read('resources/score-your-gtm/index.html');
   const publicQuestions = html.match(/<section class="resource-public-questions"[\s\S]*?<\/section>/)[0];

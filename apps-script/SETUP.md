@@ -2,6 +2,8 @@
 
 The bridge is deployed and its six live tests passed on 18 October 2026. These instructions remain available for setup or redeployment. Notion is the only signup store; no Google Sheet is used.
 
+For the pending request-ID reliability update, follow [RELIABILITY-UPDATE.md](RELIABILITY-UPDATE.md) first. The source now requires one additional Notion property: **Request IDs — Text**. Deploy that backend before publishing the retrying website.
+
 - `resource-signups.gs`: paste into Apps Script's `Code.gs`.
 - `resource-signups-tests.gs`: paste into a second Apps Script file called `Tests.gs`.
 - `resource-signups.local.test.cjs`: offline tests; run `node apps-script/resource-signups.local.test.cjs` locally. Do not paste this file into Apps Script.
@@ -32,7 +34,7 @@ The database ID is `31720da1-b01a-4e1b-b239-b5a922f2e6d8`; it is not the value o
 2. In the function dropdown at the top, select **checkConfiguration** and click **Run**.
 3. Click **Review permissions**, choose the project owner's Google account, and allow the permissions needed to contact Notion.
 4. If Google displays an unverified-app screen for this project you just created, select **Advanced → Go to Resource Signups** to continue to its permission screen.
-5. The execution log should say **Configuration and all 12 property types verified. No records were written.**
+5. The execution log should say **Configuration and all 13 property types verified. No records were written.**
 
 If Notion returns 401, check the token. For 403/404, check the data source ID and that the **Resource Signups** Notion connection has Read, Update, and Insert content enabled and is connected to the database.
 
@@ -129,14 +131,14 @@ await sendResourceSignup('PASTE_YOUR_EXEC_URL_HERE', {
 
 Expect the readable error **Name is required for signup requests.** No row is written. In Network, expect a POST and its redirect, with **no OPTIONS request**. This proves the browser can receive the JSON too, not only send the POST. Run it after the six tests so it does not confuse their cleanup.
 
-If the browser reports CORS or returns HTML, inspect the deployment's anonymous access and `/exec` URL first. The script cannot set arbitrary CORS headers. Do not switch to `mode: 'no-cors'`: it gives an opaque response and cannot confirm a saved signup. Avoid automatic retries after a network/CORS error: a write might already have committed.
+If the browser reports CORS or returns HTML, inspect the deployment's anonymous access and `/exec` URL first. The script cannot set arbitrary CORS headers. Do not switch to `mode: 'no-cors'`: it gives an opaque response and cannot confirm a saved signup. The shared website gate queues failed requests and retries on the next page load with the SAME `requestId`. Deploy the updated backend first: it ignores IDs already saved in the row's `Request IDs` property, even if the earlier write committed but its reply was lost. A new intentional signup uses a new ID. Legacy callers may omit the ID during rollout; they must not retry uncertain writes automatically.
 
 ## Rules and limits
 
 - Email is trimmed and lowercased, but plus-addresses are preserved. Required fields are checked before acquiring the script lock. All reads and writes for each signup share that lock, released even on failure. Use one Apps Script project for every form; other projects and manual Notion edits do not share its lock. Two submissions may increment Signups twice, but must use the same row.
 - Existing data: union resource tags, increment Signups, refresh Last seen, fill only empty Name/Role/Company. A return never supplies a Name. First source, First seen, Channel, Promote to CRM, Notes, and Email are never patched.
 - New return for an unknown email: create a row with an empty Name, First source derived from resource if source is absent, Channel = Other if absent, and count 1. A later signup fills the Name. A library signup has no resource tag; it does not enumerate all resources.
-- Limits (raw string characters, before trimming): body 8192; type 6; email 254 (local part 64); name/role/company 200 each; source/resource 100 each; channel 50; website 200 for a normal request. Source/resource must be lowercase letter/number slugs with hyphens. Optional values may be absent, empty, or null. Names support Unicode; email validation accepts conventional ASCII addresses, not every quoted/internationalized mailbox syntax. Controls, unknown keys, non-string field values, and invalid email syntax are rejected. Any nonempty honeypot value, including whitespace, short-circuits to success within the body limit.
+- Limits (raw string characters, before trimming): body 8192; type 6; email 200 (local part 64); name/role/company 200 each; source/resource 100 each; channel 50; website 200 for a normal request; requestId 160. Request IDs use lowercase letters, numbers and hyphens. Source/resource must be lowercase letter/number slugs with hyphens. Optional values may be absent, empty, or null. Names support Unicode; email validation accepts conventional ASCII addresses, not every quoted/internationalized mailbox syntax. Controls, unknown keys, non-string field values, and invalid email syntax are rejected. Any nonempty honeypot value, including whitespace, short-circuits to success within the body limit.
 - Unknown/missing channel becomes Other. Signups start at 1. Missing old counts are treated as 0; invalid negative/fractional counts are rejected. Existing duplicate email matches stop the operation for manual review. More than 100 resource tags fails without dropping existing tags.
 - New select/multi-select option names are sent by name; Notion creates them automatically when the connection has write access to the parent data source. Existing options are retained by ID. No destructive schema updates are used.
 - Notion 429 responses respect Retry-After within a bounded wait; safe lookup 5xx responses are retried. Uncertain writes are not automatically replayed. The script lock prevents concurrent writes from this project, but is not a database-wide uniqueness constraint or a transaction with Notion. No submission-id protocol is added, so uncertain network outcomes still require checking the row.

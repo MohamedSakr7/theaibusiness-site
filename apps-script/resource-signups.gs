@@ -2,14 +2,14 @@
 const NOTION_API_VERSION_ = '2026-03-11';
 const NOTION_API_ROOT_ = 'https://api.notion.com/v1';
 const SIGNUP_LIMITS_ = Object.freeze({
-  type: 6, email: 254, name: 200, role: 200, company: 200,
-  source: 100, resource: 100, channel: 50, website: 200
+  type: 6, email: 200, name: 200, role: 200, company: 200,
+  source: 100, resource: 100, channel: 50, website: 200, requestId: 160
 });
 const SIGNUP_SCHEMA_ = Object.freeze({
   'Name': 'title', 'Email': 'email', 'Role': 'rich_text', 'Company': 'rich_text',
   'First source': 'select', 'Resources taken': 'multi_select', 'Channel': 'select',
   'First seen': 'date', 'Last seen': 'date', 'Signups': 'number',
-  'Promote to CRM': 'checkbox', 'Notes': 'rich_text'
+  'Promote to CRM': 'checkbox', 'Notes': 'rich_text', 'Request IDs': 'rich_text'
 });
 
 function doPost(e) {
@@ -49,6 +49,12 @@ function processSignup_(body) {
   try {
     const matches = findSignups_(config, input.email);
     if (matches.length > 1) fail_('Duplicate email records already exist in Notion. Manual review is required.');
+    if (matches.length && !matches[0].properties) fail_('Notion returned an incomplete signup record. No changes were made.');
+    const requestIds = matches.length ? savedText_(matches[0].properties['Request IDs'], 'rich_text').split('\n').filter(Boolean) : [];
+    if (input.requestId && requestIds.indexOf(input.requestId) !== -1) return { ok: true, status: 'updated' };
+    if (input.requestId) requestIds.push(input.requestId);
+    // Keep only the most recent 20 IDs per person, as requested.
+    const requestHistory = richText_(requestIds.slice(-20).join('\n'));
     const now = new Date().toISOString();
     if (!matches.length) {
       // A new return is allowed, but has no name: a later signup can fill it.
@@ -62,7 +68,8 @@ function processSignup_(body) {
         'Channel': { select: { name: input.channel } },
         'First seen': { date: { start: now } },
         'Last seen': { date: { start: now } },
-        'Signups': { number: 1 }
+        'Signups': { number: 1 },
+        'Request IDs': { rich_text: requestHistory }
       };
       notionRequest_(config, '/pages', 'post', {
         parent: { type: 'data_source_id', data_source_id: config.dataSourceId }, properties: properties
@@ -89,7 +96,9 @@ function processSignup_(body) {
     const changes = {
       'Resources taken': { multi_select: resources },
       'Signups': { number: (previousCount || 0) + 1 },
-      'Last seen': { date: { start: now } }
+      'Last seen': { date: { start: now } },
+      // Save the ID in the same atomic page write as the count, including when the reply is lost.
+      'Request IDs': { rich_text: requestHistory }
     };
     if (input.name && !savedText_(saved['Name'], 'title')) changes['Name'] = { title: richText_(input.name) };
     if (input.role && !savedText_(saved['Role'], 'rich_text')) changes['Role'] = { rich_text: richText_(input.role) };
@@ -115,6 +124,8 @@ function validateSignup_(body) {
     input[key] = value.trim();
   });
   if (input.type !== 'signup' && input.type !== 'return') fail_('type must be signup or return.');
+  // Optional for old website clients during the backend-first rollout.
+  if (input.requestId && !/^[a-z0-9][a-z0-9-]{0,159}$/.test(input.requestId)) fail_('requestId must contain lowercase letters, numbers, and hyphens.');
   input.email = input.email.toLowerCase();
   // Conventional public email syntax; plus-addresses are preserved, never stripped.
   const emailParts = input.email.split('@');
@@ -219,7 +230,10 @@ function savedText_(property, type) {
 }
 
 function richText_(text) {
-  return text ? [{ type: 'text', text: { content: text } }] : [];
+  if (text.length > 200000) fail_('Request history has reached Notion\'s text limit. Manual review is required.');
+  const parts = [];
+  for (let i = 0; i < text.length; i += 2000) parts.push({ type: 'text', text: { content: text.slice(i, i + 2000) } });
+  return parts;
 }
 
 function fail_(message) {
@@ -238,5 +252,5 @@ function checkConfiguration() {
       fail_('Schema mismatch for ' + name + ': expected ' + SIGNUP_SCHEMA_[name] + '.');
     }
   });
-  console.log('Configuration and all 12 property types verified. No records were written.');
+  console.log('Configuration and all 13 property types verified. No records were written.');
 }
