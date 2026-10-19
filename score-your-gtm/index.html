@@ -286,6 +286,8 @@ footer b{color:var(--ink-dim)}
 <script>
 (function(){
   "use strict";
+  // The resource-page embed uses the existing website signup and sends no result emails.
+  var RESOURCE_EMBED = new URLSearchParams(window.location.search).get('embedded') === '1';
 
   /* ============================================================
      SUBMISSION EMAIL
@@ -298,7 +300,7 @@ footer b{color:var(--ink-dim)}
   var NOTIFY_EMAIL = "moh.sakr.07@gmail.com";
 
   function saveSubmission(payload){
-    if(!NOTIFY_EMAIL) return;
+    if(RESOURCE_EMBED || !NOTIFY_EMAIL) return;
     try{
       fetch("https://formsubmit.co/ajax/" + encodeURIComponent(NOTIFY_EMAIL), {
         method: "POST",
@@ -320,8 +322,7 @@ footer b{color:var(--ink-dim)}
     fields:[
       { id:"name", label:"Full name", placeholder:"Alex Morgan", autocomplete:"name", required:true },
       { id:"email", label:"Work email", placeholder:"Your work email", type:"email", autocomplete:"email", required:true },
-      { id:"company", label:"Company name", placeholder:"Acme Consulting", required:true },
-      { id:"site", label:"Website", placeholder:"acme.com", required:false, hint:"Optional." }
+      { id:"company", label:"Company website", placeholder:"example.com", autocomplete:"url", inputmode:"url", required:false }
     ],
     questions:[
       { id:"rev", q:"Roughly how big is the business?",
@@ -392,6 +393,13 @@ footer b{color:var(--ink-dim)}
           opts:[["Yes — with a number attached",3],["Loosely",1],["No, we try it and see",0],["We haven't added any",2]] }
       ] }
   ];
+
+  if (RESOURCE_EMBED) {
+    ABOUT.title = "About your business";
+    ABOUT.blurb = "Two context questions help shape your result.";
+    ABOUT.fields = ABOUT.fields.filter(function(field){ return field.id !== 'name' && field.id !== 'email'; });
+    ABOUT.fields.forEach(function(field){ field.required = false; });
+  }
 
   var VERDICT = {
     offer:{ head:"Your offer is the bottleneck", body:[
@@ -493,9 +501,9 @@ footer b{color:var(--ink-dim)}
 
   stepsEl.innerHTML = allSteps.map(function(s,si){
     var flds = (s.fields||[]).map(function(f){
-      return '<div class="field"><label for="f_'+f.id+'">'+esc(f.label)+'</label>'+
+      return '<div class="field"><label for="f_'+f.id+'">'+esc(f.label)+(f.required?' <span aria-hidden="true">*</span>':'')+'</label>'+
         (f.hint?'<p class="fh">'+esc(f.hint)+'</p>':'')+
-        '<input type="'+esc(f.type||"text")+'" autocomplete="'+esc(f.autocomplete||"off")+'" id="f_'+f.id+'" data-req="'+(f.required?1:0)+'" placeholder="'+esc(f.placeholder)+'"></div>';
+        '<input type="'+esc(f.type||"text")+'" autocomplete="'+esc(f.autocomplete||"off")+'"'+(f.inputmode?' inputmode="'+esc(f.inputmode)+'"':'')+(f.required?' required':'')+' maxlength="'+(f.id==='email'?254:200)+'" id="f_'+f.id+'" data-req="'+(f.required?1:0)+'" placeholder="'+esc(f.placeholder)+'"></div>';
     }).join("");
     var qs = s.questions.map(function(q,qi){
       var name = (s.key==="about" ? "ab_"+q.id : s.key+"_"+qi);
@@ -582,7 +590,7 @@ footer b{color:var(--ink-dim)}
     var el = document.querySelector('input[name="'+name+'"]:checked');
     return el ? parseInt(el.value,10) : 0;
   }
-  function txt(id){ return (document.getElementById("f_"+id).value||"").trim(); }
+  function txt(id){ var field = document.getElementById("f_"+id); return field ? (field.value||"").trim() : ""; }
 
   function render(){
     var who = { name:txt("name"), email:txt("email"), company:txt("company"), site:txt("site") };
@@ -639,7 +647,7 @@ footer b{color:var(--ink-dim)}
     }).join("");
 
     document.getElementById("result").innerHTML =
-      '<div class="rhead"><p class="for">Result for '+esc(who.name)+' at '+esc(who.company)+(who.site?' · '+esc(who.site):'')+'</p>'+
+      '<div class="rhead"><p class="for">'+(RESOURCE_EMBED ? (who.company ? 'Result for '+esc(who.company) : 'Your assessment result') : 'Result for '+esc(who.name)+' at '+esc(who.company))+(who.site?' · '+esc(who.site):'')+'</p>'+
       '<h2>Your score</h2></div>'+
 
       '<div class="scorestrip"><div><span class="sn">'+pct+'</span><span class="sl">OUT OF 100</span></div>'+

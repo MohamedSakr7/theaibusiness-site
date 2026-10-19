@@ -4,6 +4,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
+const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const siteUrl = 'https://theaibusiness.net';
 const catalogue = JSON.parse(fs.readFileSync(path.join(root, 'resources/catalogue.json'), 'utf8'));
@@ -23,6 +24,12 @@ const render = (source, values) => source.replace(/\{\{([A-Z_]+)\}\}/g, (_, key)
 catalogue.sort((a, b) => (a.order ?? 1000) - (b.order ?? 1000) || a.title.localeCompare(b.title));
 const seen = new Set();
 const locations = [];
+const bySlug = new Map(catalogue.map(resource => [resource.slug, resource]));
+const assessmentSource = fs.readFileSync(path.join(root, 'score-your-gtm/index.html'), 'utf8');
+const areaLiteral = assessmentSource.match(/var AREAS = ([\s\S]*?);\s*(?:if \(RESOURCE_EMBED\)|var VERDICT)/);
+assert.ok(areaLiteral, 'Could not read the original assessment questions.');
+const assessmentQuestions = vm.runInNewContext('(' + areaLiteral[1] + ')').flatMap(area => area.questions.map(question => question.q));
+assert.equal(assessmentQuestions.length, 12, 'The assessment must expose exactly twelve scored questions.');
 for (const resource of catalogue) {
   for (const key of ['slug', 'title', 'shortDescription', 'type', 'pageUrl', 'thumbnail']) {
     assert.ok(typeof resource[key] === 'string' && resource[key].trim(), 'Missing resource field: ' + key);
@@ -45,14 +52,27 @@ for (const resource of catalogue) {
   assert.ok(Array.isArray(resource.whatsInside) && resource.whatsInside.length, 'whatsInside is required.');
   assert.ok(Array.isArray(resource.whoItsFor) && resource.whoItsFor.length, 'whoItsFor is required.');
   assert.ok(Array.isArray(resource.faq) && resource.faq.length, 'faq is required.');
+  assert.ok(Array.isArray(resource.outcomes) && resource.outcomes.length, 'outcomes is required.');
+  assert.ok(Array.isArray(resource.related) && resource.related.length >= 2 && resource.related.length <= 3, 'Use two or three related resources.');
+  assert.match(resource.viewerUrl, /^(?:\/(?!\/)|https:\/\/)/, 'viewerUrl must be root-relative or HTTPS.');
+  const isTool = resource.delivery === 'tool';
+  const itemLabel = isTool ? 'assessment' : 'guide';
+  const publicQuestions = isTool ? '<section class="resource-public-questions" aria-labelledby="assessment-questions-heading"><span class="eyebrow">Before you start</span><h2 id="assessment-questions-heading">The twelve assessment questions</h2><p>These are the scored questions, exactly as they appear in the tool. Scoring, results and next steps are inside the unlocked assessment.</p><ol>' + assessmentQuestions.map(question => '<li>' + esc(question) + '</li>').join('') + '</ol></section>' : '';
+  const related = resource.related.map(slug => {
+    const match = bySlug.get(slug);
+    assert.ok(match && slug !== resource.slug, 'Invalid related resource: ' + slug);
+    return '<a href="' + esc(match.pageUrl) + '"><span class="eyebrow">' + esc(match.format) + '</span><h3>' + esc(match.title) + '</h3><p>' + esc(match.shortDescription) + '</p><span aria-hidden="true">↗</span></a>';
+  }).join('\n');
   const canonical = siteUrl + '/resources/' + resource.slug + '/';
   locations.push(canonical);
   const structuredData = {
     '@context': 'https://schema.org', '@graph': [
       { '@type': 'Organization', '@id': siteUrl + '/#organization', name: 'The AI Business', url: siteUrl + '/' },
-      { '@type': 'CreativeWork', '@id': canonical + '#resource', name: resource.title, description: resource.shortDescription,
+      { '@type': isTool ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork', '@id': canonical + '#resource', name: resource.title, description: resource.shortDescription,
         url: canonical, image: new URL(resource.thumbnail, siteUrl).href, genre: resource.type, inLanguage: 'en',
-        isAccessibleForFree: true, publisher: { '@id': siteUrl + '/#organization' } },
+        isAccessibleForFree: true, learningResourceType: isTool ? 'Assessment' : 'Guide',
+        ...(isTool ? { applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { encodingFormat: 'application/pdf' }),
+        publisher: { '@id': siteUrl + '/#organization' } },
       { '@type': 'FAQPage', '@id': canonical + '#faq', url: canonical, mainEntity: resource.faq.map(item => ({
         '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer }
       })) },
@@ -65,19 +85,34 @@ for (const resource of catalogue) {
   const values = {
     HEADER: header, FOOTER: footer, SIGNUP_FORM: signupForm,
     STRUCTURED_DATA: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
-    LONG_DESCRIPTION: resource.longDescription.map(paragraph => '<p>' + esc(paragraph) + '</p>').join('\n'),
+    INTRO: esc(resource.longDescription[0]),
+    LONG_DESCRIPTION: resource.longDescription.slice(1).map(paragraph => '<p>' + esc(paragraph) + '</p>').join('\n'),
     WHATS_INSIDE: resource.whatsInside.map(item => '<li><h3>' + esc(item.title) + '</h3><p>' + esc(item.description) + '</p></li>').join('\n'),
     WHO_ITS_FOR: resource.whoItsFor.map(item => '<li>' + esc(item) + '</li>').join('\n'),
+    OUTCOMES: resource.outcomes.map(item => '<li>' + esc(item) + '</li>').join('\n'),
+    PUBLIC_QUESTIONS: publicQuestions, RELATED_RESOURCES: related,
+    DELIVERY: esc(resource.delivery), VIEWER_URL: esc(resource.viewerUrl),
+    ITEM_LABEL: itemLabel,
+    GATE_DESCRIPTION: isTool ? 'Enter your details once to use this assessment. You can then open every guide and tool in this browser.' : 'Enter your details once to read this guide. You can then open every guide and tool in this browser.',
+    UNLOCKED_MESSAGE: isTool ? 'Your assessment is ready. Start below.' : 'Your guide is ready. Read it below or download the PDF.',
+    VIEWER_HEADING: isTool ? 'Your assessment' : 'Read the guide',
+    VIEWER_TITLE: esc((isTool ? 'Use the assessment: ' : 'Read the PDF: ') + resource.title),
+    RESOURCE_URL: esc(resource.resourceUrl || resource.gatedUrl),
+    FALLBACK_LABEL: isTool ? 'Open assessment in a new tab' : 'Open PDF in a new tab',
+    ATTACHMENTS: (resource.attachments || []).map(file => '<p class="resource-extra-download"><a href="' + esc(file.url) + '" target="_blank" rel="noopener noreferrer">' + esc(file.label) + ' ↗</a></p>').join('\n'),
+    SOCIAL_IMAGE: esc(new URL(resource.thumbnail, siteUrl).href),
+    IMAGE_WIDTH: String(resource.thumbnailWidth || 640), IMAGE_HEIGHT: String(resource.thumbnailHeight || 500),
+    COVER_STYLE: esc(resource.coverStyle || ''),
     FAQ: resource.faq.map(item => '<details><summary>' + esc(item.question) + '</summary><p>' + esc(item.answer) + '</p></details>').join('\n'),
     SEO_TITLE: esc(resource.seoTitle), META_DESCRIPTION: esc(resource.metaDescription), CANONICAL: esc(canonical),
     SLUG: esc(resource.slug), GATED_URL: esc(resource.gatedUrl), TITLE: esc(resource.title), TYPE: esc(resource.type),
-    DURATION: esc(resource.duration || 'Free resource'), SHORT_DESCRIPTION: esc(resource.shortDescription),
+    DURATION: esc(resource.duration || 'Free ' + itemLabel), SHORT_DESCRIPTION: esc(resource.shortDescription),
     THUMBNAIL: esc(resource.thumbnail), THUMBNAIL_ALT: esc(resource.thumbnailAlt || resource.title),
-    BUTTON_LABEL: esc(resource.buttonLabel), OVERVIEW_HEADING: esc(resource.overviewHeading || 'About this resource'),
+    BUTTON_LABEL: esc(resource.buttonLabel), OVERVIEW_HEADING: esc(resource.overviewHeading || 'About this ' + itemLabel),
     AUDIENCE_HEADING: esc(resource.audienceHeading || "Who it's for"),
-    THUMBNAIL_CAPTION: esc(resource.thumbnailCaption || 'A look inside the resource.')
+    THUMBNAIL_CAPTION: esc(resource.thumbnailCaption || 'A look inside the ' + itemLabel + '.')
   };
-  const html = render(template, values);
+  const html = render(template, values).replace(/[ \t]+$/gm, '');
   const destination = path.join(root, 'resources', resource.slug, 'index.html');
   fs.mkdirSync(path.dirname(destination), { recursive: true });
   fs.writeFileSync(destination, html);
@@ -91,7 +126,7 @@ const cards = catalogue.map((resource, index) => {
   const extra = external ? ' target="_blank" rel="noopener noreferrer"' : '';
   return '<article class="library-card" data-resource-type="' + esc(resource.type) + '"><div class="library-card-cover ' + (resource.coverStyle === 'publication' ? 'is-publication' : 'is-assessment') + '"><img src="' + esc(resource.libraryThumbnail || resource.thumbnail) + '" alt="' + esc(resource.libraryThumbnailAlt || resource.thumbnailAlt || resource.title) + '" width="640" height="400" loading="lazy"><span class="library-card-number">0' + (index + 1) + '</span></div><div class="library-card-body"><span class="library-card-type">' + esc(resource.format || resource.type) + '</span><h2>' + esc(resource.title) + '</h2><p>' + esc(resource.shortDescription) + '</p><a class="library-card-button" data-library-resource="' + esc(resource.slug) + '" href="' + esc(destination) + '"' + extra + '>' + esc(resource.accessLabel || 'Open resource') + ' <span aria-hidden="true">↗</span></a><span class="library-card-location">' + (external ? 'Opens in a new tab' : 'Interactive tool · about 3 minutes') + '</span></div></article>';
 }).join('\n');
-const previews = catalogue.map((resource, index) => '<li id="' + esc(resource.slug) + '"><span class="preview-number">' + String(index+1).padStart(2,'0') + '</span><div><h3>' + esc(resource.title) + '</h3><span class="preview-format">' + esc(resource.format || resource.type) + '</span></div><span class="preview-included" aria-label="Included">✓</span></li>').join('\n');
+const previews = catalogue.map((resource, index) => '<li id="' + esc(resource.slug) + '"><span class="preview-number">' + String(index+1).padStart(2,'0') + '</span><div><h3><a href="' + esc(resource.pageUrl) + '">' + esc(resource.title) + '</a></h3><span class="preview-format">' + esc(resource.format || resource.type) + '</span></div><span class="preview-included" aria-label="Included">✓</span></li>').join('\n');
 const libraryFAQ = libraryCopy.faq.map(item => '<details><summary>' + esc(item.question) + '</summary><p>' + esc(item.answer) + '</p></details>').join('\n');
 const types = Array.from(new Set(catalogue.map(resource => resource.type)));
 const typeLabels = { assessment: 'Assessments', guide: 'Guides', template: 'Templates', tool: 'Tools', 'tool list': 'Tools' };

@@ -96,6 +96,7 @@
     const slug = page.dataset.resourceSlug;
     const isLibrary = page.dataset.resourceKind === 'library';
     const libraryPanel = doc.getElementById('library-access-panel');
+    const signupPanel = doc.getElementById('resource-signup-panel');
     // Snapshot attribution on page arrival, not after the visitor has filled the form.
     const channel = detectChannel(root.location.search, doc.referrer);
 
@@ -104,6 +105,7 @@
       access.hidden = false;
       form.hidden = true;
       if (libraryPanel) libraryPanel.hidden = true;
+      if (signupPanel) signupPanel.hidden = true;
       if (focus && isLibrary && page.scrollIntoView) page.scrollIntoView({ block: 'start', behavior: 'instant' });
       const focusTarget = link || doc.getElementById('resource-access-status');
       if (focus && focusTarget) focusTarget.focus({ preventScroll: true });
@@ -158,6 +160,7 @@
       access.hidden = true;
       form.hidden = false;
       if (libraryPanel) { libraryPanel.hidden = false; libraryPanel.open = true; }
+      if (signupPanel) signupPanel.hidden = false;
       form.reset();
       form.elements.namedItem('name').focus();
     });

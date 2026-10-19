@@ -24,6 +24,6 @@
       if (!card.hidden) visible++;
     });
     buttons.forEach(function (item) { item.setAttribute('aria-pressed', String(item === button)); });
-    document.getElementById('library-filter-status').textContent = visible + (visible === 1 ? ' resource shown.' : ' resources shown.');
+    document.getElementById('library-filter-status').textContent = visible + (visible === 1 ? ' item shown.' : ' items shown.');
   });
 })();

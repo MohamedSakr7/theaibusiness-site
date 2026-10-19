@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
 const gate = require('../resource-gate.js');
 const rootPath = path.resolve(__dirname, '..');
@@ -97,6 +98,18 @@ test('Attribution remains the channel captured at landing, even if URL changes b
   assert.equal(JSON.parse(env.requests[0][1].body).channel, 'LinkedIn');
 });
 
+test('Company website stays in company, passes server validation and does not fill the honeypot', async () => {
+  const server = vm.createContext({});
+  vm.runInContext(fs.readFileSync(path.join(rootPath, 'apps-script/resource-signups.gs'), 'utf8'), server);
+  for (const website of ['example.com', 'https://example.com/about?from=library']) {
+    const env = page(); gate.init(env.win); env.fields.company.value = website; env.submit(); await tick();
+    const payload = JSON.parse(env.requests[0][1].body);
+    assert.equal(payload.company, website);
+    assert.equal(payload.website, '');
+    assert.equal(server.validateSignup_(payload).company, website);
+  }
+});
+
 test('Network, HTTP, unreadable JSON, and backend errors only log; access stays unlocked', async () => {
   for (const fetch of [
     () => Promise.reject(new Error('Network unavailable')),
@@ -156,7 +169,7 @@ test('Generated page has static public content, unique metadata, matching JSON-L
   assert.match(html, /rel="canonical" href="https:\/\/theaibusiness.net\/resources\/score-your-gtm\/"/);
   assert.match(html, /property="og:url" content="https:\/\/theaibusiness.net\/resources\/score-your-gtm\/"/);
   const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
-  assert.ok(graph.some(item => item['@type'] === 'CreativeWork'));
+  assert.ok(graph.some(item => [].concat(item['@type']).includes('CreativeWork')));
   assert.equal(graph.find(item => item['@type'] === 'FAQPage').mainEntity.length, resource.faq.length);
   assert.match(html, /name="website"[^>]*value=""[^>]*tabindex="-1"/);
   assert.match(html, /subscribing to <strong>The AI Business newsletter/);
@@ -165,11 +178,19 @@ test('Generated page has static public content, unique metadata, matching JSON-L
   assert.equal(sitemap.split('<loc>https://theaibusiness.net/resources/score-your-gtm/</loc>').length - 1, 1);
 });
 
-test('Existing assessment, shared CSS, and shared application code remain unchanged', () => {
-  for (const file of ['score-your-gtm/index.html', 'styles.css', 'app.js']) {
+test('Shared CSS and application code remain unchanged; embedded assessment preserves scoring', () => {
+  for (const file of ['styles.css', 'app.js']) {
     const base = execFileSync('git', ['show', '6efe75adff6884b0e887e2fa72fa1a837b5b2c2c:' + file], { cwd: rootPath });
     assert.equal(fs.readFileSync(path.join(rootPath, file), 'utf8').replace(/\r\n/g, '\n'), base.toString('utf8').replace(/\r\n/g, '\n'), file + ' changed outside scope');
   }
+  const before = execFileSync('git', ['show', 'HEAD:score-your-gtm/index.html'], { cwd: rootPath, encoding: 'utf8' });
+  const after = fs.readFileSync(path.join(rootPath, 'score-your-gtm/index.html'), 'utf8');
+  for (const name of ['AREAS', 'VERDICT', 'FIXES', 'BANDS']) {
+    const pattern = new RegExp('var ' + name + ' = ([\\s\\S]*?);');
+    assert.equal(after.match(pattern)[1].replace(/\r\n/g, '\n'), before.match(pattern)[1].replace(/\r\n/g, '\n'), name + ' scoring definition changed');
+  }
+  assert.match(after, /if\(RESOURCE_EMBED \|\| !NOTIFY_EMAIL\) return;/);
+  assert.match(after, /ABOUT\.fields = ABOUT\.fields\.filter/);
 });
 
 test('Library form reuses signup logic, source library, empty resource, and immediate remembering', async () => {

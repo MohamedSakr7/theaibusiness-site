@@ -13,27 +13,28 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{CANONICAL}}">
   <meta property="og:site_name" content="The AI Business">
-  <meta property="og:image" content="https://theaibusiness.net/assets/social-preview.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The AI Business — practical B2B go-to-market resources">
+  <meta property="og:image" content="{{SOCIAL_IMAGE}}">
+  <meta property="og:image:width" content="{{IMAGE_WIDTH}}">
+  <meta property="og:image:height" content="{{IMAGE_HEIGHT}}">
+  <meta property="og:image:alt" content="{{THUMBNAIL_ALT}}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{SEO_TITLE}}">
   <meta name="twitter:description" content="{{META_DESCRIPTION}}">
-  <meta name="twitter:image" content="https://theaibusiness.net/assets/social-preview.jpg">
+  <meta name="twitter:image" content="{{SOCIAL_IMAGE}}">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/satoshi-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/styles.css?v=35">
-  <link rel="stylesheet" href="/resource-page.css?v=1">
+  <link rel="stylesheet" href="/resource-page.css?v=3">
   <script src="/app.js?v=14" defer></script>
   <script src="/resource-config.js?v=1" defer></script>
-  <script src="/resource-gate.js?v=3" defer></script>
+  <script src="/resource-gate.js?v=4" defer></script>
+  <script src="/resource-viewer.js?v=1" defer></script>
   <script type="application/ld+json">{{STRUCTURED_DATA}}</script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   {{HEADER}}
-  <main id="main" class="wrap resource-page" data-resource-slug="{{SLUG}}" data-gated-url="{{GATED_URL}}">
+  <main id="main" class="wrap resource-page" data-resource-slug="{{SLUG}}" data-gated-url="{{GATED_URL}}" data-delivery="{{DELIVERY}}">
     <nav class="resource-breadcrumb" aria-label="Breadcrumb">
       <a href="/resources/">Resources</a><span aria-hidden="true">/</span><span>{{TITLE}}</span>
     </nav>
@@ -41,35 +42,30 @@
       <div class="resource-intro">
         <div class="resource-meta"><span class="eyebrow">Free {{TYPE}}</span><span>{{DURATION}}</span></div>
         <h1 id="resource-title">{{TITLE}}</h1>
-        <p class="resource-lede">{{SHORT_DESCRIPTION}}</p>
+        <p class="resource-lede">{{INTRO}}</p>
         <a class="button" href="#get-resource">Get free access <span aria-hidden="true">↗</span></a>
         <p class="resource-hero-note">Opens here after signup. No email to wait for.</p>
       </div>
-      <figure class="resource-preview">
-        <img src="{{THUMBNAIL}}" alt="{{THUMBNAIL_ALT}}" width="640" height="500" fetchpriority="high">
+      <figure class="resource-preview {{COVER_STYLE}}">
+        <img src="{{THUMBNAIL}}" alt="{{THUMBNAIL_ALT}}" width="{{IMAGE_WIDTH}}" height="{{IMAGE_HEIGHT}}" fetchpriority="high">
         <figcaption>{{THUMBNAIL_CAPTION}}</figcaption>
       </figure>
+    </section>
+    <section id="get-resource" class="resource-delivery" aria-label="Access this {{ITEM_LABEL}}">
+      <div id="resource-signup-panel" class="resource-signup-layout"><div><span class="eyebrow">Free access</span><h2 id="gate-heading">Open it here.</h2><p>{{GATE_DESCRIPTION}}</p><p class="resource-access-promise">Free to use. No email to wait for.</p></div>{{SIGNUP_FORM}}<noscript><p class="resource-noscript">Please enable JavaScript to open the {{ITEM_LABEL}}. The overview, contents and FAQ remain readable on this page.</p></noscript></div>
+      <section id="resource-access" hidden aria-labelledby="resource-access-heading" tabindex="-1"><div class="resource-viewer-heading"><div><span class="eyebrow">Ready to use</span><h2 id="resource-access-heading">{{VIEWER_HEADING}}</h2><p role="status">{{UNLOCKED_MESSAGE}}</p></div><a id="resource-link" class="button" target="_blank" rel="noopener noreferrer">{{BUTTON_LABEL}} <span aria-hidden="true">↗</span></a></div>{{ATTACHMENTS}}<iframe class="resource-frame {{DELIVERY}}" data-resource-frame data-src="{{VIEWER_URL}}" title="{{VIEWER_TITLE}}" allow="fullscreen" allowfullscreen></iframe><div class="resource-viewer-footer"><a href="{{RESOURCE_URL}}" target="_blank" rel="noopener noreferrer">{{FALLBACK_LABEL}}</a><button id="resource-forget" class="resource-forget" type="button">Use different details</button></div></section>
     </section>
     <div class="resource-body-grid">
       <div class="resource-copy">
         <section aria-labelledby="resource-overview"><span class="eyebrow">The overview</span><h2 id="resource-overview">{{OVERVIEW_HEADING}}</h2>{{LONG_DESCRIPTION}}</section>
-        <section aria-labelledby="resource-inside"><span class="eyebrow">The resource</span><h2 id="resource-inside">What's inside</h2><ol class="resource-inside-list">{{WHATS_INSIDE}}</ol></section>
+        <section aria-labelledby="resource-inside"><span class="eyebrow">Inside the {{ITEM_LABEL}}</span><h2 id="resource-inside">What's inside</h2><ol class="resource-inside-list">{{WHATS_INSIDE}}</ol></section>
         <section aria-labelledby="resource-audience"><span class="eyebrow">Who it's for</span><h2 id="resource-audience">{{AUDIENCE_HEADING}}</h2><ul class="resource-audience-list">{{WHO_ITS_FOR}}</ul></section>
+        <section aria-labelledby="resource-outcomes"><span class="eyebrow">Put it to work</span><h2 id="resource-outcomes">What you'll be able to do</h2><ul class="resource-audience-list">{{OUTCOMES}}</ul></section>
       </div>
-      <aside id="get-resource" class="resource-gate" aria-labelledby="gate-heading">
-        <span class="eyebrow">Free access</span>
-        <h2 id="gate-heading">Put it to work.</h2>
-        <p class="gate-intro">A few details, then it's yours to use.</p>
-        {{SIGNUP_FORM}}
-        <div id="resource-access" hidden>
-          <p class="resource-access-note" role="status">You're ready to go. Open your resource below.</p>
-          <a id="resource-link" class="button">{{BUTTON_LABEL}} <span aria-hidden="true">↗</span></a>
-          <button id="resource-forget" class="resource-forget" type="button">Use different details</button>
-        </div>
-        <noscript><p class="resource-noscript">Please enable JavaScript to use the access form. You can still read the resource overview and questions on this page.</p></noscript>
-      </aside>
     </div>
+    {{PUBLIC_QUESTIONS}}
     <section class="resource-faq" aria-labelledby="resource-faq-heading"><span class="eyebrow">A few questions</span><h2 id="resource-faq-heading">Before you start.</h2><div class="resource-faq-list">{{FAQ}}</div></section>
+    <section class="resource-related" aria-labelledby="resource-related-heading"><span class="eyebrow">Keep going</span><h2 id="resource-related-heading">Related guides and tools</h2><div class="resource-related-grid">{{RELATED_RESOURCES}}</div><a class="resource-back-link" href="/resources/">← Back to the full library</a></section>
   </main>
   {{FOOTER}}
 </body>

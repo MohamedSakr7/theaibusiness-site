@@ -1,144 +1,806 @@
 [
   {
     "slug": "score-your-gtm",
-    "order": 10,
     "pageUrl": "/resources/score-your-gtm/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Open assessment in a new tab",
+    "accessLabel": "Start the assessment",
+    "format": "Interactive assessment",
+    "type": "assessment",
+    "coverStyle": "assessment",
+    "thumbnail": "/assets/resource-score-your-gtm.svg",
+    "thumbnailCaption": "An illustrative result. Your score depends on your answers.",
+    "duration": "About 3 minutes",
+    "order": 10,
     "cardButtonLabel": "View the assessment",
     "title": "Score your go-to-market",
-    "shortDescription": "Twelve questions. A score out of 100. Find the one thing capping your growth and what to do about it.",
+    "shortDescription": "A free B2B assessment: twelve questions, a score out of 100, and the bottleneck to focus on next.",
     "longDescription": [
-      "Where is your go-to-market leaking? This free assessment asks twelve questions about how you find customers and turn them into revenue. It takes about three minutes and gives you a score out of 100, the one thing capping your growth, and what to do about it.",
-      "It looks at six areas: your offer, getting found, turning interest into conversations, closing, tracking, and whether your AI tools return anything. Use the result to decide where to focus before adding more activity or another tool."
+      "This free go-to-market assessment is for B2B service and software founders and teams who are winning clients but cannot tell what is holding growth back. It scores twelve answers across six areas and gives you a bottleneck, a breakdown and practical next steps.",
+      "The twelve scored questions are listed below so you can see what the assessment covers before signing up. Two short business-context questions come before them in the tool. Your answers, score, result and next steps stay inside the unlocked assessment."
     ],
-    "type": "assessment",
-    "buttonLabel": "Start the assessment",
-    "gatedUrl": "/score-your-gtm/",
-    "thumbnail": "/assets/resource-score-your-gtm.svg",
-    "thumbnailAlt": "Example assessment result: 52 out of 100, with conversations highlighted as the bottleneck.",
-    "dateAdded": "2026-10-18",
-    "seoTitle": "Score Your Go-to-Market: Free B2B Assessment | The AI Business",
-    "metaDescription": "Score your B2B go-to-market in three minutes. Answer 12 questions, see your score out of 100, and find the bottleneck to focus on next.",
-    "duration": "About 3 minutes",
+    "gatedUrl": "/score-your-gtm/?embedded=1",
+    "thumbnailAlt": "Example go-to-market assessment result showing a score of 52 out of 100.",
+    "seoTitle": "Free B2B Go-to-Market Assessment | The AI Business",
+    "metaDescription": "Score your B2B go-to-market in about three minutes. Read the 12 questions, then unlock your score, growth bottleneck and practical next steps.",
     "overviewHeading": "Where is the leak?",
     "audienceHeading": "Built for B2B teams.",
-    "thumbnailCaption": "An example of what you get. Your result depends on your answers.",
     "whatsInside": [
       {
+        "title": "Twelve scored questions",
+        "description": "Two questions each on your offer, getting found, conversations, closing, tracking and AI tools."
+      },
+      {
         "title": "A score out of 100",
-        "description": "A quick view of your go-to-market, based on twelve answers about your business."
+        "description": "A combined score and a breakdown across the six areas, based on your own answers."
       },
       {
         "title": "Your main bottleneck",
-        "description": "Find the weak spot that is holding back the rest of your go-to-market."
+        "description": "A result that identifies where to focus before adding more marketing activity or another tool."
       },
       {
-        "title": "A breakdown across six areas",
-        "description": "See your offer, getting found, conversations, closing, tracking and AI tools side by side."
-      },
-      {
-        "title": "What to work on next",
-        "description": "Get practical next steps tied to your result, rather than a longer list of things to do."
+        "title": "Two things to work on first",
+        "description": "Practical actions tied to the bottleneck identified by the assessment, with a printable result."
       }
     ],
     "whoItsFor": [
-      "Founders and teams at B2B service or software companies.",
-      "Businesses using inbound, outbound, or a mix of both to find customers.",
-      "People deciding where to focus their next go-to-market improvement."
+      "B2B founders and teams selling services or software.",
+      "People deciding whether to focus on the offer, marketing, sales, tracking or AI use.",
+      "Teams using inbound, outbound, or a mix of both."
     ],
     "faq": [
       {
-        "question": "What is Score your go-to-market?",
-        "answer": "It is a free, twelve-question self-assessment for B2B companies. You get a score out of 100, a breakdown across six areas, and a bottleneck to focus on next."
+        "question": "What does the assessment score?",
+        "answer": "Your offer, getting found, turning interest into conversations, closing, tracking and AI tools. There are twelve scored questions, plus two short questions about your business context."
       },
       {
         "question": "How long does it take?",
-        "answer": "Allow about three minutes to answer the assessment questions."
-      },
-      {
-        "question": "Who is it for?",
-        "answer": "It is built for B2B companies selling services or software, whether they use inbound or outbound to find customers."
+        "answer": "Allow about three minutes. The tool runs on this page after you unlock it."
       },
       {
         "question": "Is this a full go-to-market audit?",
-        "answer": "No. The result is based on your answers. A full audit examines what your marketing and sales actually do, using evidence and real business numbers."
+        "answer": "No. This is a self-assessment based on your answers. It does not inspect your CRM, verify your numbers or test your sales process."
+      },
+      {
+        "question": "Can I read the questions before signing up?",
+        "answer": "Yes. All twelve scored questions are public on this page. Scoring, your result and the suggested next steps appear inside the unlocked assessment."
       },
       {
         "question": "How do I get access?",
-        "answer": "Enter your name and email in the form on this page. The assessment button appears immediately; you do not need to wait for an email. By submitting, you also subscribe to The AI Business newsletter. You can unsubscribe at any time."
+        "answer": "Enter your name and email to open the assessment on this page immediately. Submitting also subscribes you to The AI Business newsletter. The same browser will remember your access."
       }
     ],
-    "accessUrl": "/score-your-gtm/",
-    "accessLabel": "Start the assessment",
-    "format": "Interactive assessment",
+    "accessUrl": "/score-your-gtm/?embedded=1",
     "libraryThumbnail": "/assets/resource-covers/score-your-gtm-library.svg",
-    "libraryThumbnailAlt": "Assessment preview: an illustrative score of 52 out of 100 and conversations highlighted as the bottleneck."
+    "libraryThumbnailAlt": "Assessment preview: an illustrative score of 52 out of 100 and conversations highlighted as the bottleneck.",
+    "outcomes": [
+      "See the six parts of your go-to-market side by side.",
+      "Choose a bottleneck to investigate before spreading effort across several fixes.",
+      "Save your result as a PDF and use it to start a team discussion."
+    ],
+    "viewerUrl": "/score-your-gtm/?embedded=1",
+    "delivery": "tool",
+    "related": [
+      "build-your-gtm-in-one-ai-workflow",
+      "why-you-lose-deals",
+      "10-ai-workflows"
+    ]
   },
   {
     "slug": "build-your-gtm-in-one-ai-workflow",
-    "order": 20,
-    "title": "Build your whole go-to-market in one AI workflow",
-    "shortDescription": "One connected AI workflow for your go-to-market.",
-    "type": "guide",
-    "cardButtonLabel": "Get the guide",
-    "pageUrl": "https://theaibusiness.beehiiv.com/build-your-gtm-in-one-ai-workflow",
-    "thumbnail": "/assets/resource-covers/build-your-gtm-in-one-ai-workflow.webp",
-    "accessUrl": "https://drive.google.com/file/d/1jLs-FoBJMHQ4XRpcgOxdoXpZP8D8V7Zz/view",
+    "pageUrl": "/resources/build-your-gtm-in-one-ai-workflow/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
     "accessLabel": "Open PDF guide",
     "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/build-your-gtm-in-one-ai-workflow.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "19-page PDF guide",
+    "order": 20,
+    "title": "Build your whole go-to-market in one AI workflow",
+    "shortDescription": "Ten stages in one Claude project, from market research to a 90-day go-to-market plan.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/1jLs-FoBJMHQ4XRpcgOxdoXpZP8D8V7Zz/view",
     "thumbnailAlt": "Actual cover of Build your whole go-to-market in one AI workflow",
     "thumbnailWidth": 746,
     "thumbnailHeight": 1055,
-    "coverStyle": "publication"
+    "pageCount": 19,
+    "longDescription": [
+      "This 19-page guide walks B2B service and software founders through a complete go-to-market workflow in one Claude project. You bring your deals, customer language and business numbers. Each stage builds on the last, ending with a 90-day plan.",
+      "It covers setup, the market, your best-fit customer, the offer, AI visibility, positioning, channels, sales, tracking and the return from your AI tools. A worked example shows the sequence from the company profile to a 13-week calendar. It is a planning process with real inputs, not a promise of a complete strategy in one prompt."
+    ],
+    "whatsInside": [
+      {
+        "title": "Project setup and company profile",
+        "description": "Instructions for the Claude project and a one-page company profile template."
+      },
+      {
+        "title": "Ten stages, in order",
+        "description": "What to collect, a prompt to run and the decisions to make at each stage."
+      },
+      {
+        "title": "A worked example",
+        "description": "The guide follows Fellgate IT through the stages so you can see how later findings change earlier conclusions."
+      },
+      {
+        "title": "A 90-day plan and calendar",
+        "description": "A final prompt combines the stage summaries into priorities, owners, a 13-week calendar and a weekly scorecard."
+      },
+      {
+        "title": "Limits from the test run",
+        "description": "Where AI answers ran long, personalisation affected results and citations needed checking."
+      }
+    ],
+    "whoItsFor": [
+      "B2B service and software founders who want one connected plan.",
+      "Marketing and sales teams with real deals and customer evidence to work from.",
+      "Teams deciding what to fix first across the whole go-to-market."
+    ],
+    "outcomes": [
+      "Build a company profile and define a useful goal for the workflow.",
+      "Review the connections between your market, offer, marketing and sales.",
+      "Turn the findings into a 90-day plan with priorities and a review routine."
+    ],
+    "faq": [
+      {
+        "question": "Which AI tool is this written for?",
+        "answer": "The guide is built around Claude Projects with web search. It notes that ChatGPT Projects can also work, and the AI visibility stage uses other assistants for the test runs."
+      },
+      {
+        "question": "What information do I need?",
+        "answer": "Your company profile, won and lost deals, customer interviews or reviews, website copy, channel costs, sales-process details and the AI tools you use. Each stage lists its inputs."
+      },
+      {
+        "question": "Do I run all ten stages in one chat?",
+        "answer": "Yes. Run them in order in the same project and chat. Later stages reuse earlier findings, and the final prompt combines the stage summaries into the plan."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "Build Your B2B GTM Plan with AI | The AI Business",
+    "metaDescription": "Use one Claude project to review your B2B go-to-market and build a 90-day plan. Free guide with 10 stages, prompts and a worked example.",
+    "related": [
+      "score-your-gtm",
+      "10-ai-workflows",
+      "which-channels-bring-clients"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1jLs-FoBJMHQ4XRpcgOxdoXpZP8D8V7Zz/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1jLs-FoBJMHQ4XRpcgOxdoXpZP8D8V7Zz",
+    "viewerUrl": "https://drive.google.com/file/d/1jLs-FoBJMHQ4XRpcgOxdoXpZP8D8V7Zz/preview"
   },
   {
     "slug": "prepare-sales-calls-using-ai",
-    "order": 30,
-    "title": "Prepare your sales calls using AI",
-    "shortDescription": "Research buyers and prepare for sales calls with 12 ready-to-paste AI prompts.",
-    "type": "guide",
-    "cardButtonLabel": "Get the guide",
-    "pageUrl": "https://theaibusiness.beehiiv.com/prepare-sales-calls-using-ai",
-    "thumbnail": "/assets/resource-covers/prepare-sales-calls-using-ai.webp",
-    "accessUrl": "https://drive.google.com/file/d/11ulSind1vxKraRxVJbRQ_51yA7nKix3V/view",
+    "pageUrl": "/resources/prepare-sales-calls-using-ai/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
     "accessLabel": "Open PDF guide",
     "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/prepare-sales-calls-using-ai.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "27-page PDF guide",
+    "order": 30,
+    "title": "Prepare your sales calls using AI",
+    "shortDescription": "Research the buyer, prepare a one-page call brief and draft the follow-up with twelve AI prompts.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/11ulSind1vxKraRxVJbRQ_51yA7nKix3V/view",
     "thumbnailAlt": "Actual cover of Prepare your sales calls using AI",
     "thumbnailWidth": 746,
     "thumbnailHeight": 1055,
-    "coverStyle": "publication"
+    "pageCount": 27,
+    "longDescription": [
+      "This 27-page guide is for B2B founders and small sales teams who want to arrive at calls prepared and keep the next steps moving afterwards. It combines a practical sales process with a ChatGPT or Claude project for research, call preparation, recaps and proposals.",
+      "The current guide includes five call-preparation and follow-up prompts plus seven prompts for the rest of the process. It also covers the ten stages from a new enquiry to a signed deal, with scripts, a 60-minute self-audit and a 14-day implementation plan."
+    ],
+    "whatsInside": [
+      {
+        "title": "Five prompts around the call",
+        "description": "Research the company and person, build a one-page brief, prepare for objections, and draft the recap, CRM fields, proposal and follow-ups."
+      },
+      {
+        "title": "Seven prompts for the rest of sales",
+        "description": "Check enquiry capture, draft replies, qualify and route leads, book meetings, learn from losses and review the numbers."
+      },
+      {
+        "title": "Ten stages from enquiry to deal",
+        "description": "A standard, setup steps, warning signs and a number to watch at each stage."
+      },
+      {
+        "title": "Scripts and templates",
+        "description": "Examples for replies, qualification, booking, no-shows, recaps, proposals and follow-up."
+      },
+      {
+        "title": "A self-audit and a 14-day plan",
+        "description": "Check what a buyer experiences when they contact you, then work through a sequence of fixes."
+      }
+    ],
+    "whoItsFor": [
+      "B2B service and software teams handling enquiries, discovery calls and proposals.",
+      "Founders who still prepare calls and write follow-ups themselves.",
+      "Small sales teams that need a consistent process from first reply to signed deal."
+    ],
+    "outcomes": [
+      "Prepare a call brief using the buyer information you have.",
+      "Check the likely objections and the questions you still need to ask.",
+      "Draft a recap and proposal from the actual conversation.",
+      "Choose a weak stage of the sales process to work on first."
+    ],
+    "faq": [
+      {
+        "question": "Is this just a call-preparation guide?",
+        "answer": "No. Call preparation is part of a wider guide covering the ten stages from a new enquiry to a signed deal, plus nurture and measurement."
+      },
+      {
+        "question": "Does it work with ChatGPT or Claude?",
+        "answer": "Both. The guide explains how to set up one project with your offer, prices, qualification rules and templates. You review the AI drafts before using them."
+      },
+      {
+        "question": "What changed from Enquiry to Deal?",
+        "answer": "That was the earlier version of this guide. The current PDF is 27 pages and adds the AI sales-system section, including the five call-related prompts and seven further prompts."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "Prepare B2B Sales Calls with AI | The AI Business",
+    "metaDescription": "Prepare B2B sales calls with ChatGPT or Claude. Free guide with 12 prompts, a call brief, recap and proposal drafts, scripts and a 14-day plan.",
+    "related": [
+      "why-you-lose-deals",
+      "10-ai-workflows",
+      "score-your-gtm"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/11ulSind1vxKraRxVJbRQ_51yA7nKix3V/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=11ulSind1vxKraRxVJbRQ_51yA7nKix3V",
+    "viewerUrl": "https://drive.google.com/file/d/11ulSind1vxKraRxVJbRQ_51yA7nKix3V/preview"
   },
   {
     "slug": "does-chatgpt-recommend-you",
-    "order": 40,
-    "title": "Does ChatGPT recommend your company when your buyers ask?",
-    "shortDescription": "12 buying questions, setup prompts, a results tracker and a fix plan.",
-    "type": "guide",
-    "cardButtonLabel": "Get the guide",
-    "pageUrl": "https://theaibusiness.beehiiv.com/does-chatgpt-recommend-you",
-    "thumbnail": "/assets/resource-covers/does-chatgpt-recommend-you.webp",
-    "accessUrl": "https://drive.google.com/file/d/1JZ9IPHK3cnySM3whrqc44CGKkrzxSuIT/view",
+    "pageUrl": "/resources/does-chatgpt-recommend-you/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
     "accessLabel": "Open PDF guide",
     "format": "PDF guide",
-    "thumbnailAlt": "Actual cover of Does ChatGPT recommend your company when your buyers ask?",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/does-chatgpt-recommend-you.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "14-page PDF guide",
+    "order": 40,
+    "title": "Does ChatGPT recommend your company?",
+    "shortDescription": "Test twelve buying questions, record who gets named, and build a fix plan from the results.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/1JZ9IPHK3cnySM3whrqc44CGKkrzxSuIT/view",
+    "thumbnailAlt": "Actual cover of Does ChatGPT recommend your company?",
     "thumbnailWidth": 746,
     "thumbnailHeight": 1055,
-    "coverStyle": "publication"
+    "pageCount": 14,
+    "longDescription": [
+      "This free guide helps B2B service and software teams check whether ChatGPT and Gemini name their company when buyers ask for a provider. It gives you twelve questions across four parts of a buying journey, a repeatable test setup and a results tracker.",
+      "You run each question three times in each tool, record whether you are named and who appears instead, then score each tool separately. Three ChatGPT project prompts help prepare the questions and turn the evidence into a fix plan. The result is a snapshot to compare over time, not a guarantee that AI will recommend you."
+    ],
+    "whatsInside": [
+      {
+        "title": "Twelve buying questions",
+        "description": "Problem, shortlist, comparison and recommendation questions, with placeholders and examples."
+      },
+      {
+        "title": "A fair test setup",
+        "description": "Temporary chats, personalisation checks and repeat runs to reduce the effect of your own chat history."
+      },
+      {
+        "title": "A results tracker",
+        "description": "Record whether you are named, your position, competitors and whether the description is right."
+      },
+      {
+        "title": "A score for each tool",
+        "description": "Score ChatGPT and Gemini separately out of 36, then check which question group is weakest."
+      },
+      {
+        "title": "Three project prompts and a fix plan",
+        "description": "Prepare your questions, bring the results back to the project and decide what to review before the next run."
+      }
+    ],
+    "whoItsFor": [
+      "B2B service and software companies that buyers could ask an AI assistant to recommend.",
+      "Founders and marketers who have never checked their company against buyer questions.",
+      "Teams that want a repeatable AI visibility check rather than one reassuring screenshot."
+    ],
+    "outcomes": [
+      "Write relevant questions in your buyers' words.",
+      "Record where your company appears and who gets recommended instead.",
+      "Identify a weak question group and the sources or content to investigate.",
+      "Keep a baseline for a later repeat of the same test."
+    ],
+    "faq": [
+      {
+        "question": "Which AI tools does the guide test?",
+        "answer": "The tracker covers ChatGPT and Gemini, with three runs of each of the twelve questions in each tool. The project prompts are written for ChatGPT."
+      },
+      {
+        "question": "Why repeat every question three times?",
+        "answer": "AI answers vary between runs. Repeating the questions gives you a more useful snapshot than relying on one answer. Keep the tools' results separate."
+      },
+      {
+        "question": "Will this make ChatGPT recommend us?",
+        "answer": "It helps you measure your current visibility and choose what to investigate or fix. It does not guarantee recommendations, citations or a particular future score."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "Does ChatGPT Recommend Your Company? | The AI Business",
+    "metaDescription": "Check whether ChatGPT and Gemini recommend your B2B company. Free guide with 12 buyer questions, repeat-run scoring, a tracker and a fix plan.",
+    "related": [
+      "rewrite-your-homepage-with-ai",
+      "10-ai-workflows",
+      "build-your-gtm-in-one-ai-workflow"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1JZ9IPHK3cnySM3whrqc44CGKkrzxSuIT/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1JZ9IPHK3cnySM3whrqc44CGKkrzxSuIT",
+    "viewerUrl": "https://drive.google.com/file/d/1JZ9IPHK3cnySM3whrqc44CGKkrzxSuIT/preview"
   },
   {
     "slug": "the-ultimate-future-proof-gtm-tool-stack",
-    "order": 50,
-    "title": "The future-proof B2B GTM stack",
-    "shortDescription": "Tools for building your B2B go-to-market stack.",
-    "type": "tool list",
-    "cardButtonLabel": "Explore the tools",
-    "pageUrl": "https://theaibusiness.beehiiv.com/the-ultimate-future-proof-gtm-tool-stack",
-    "thumbnail": "/assets/resource-covers/the-ultimate-future-proof-gtm-tool-stack.webp",
-    "accessUrl": "https://drive.google.com/file/d/1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j/view",
+    "pageUrl": "/resources/the-ultimate-future-proof-gtm-tool-stack/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
     "accessLabel": "Open PDF guide",
     "format": "PDF guide",
+    "type": "tool list",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/the-ultimate-future-proof-gtm-tool-stack.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "17-page PDF guide",
+    "order": 50,
+    "title": "The future-proof B2B GTM stack",
+    "shortDescription": "A practical GTM tool guide with nine layers, setup order, dated prices and three example stacks.",
+    "cardButtonLabel": "Explore the tools",
+    "accessUrl": "https://drive.google.com/file/d/1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j/view",
     "thumbnailAlt": "Actual cover of The future-proof B2B GTM stack",
     "thumbnailWidth": 746,
     "thumbnailHeight": 1055,
-    "coverStyle": "publication"
+    "pageCount": 17,
+    "longDescription": [
+      "This 17-page guide maps a go-to-market tool stack for a B2B services company of about twenty people. It explains what each layer does, when to add it and what to leave alone if it already works.",
+      "It covers thirty tools across nine layers, from review profiles and account research to sending, booking, CRM and reporting. Three example stacks show the build at different budgets. Prices in the PDF were checked on 22 September 2026; they are a dated reference, not a live price feed."
+    ],
+    "whatsInside": [
+      {
+        "title": "Nine layers of the stack",
+        "description": "Being findable, accounts, contact data, sending, LinkedIn, booking, call recording, CRM and reporting."
+      },
+      {
+        "title": "Thirty tools with context",
+        "description": "What each tool does, a pricing reference or a note where pricing is not public, and when to consider it."
+      },
+      {
+        "title": "The build order",
+        "description": "A sequence for adding the basics before paying for later layers that depend on them."
+      },
+      {
+        "title": "Three example budgets",
+        "description": "Lean, working and full example stacks, itemised using the guide's dated pricing."
+      },
+      {
+        "title": "What not to replace",
+        "description": "Why an existing booking link, spreadsheet, working CRM or SDR may be better left in place."
+      },
+      {
+        "title": "An AI visibility check",
+        "description": "A short check of whether AI assistants name your company and what they get wrong."
+      }
+    ],
+    "whoItsFor": [
+      "Small B2B services firms choosing or reviewing their go-to-market tools.",
+      "Founders and small sales teams deciding what to add next.",
+      "Teams paying for overlapping tools without a clear setup order."
+    ],
+    "outcomes": [
+      "Map the tools you use to a specific job in the go-to-market.",
+      "See which basics need to work before another paid tool is useful.",
+      "Compare the guide's example stacks and check current vendor prices before buying.",
+      "Keep useful existing tools instead of replacing them without a clear reason."
+    ],
+    "faq": [
+      {
+        "question": "Are these prices current?",
+        "answer": "The PDF states that prices were verified on 22 September 2026. Vendor pricing can change, so check the linked vendor pages before making a purchase."
+      },
+      {
+        "question": "Who is the stack designed for?",
+        "answer": "The guide is framed around a B2B services company of about twenty people, with two or three people selling. It includes leaner and fuller examples for comparison."
+      },
+      {
+        "question": "Do I need every tool in the guide?",
+        "answer": "No. The guide includes a build order and examples at different budgets, and specifically discusses tools and processes you may not need to replace."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "B2B GTM Tool Stack Guide | The AI Business",
+    "metaDescription": "Review your B2B GTM tool stack with a free guide to 30 tools, nine layers, setup order and three example budgets. Pricing dated September 2026.",
+    "related": [
+      "which-channels-bring-clients",
+      "10-ai-workflows",
+      "score-your-gtm"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j",
+    "viewerUrl": "https://drive.google.com/file/d/1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j/preview"
+  },
+  {
+    "slug": "why-you-lose-deals",
+    "pageUrl": "/resources/why-you-lose-deals/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/why-you-lose-deals.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "10-page PDF guide",
+    "order": 60,
+    "title": "Find out why you lose B2B deals",
+    "pageCount": 10,
+    "shortDescription": "Review lost deals with four AI prompts, find the pattern and choose one fix to track.",
+    "longDescription": [
+      "This ten-page guide is a win-loss review workflow for B2B founders and sales teams. Use ChatGPT or Claude to turn lost-deal notes, emails, proposals or your memory into deal cards, evidence-backed reasons and a pattern to investigate.",
+      "You can start with three lost deals from the last six to twelve months. The workflow compares the losses with a few wins, separates eight possible reasons and helps you choose one change to track for ninety days. The worked example uses a made-up consultancy; its results are illustrative."
+    ],
+    "whatsInside": [
+      {
+        "title": "Four ready-to-use prompts",
+        "description": "Collect deal cards, examine each loss, find patterns and draft a fix plan."
+      },
+      {
+        "title": "Eight reasons to check",
+        "description": "Fit, timing, price, proof, follow-up, the buyer, competitors and an unclear offer."
+      },
+      {
+        "title": "A lost-deal scorecard",
+        "description": "Record the stage, the buyer's words, the likely reason, the evidence and your confidence."
+      },
+      {
+        "title": "An eight-deal worked example",
+        "description": "Follow a fictional consultancy through the review, including a comparison with won deals."
+      },
+      {
+        "title": "A first fix and a number to watch",
+        "description": "Choose a change tied to the main pattern and review it over the next ninety days."
+      },
+      {
+        "title": "A message for lost buyers",
+        "description": "A short message and questions to ask the people who said no, plus common review traps."
+      }
+    ],
+    "whoItsFor": [
+      "B2B founders and sales teams who keep logging losses as price or timing.",
+      "Teams with a few lost deals, even if the records are incomplete.",
+      "People deciding which part of their sales process to fix first."
+    ],
+    "outcomes": [
+      "Turn scattered deal notes or memories into a consistent review.",
+      "Separate what the buyer said from what the evidence supports.",
+      "Compare losses with wins and identify a pattern worth testing.",
+      "Choose one sales-process change and a number to review."
+    ],
+    "faq": [
+      {
+        "question": "Can I use this without good CRM notes?",
+        "answer": "Yes. The first prompt interviews you about each deal and creates a short deal card. Start with at least three lost deals from the last six to twelve months."
+      },
+      {
+        "question": "Which AI tools does it work with?",
+        "answer": "The four prompts are written for ChatGPT or Claude. You provide the deal information and check that the output is supported by your notes."
+      },
+      {
+        "question": "Can it prove why a buyer said no?",
+        "answer": "No. It asks the AI to show evidence and confidence, and to say when the information is insufficient. The guide also includes a message for asking lost buyers directly."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "Why Do You Lose B2B Deals? Free AI Guide | The AI Business",
+    "metaDescription": "Find patterns in lost B2B deals with ChatGPT or Claude. Free guide with four prompts, eight reasons to check, a scorecard and a worked example.",
+    "related": [
+      "prepare-sales-calls-using-ai",
+      "score-your-gtm",
+      "which-channels-bring-clients"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1BxeK751zz2onXghCr9IAtv0g0E4ZvEcT/view",
+    "accessUrl": "https://drive.google.com/file/d/1BxeK751zz2onXghCr9IAtv0g0E4ZvEcT/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1BxeK751zz2onXghCr9IAtv0g0E4ZvEcT",
+    "viewerUrl": "https://drive.google.com/file/d/1BxeK751zz2onXghCr9IAtv0g0E4ZvEcT/preview",
+    "thumbnailAlt": "Actual cover of Find out why you lose B2B deals",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055
+  },
+  {
+    "slug": "rewrite-your-homepage-with-ai",
+    "pageUrl": "/resources/rewrite-your-homepage-with-ai/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/rewrite-your-homepage-with-ai.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "12-page PDF + Claude skill",
+    "order": 70,
+    "title": "Rewrite your homepage in your clients' words",
+    "pageCount": 12,
+    "shortDescription": "Use client reviews to rewrite your headline, subheadline, proof lines and call to action.",
+    "longDescription": [
+      "This free guide and Claude skill help B2B founders and marketers compare the words on their homepage with the words clients actually use. Bring your homepage, client reviews and one answer from ChatGPT about your company.",
+      "The workflow extracts recurring language, checks the current page and rewrites the top section without inventing proof. You get a headline, subheadline, three proof lines, button text, alternatives and a before-and-after comparison. The twelve-page PDF includes a worked example, a site checklist and a full prompt for ChatGPT if you do not use Claude."
+    ],
+    "whatsInside": [
+      {
+        "title": "A downloadable Claude skill",
+        "description": "The skill ZIP linked from the PDF, with installation instructions in the guide."
+      },
+      {
+        "title": "A three-source method",
+        "description": "Your homepage, word-for-word client reviews and a ChatGPT description of your company."
+      },
+      {
+        "title": "A homepage language check",
+        "description": "Five checks, a list of jargon to cut and client language to consider adding."
+      },
+      {
+        "title": "The rewritten first section",
+        "description": "A headline, subheadline, three supported proof lines, button text and two alternative headlines."
+      },
+      {
+        "title": "A worked example and site checklist",
+        "description": "A fictional IT-services example shows the inputs, score, rewrite and a five-point checklist for the rest of the site."
+      },
+      {
+        "title": "A ChatGPT alternative",
+        "description": "The full method in one prompt for people who are not using the Claude skill."
+      }
+    ],
+    "whoItsFor": [
+      "B2B founders and marketers whose homepage sounds different from their clients.",
+      "Teams with real reviews, testimonials or customer quotes to work from.",
+      "People who want to review the language of the first section before rewriting the whole site."
+    ],
+    "outcomes": [
+      "Identify the problem, result and category words that recur in client feedback.",
+      "See where your homepage and your clients' language differ.",
+      "Draft a new first section with proof traced to the source material.",
+      "Compare the before and after and choose what to test with clients."
+    ],
+    "faq": [
+      {
+        "question": "What do I need before I start?",
+        "answer": "Your homepage URL or text, ten to twenty client reviews or testimonials copied word for word, and an answer from ChatGPT describing your company. The guide explains alternatives if reviews are scarce."
+      },
+      {
+        "question": "Does it include the Claude skill file?",
+        "answer": "Yes. The skill ZIP is available after you unlock this page. The PDF explains how to install it. A full ChatGPT prompt is also included if you prefer that route."
+      },
+      {
+        "question": "Can I use it with ChatGPT instead?",
+        "answer": "Yes. Page eleven gives the full method as one prompt, using the same three sources. You do not need the Claude skill for that route."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "Rewrite Your B2B Homepage with AI | The AI Business",
+    "metaDescription": "Rewrite your B2B homepage using real client language. Free PDF, Claude skill and ChatGPT prompt with a worked example and a homepage checklist.",
+    "attachments": [
+      {
+        "label": "Download Claude skill (.zip)",
+        "url": "https://drive.google.com/uc?export=download&id=1c2iZhUoPXjJ4TEhHmvWzJLRNRLx1GNDC"
+      }
+    ],
+    "related": [
+      "does-chatgpt-recommend-you",
+      "10-ai-workflows",
+      "build-your-gtm-in-one-ai-workflow"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1YdUzu4daaS_9ajcN0zeZ-BZFLbRwlJSe/view",
+    "accessUrl": "https://drive.google.com/file/d/1YdUzu4daaS_9ajcN0zeZ-BZFLbRwlJSe/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1YdUzu4daaS_9ajcN0zeZ-BZFLbRwlJSe",
+    "viewerUrl": "https://drive.google.com/file/d/1YdUzu4daaS_9ajcN0zeZ-BZFLbRwlJSe/preview",
+    "thumbnailAlt": "Actual cover of Rewrite your homepage in your clients' words",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055
+  },
+  {
+    "slug": "which-channels-bring-clients",
+    "pageUrl": "/resources/which-channels-bring-clients/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/which-channels-bring-clients.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "7-page PDF guide",
+    "order": 80,
+    "title": "Which channels actually bring you clients?",
+    "pageCount": 7,
+    "shortDescription": "Score your channels by signed clients, full cost and return, rather than lead volume.",
+    "longDescription": [
+      "This seven-page guide helps B2B founders and marketing teams review channels using won clients and revenue. Bring ninety days of channel spend, your own time, leads and won deals. ChatGPT or Claude helps tag sources and work through a channel scorecard.",
+      "The workflow calculates cost per lead, call and client, then gives each channel a verdict: double down, keep, fix or cut. A fictional agency example shows why cheap leads and a busy channel report can tell a different story from signed clients. It also explains what to do with unknown sources, long sales cycles and small samples."
+    ],
+    "whatsInside": [
+      {
+        "title": "A full-cost channel inventory",
+        "description": "Include ad spend, agency fees, tools and your own hours before comparing channels."
+      },
+      {
+        "title": "Three AI prompts",
+        "description": "Tag lead sources, calculate the scorecard and compare one month with the next."
+      },
+      {
+        "title": "The channel scorecard",
+        "description": "Leads, calls, won clients, revenue, cost per client, return and a verdict for each channel."
+      },
+      {
+        "title": "A worked agency example",
+        "description": "Follow the inputs and the resulting verdicts for a fictional B2B web agency."
+      },
+      {
+        "title": "Actions and review traps",
+        "description": "What to do with each verdict, plus first-touch attribution, unknown sources, long cycles and small samples."
+      }
+    ],
+    "whoItsFor": [
+      "B2B founders and marketers choosing where to put time and budget.",
+      "Teams that can count leads but struggle to trace signed clients back to a source.",
+      "Companies with at least some channel costs and won deals to review."
+    ],
+    "outcomes": [
+      "Include time as well as cash in a channel's cost.",
+      "Trace won clients back to where they first found you.",
+      "Calculate a comparable scorecard and flag weak evidence.",
+      "Choose one budget or process change to review next month."
+    ],
+    "faq": [
+      {
+        "question": "What numbers do I need?",
+        "answer": "The guide uses ninety days of channel costs, leads, first calls, won clients and revenue. You can use a CRM export, spreadsheet or enquiry records. Count your own hours as a cost too."
+      },
+      {
+        "question": "What if we do not know where clients came from?",
+        "answer": "The tagging prompt must mark missing sources as Unknown rather than guess. The guide explains how to improve source collection for later runs."
+      },
+      {
+        "question": "What if our sales cycle is longer than ninety days?",
+        "answer": "Do not cut a channel just because its open deals have not closed. The guide says to examine the pipeline or use a longer period before judging it."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "Which B2B Channels Bring Clients? | The AI Business",
+    "metaDescription": "Find which B2B channels bring signed clients. Free guide with three AI prompts, a full-cost scorecard, worked example and monthly review routine.",
+    "related": [
+      "build-your-gtm-in-one-ai-workflow",
+      "10-ai-workflows",
+      "score-your-gtm"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1rlkvgeKmu49SGA_UFxEahgyKqaKaiqjX/view",
+    "accessUrl": "https://drive.google.com/file/d/1rlkvgeKmu49SGA_UFxEahgyKqaKaiqjX/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1rlkvgeKmu49SGA_UFxEahgyKqaKaiqjX",
+    "viewerUrl": "https://drive.google.com/file/d/1rlkvgeKmu49SGA_UFxEahgyKqaKaiqjX/preview",
+    "thumbnailAlt": "Actual cover of Which channels actually bring you clients?",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055
+  },
+  {
+    "slug": "10-ai-workflows",
+    "pageUrl": "/resources/10-ai-workflows/",
+    "dateAdded": "2026-10-18",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/10-ai-workflows.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "10-page PDF guide",
+    "order": 90,
+    "title": "The 10 AI workflows every B2B company needs",
+    "pageCount": 10,
+    "shortDescription": "Ten GTM workflows, eleven prompts and a 30-day plan for ChatGPT or Claude.",
+    "longDescription": [
+      "This ten-page guide gives B2B founders and marketing and sales teams a starting workflow for ten recurring go-to-market jobs. Each has the inputs to bring, a prompt to run, an output to check and a worked example.",
+      "It covers best-fit buyers, positioning, AI visibility, homepage language, lead replies, call preparation, recaps and proposals, lost deals, channel attribution and pipeline reviews. Start with the two or three workflows that match your current problem, using the guide's problem-to-workflow table. The thirty-day plan shows how to introduce the rest in sequence."
+    ],
+    "whatsInside": [
+      {
+        "title": "Ten go-to-market workflows",
+        "description": "A practical job at each point from choosing buyers through winning work and keeping score."
+      },
+      {
+        "title": "Eleven prompts",
+        "description": "A reusable company-brief prompt followed by one starter prompt for each of the ten workflows."
+      },
+      {
+        "title": "Inputs and examples",
+        "description": "What to supply, what to expect back and a fictional company example for each workflow."
+      },
+      {
+        "title": "A table for choosing where to start",
+        "description": "Match the problem you recognise to the workflows worth trying first."
+      },
+      {
+        "title": "A 30-day plan and repeat schedule",
+        "description": "An order for setup and a routine for lead replies, calls, pipeline reviews and later checks."
+      }
+    ],
+    "whoItsFor": [
+      "B2B service and software founders and team leaders.",
+      "Marketing and sales teams using AI without a clear routine for their GTM tasks.",
+      "People who want a starting workflow and a way to choose which one matters first."
+    ],
+    "outcomes": [
+      "Write a company brief you can reuse across the workflows.",
+      "Pick two or three workflows that match the problem you need to solve.",
+      "Run a first draft with real business inputs and review the output.",
+      "Set a repeat routine instead of treating every AI task as a new experiment."
+    ],
+    "faq": [
+      {
+        "question": "How is this different from the one-workflow GTM guide?",
+        "answer": "This is a menu of ten recurring jobs, with a starter prompt for each. The whole-GTM guide is a longer sequence of ten planning stages in one project, ending in a 90-day plan."
+      },
+      {
+        "question": "Do I have to run all ten?",
+        "answer": "No. The guide recommends starting with two or three that match your biggest problem. It includes a table to help you choose."
+      },
+      {
+        "question": "Does it require new software or automation?",
+        "answer": "The prompts are written for ChatGPT or Claude. You bring the listed inputs and review the output. The guide does not install an automated system for you."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email once. The PDF appears on this page immediately, with a Download PDF button. You also subscribe to The AI Business newsletter and can unsubscribe at any time. Returning visitors on the same browser do not need to fill in the form again."
+      }
+    ],
+    "seoTitle": "10 AI Workflows for B2B Go-to-Market | The AI Business",
+    "metaDescription": "Use ten practical AI workflows across your B2B go-to-market. Free guide with eleven prompts, real-input checklists, worked examples and a 30-day plan.",
+    "related": [
+      "build-your-gtm-in-one-ai-workflow",
+      "prepare-sales-calls-using-ai",
+      "why-you-lose-deals"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1VV_IaZ9REs2bWzpEt4pYBWTfOL6n1cw_/view",
+    "accessUrl": "https://drive.google.com/file/d/1VV_IaZ9REs2bWzpEt4pYBWTfOL6n1cw_/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1VV_IaZ9REs2bWzpEt4pYBWTfOL6n1cw_",
+    "viewerUrl": "https://drive.google.com/file/d/1VV_IaZ9REs2bWzpEt4pYBWTfOL6n1cw_/preview",
+    "thumbnailAlt": "Actual cover of The 10 AI workflows every B2B company needs",
+    "thumbnailWidth": 746,
+    "thumbnailHeight": 1055
   }
 ]

@@ -1,18 +1,24 @@
 # Resource catalogue, library and pages
 
-`catalogue.json` is the single source of truth for all five library cards. Only `score-your-gtm` has its own resource page so far. The library now has a signup landing view and an unlocked view. Library access buttons use direct file/tool destinations; dedicated public resource pages remain separate.
+`catalogue.json` is the single source of truth for all nine library entries and resource pages. Each page keeps its public introduction, contents, audience, outcomes, FAQ and related links readable, then opens its PDF or assessment on the same page after signup. The library has a public signup view and an unlocked view with direct destinations.
 
 ## Add a resource
 
 1. Add an entry with `slug`, `title`, `shortDescription`, `type`, `thumbnail`, `pageUrl`, `accessUrl`, and optionally `accessLabel`, `format` and `order`.
 2. Run `node scripts/build-resources.cjs`. This generates the library cards, filters, CollectionPage/ItemList metadata and enabled resource pages. It retains the library sitemap entry.
-3. Run `node --test tests/resource-gate.test.cjs tests/resource-library.test.cjs`, preview and publish the source and generated output.
+3. Run `node --test tests/resource-gate.test.cjs tests/resource-library.test.cjs tests/resource-viewer.test.cjs`, preview and publish the source and generated output after approval.
 
-Cards use **manual order**, lowest number first; current entries are numbered 10–50. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
+Cards use **manual order**, lowest number first; current entries are numbered 10–90. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
 
 `accessUrl` is the direct resource destination used inside the unlocked library (a PDF viewer/download or the tool itself). Never set it to another signup page. `accessLabel` is the button text and `format` is the display label. `pageUrl` is reserved for public detail pages and metadata. For a dedicated page, supply the full content fields shown in `score-your-gtm`, then change `pageUrl` to `/resources/<slug>/`. The generator requires the full copy before creating a detail page; card-only entries do not create placeholder pages.
 
-For a minimal card, reuse an existing thumbnail or an HTTPS image. Use a real PDF cover for guides and set `coverStyle` to `publication` for the booklet presentation. The existing guide covers are small WebP renders of their original first pages. `libraryThumbnail` and `libraryThumbnailAlt` optionally override the image in the library without changing a public detail-page image. Images are not regenerated or replaced by the catalogue builder.
+For a minimal card, reuse an existing thumbnail or an HTTPS image. Use a real PDF cover for guides and set `coverStyle` to `publication` for the booklet presentation. All eight guide covers are small WebP renders of their original first pages. `libraryThumbnail` and `libraryThumbnailAlt` optionally override the image in the library without changing a public detail-page image. Images are not regenerated or replaced by the catalogue builder.
+
+For a complete page, copy a full catalogue entry. Include `longDescription` paragraphs, `whatsInside` title/description pairs, `whoItsFor`, `outcomes`, three to five `faq` entries and two or three other slugs in `related`. Set `pageUrl` to `/resources/<slug>/`. Keep existing slugs stable. The generator creates the complete page; no separate manual page is needed.
+
+For Google Drive PDFs, `resourceUrl` and `accessUrl` use `https://drive.google.com/file/d/FILE_ID/view`; `viewerUrl` uses the same path ending `/preview`; `gatedUrl` uses `https://drive.google.com/uc?export=download&id=FILE_ID`. Check anonymous sharing. Set `delivery` to `pdf`, `buttonLabel` to `Download PDF`, and accurate image dimensions/alt text. Optional `attachments` contain `label` and `url`, such as the homepage guide's skill ZIP.
+
+The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and library destination. That mode removes the second name/email form, makes company/site optional and disables the legacy submission email. The original standalone mode and scoring definitions remain intact. The builder extracts its twelve questions for public HTML without copying answer options or result definitions.
 
 ## Shared pieces
 
@@ -23,6 +29,7 @@ For a minimal card, reuse an existing thumbnail or an HTTPS image. Use a real PD
 - `templates/site-header.html` and `site-footer.html`: shared chrome for generated pages; existing footer and newsletter destinations are preserved.
 - `scripts/update-navigation.cjs`: idempotent conversion of old dropdowns to Resources links; leaves other content unchanged.
 - `resource-gate.js`: shared validation, immediate access, attribution and remembering.
+- `resource-viewer.js`: loads the resource iframe on unlock, scrolls to it (respecting reduced motion), and unloads it when access is reset. It duplicates no signup or backend logic.
 - `resource-library.js`: the type filter. Resource descriptions remain visible for search engines; JavaScript is required to unlock the access buttons.
 - `resource-config.js`: the single public Apps Script endpoint setting. The Notion token stays in Apps Script Properties.
 
@@ -38,8 +45,14 @@ Channel is captured on landing: utm_source first, then referrer, otherwise Direc
 
 ## Verification
 
-Run `node scripts/preview.cjs 4186`, then open `http://127.0.0.1:4186/resources/`.
+Run `node scripts/preview.cjs 4186 --mock-signups`, then open `http://127.0.0.1:4186/resources/`. This explicit local preview mode substitutes a localhost signup endpoint in the served config, so reviewing forms does not write to Notion. `/__preview-signups` shows request type, source and resource without retaining names or emails. The production config file is unchanged. Without this flag, the preview uses the real signup service.
 
 Check all cards and filters, library signup (First source = library, initially no resource tag), remembered assessment access and its return, remembered library confirmation, every page's Resources link, and desktop/mobile layout. Inspect console/network for CORS errors and preflight requests. Delete temporary Notion rows and clear only the resource-gate test browser keys afterwards.
 
-The automated tests cover shared form reuse, immediate access during backend failure, storage fallback, future-card generation from a minimal entry, unchanged detail-page content, preserved footer/newsletter links, and nav-only changes elsewhere.
+The automated tests cover shared form reuse, immediate access during backend failure, storage fallback, future-card generation, all nine pages' metadata and links, the twelve public questions, preserved assessment scoring, viewer loading/reset, reduced motion, footer/newsletter links and nav-only changes elsewhere.
+
+Signup labels use asterisks for name/email only. The optional Company website input accepts a domain or full URL, up to the existing 200-character backend limit. Its request key remains `company`, and Apps Script stores it as text in Notion's existing `Company` property. It is separate from the hidden `website` honeypot. Existing non-empty company values are preserved by the existing upsert rules. This applies to the shared library/detail form and the standalone assessment's company input.
+
+Public copy is static HTML. Unique titles/descriptions, canonical URLs, Open Graph/Twitter tags, CreativeWork (plus SoftwareApplication for the assessment), FAQPage, breadcrumbs, related links and sitemap entries come from the catalogue. The library has CollectionPage and ItemList metadata. These help search systems understand the pages; they do not guarantee rankings or AI citations.
+
+After publication approval, run live signup/Notion, return, file access, console/CORS and responsive checks. Remove disposable test rows and test browser keys. Only after successful publication update the four requested Content Assets fields: Website status, Website URL, Gate URL and Gate status.
