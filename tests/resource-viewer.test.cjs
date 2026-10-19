@@ -30,10 +30,10 @@ test('Viewer loads only after unlock, scrolls once, unloads on reset and support
   }
 });
 
-test('Nine complete pages have unique metadata, matching FAQs, internal related links and sitemap entries', () => {
-  assert.equal(catalogue.length, 9);
-  assert.equal(new Set(catalogue.map(r => r.seoTitle)).size, 9);
-  assert.equal(new Set(catalogue.map(r => r.metaDescription)).size, 9);
+test('All complete pages have unique metadata, matching FAQs, internal related links and sitemap entries', () => {
+  assert.ok(catalogue.length > 0);
+  assert.equal(new Set(catalogue.map(r => r.seoTitle)).size, catalogue.length);
+  assert.equal(new Set(catalogue.map(r => r.metaDescription)).size, catalogue.length);
   const sitemap = read('sitemap.xml');
   for (const r of catalogue) {
     const html = read('resources/' + r.slug + '/index.html');
@@ -47,6 +47,13 @@ test('Nine complete pages have unique metadata, matching FAQs, internal related 
     for (const slug of r.related) assert.ok(html.includes('href="/resources/' + slug + '/"'));
     assert.equal(sitemap.split('<loc>https://theaibusiness.net' + r.pageUrl + '</loc>').length - 1, 1);
     assert.match(html, /class="resource-honeypot" hidden inert aria-hidden="true"/);
+  }
+});
+
+test('PDF guides use the Guides filter and interactive assessments use Assessments', () => {
+  for (const r of catalogue) {
+    if (r.format === 'PDF guide') assert.equal(r.type, 'guide', r.slug + ' must be classified by its format');
+    if (r.format === 'Interactive assessment') assert.equal(r.type, 'assessment', r.slug + ' is an assessment');
   }
 });
 

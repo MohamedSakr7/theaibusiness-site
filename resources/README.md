@@ -4,11 +4,13 @@
 
 ## Add a resource
 
-1. Add an entry with `slug`, `title`, `shortDescription`, `type`, `thumbnail`, `pageUrl`, `accessUrl`, and optionally `accessLabel`, `format` and `order`.
+Follow [SOP.md](SOP.md) for the complete source review, approval, publication and live-testing workflow. Root [AGENTS.md](../AGENTS.md) makes this the default for future Codex sessions. This README describes the implementation.
+
+1. Add a complete entry following the existing examples, including the public copy, metadata, cover, delivery, related links and manual order. Every published guide/tool should have its own `/resources/<slug>/` page.
 2. Run `node scripts/build-resources.cjs`. This generates the library cards, filters, CollectionPage/ItemList metadata and enabled resource pages. It retains the library sitemap entry.
 3. Run `node --test tests/resource-gate.test.cjs tests/resource-library.test.cjs tests/resource-viewer.test.cjs`, preview and publish the source and generated output after approval.
 
-Cards use **manual order**, lowest number first; current entries are numbered 10–90. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
+Cards use **manual order**, lowest number first; current entries are numbered 10–90. The order is assessment → ten-workflow overview → complete GTM plan → AI visibility → homepage → sales calls → lost deals → channels → tool stack. This moves from diagnosis and planning through attracting/converting buyers, reviewing results and choosing supporting tools. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
 
 `accessUrl` is the direct resource destination used inside the unlocked library (a PDF viewer/download or the tool itself). Never set it to another signup page. `accessLabel` is the button text and `format` is the display label. `pageUrl` is reserved for public detail pages and metadata. For a dedicated page, supply the full content fields shown in `score-your-gtm`, then change `pageUrl` to `/resources/<slug>/`. The generator requires the full copy before creating a detail page; card-only entries do not create placeholder pages.
 
@@ -18,7 +20,7 @@ For a complete page, copy a full catalogue entry. Include `longDescription` para
 
 For Google Drive PDFs, `resourceUrl` and `accessUrl` use `https://drive.google.com/file/d/FILE_ID/view`; `viewerUrl` uses the same path ending `/preview`; `gatedUrl` uses `https://drive.google.com/uc?export=download&id=FILE_ID`. Check anonymous sharing. Set `delivery` to `pdf`, `buttonLabel` to `Download PDF`, and accurate image dimensions/alt text. Optional `attachments` contain `label` and `url`, such as the homepage guide's skill ZIP.
 
-The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and library destination. That mode removes the second name/email form, makes company/site optional and disables the legacy submission email. The original standalone mode and scoring definitions remain intact. The builder extracts its twelve questions for public HTML without copying answer options or result definitions.
+The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and library destination. That mode removes the second name/email form, leaves Company website optional and disables the legacy submission email. Scoring definitions remain intact. The builder extracts its twelve questions for public HTML without copying answer options or result definitions. The library image is a screenshot of the real tool; all eight PDFs use their actual first-page covers.
 
 ## Shared pieces
 
