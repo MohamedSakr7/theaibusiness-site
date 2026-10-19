@@ -312,3 +312,13 @@ test('Simultaneous tabs use the same return ID; server replays remain harmless a
   backend.post(replay);
   assert.equal(backend.state.rows[0].properties.Signups.number, 2);
 });
+
+test('Embedded tool does not compete with its parent to send the shared pending queue', async () => {
+  const saved = storage();
+  const offline = page({ storage: saved, kind: 'library', slug: 'library', fetch: () => Promise.reject(new Error('Offline')) });
+  gate.init(offline.win); offline.submit(); await tick();
+  const embedded = page({ storage: saved, noForm: true }); embedded.win.top = {};
+  gate.init(embedded.win); await tick(); assert.equal(embedded.requests.length, 0);
+  const main = page({ storage: saved, noForm: true }); gate.init(main.win); await tick();
+  assert.equal(main.requests.length, 1);
+});

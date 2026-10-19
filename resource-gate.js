@@ -183,6 +183,8 @@
 
   function init(root) {
     const doc = root.document, channel = captureChannel(root);
+    // The embedded tool shares its parent's queue; let the main page send it.
+    if (root.top && root.top !== root) return;
     browserId(root);
     flushPending(root); // Run on every site page, even pages without a form.
     const page = doc.querySelector('[data-resource-slug]');
