@@ -65,7 +65,7 @@ test('Public assessment exposes the twelve real questions without answer options
 });
 
 test('Existing slugs are preserved and every PDF uses consistent Google Drive delivery', () => {
-  const previous = JSON.parse(execFileSync('git', ['show', 'HEAD:resources/catalogue.json'], {cwd:root,encoding:'utf8'}));
+  const previous = JSON.parse(execFileSync('git', ['show', '25d5ad9a526a4333dfff84b761d0e22d3ac5327c:resources/catalogue.json'], {cwd:root,encoding:'utf8'}));
   for (const r of previous) assert.ok(catalogue.some(current => current.slug === r.slug));
   for (const r of catalogue.filter(r => r.delivery === 'pdf')) {
     const id = r.accessUrl.match(/\/file\/d\/([^/]+)\/view$/)[1];

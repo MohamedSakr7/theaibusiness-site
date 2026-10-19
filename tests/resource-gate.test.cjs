@@ -183,7 +183,7 @@ test('Shared CSS and application code remain unchanged; embedded assessment pres
     const base = execFileSync('git', ['show', '6efe75adff6884b0e887e2fa72fa1a837b5b2c2c:' + file], { cwd: rootPath });
     assert.equal(fs.readFileSync(path.join(rootPath, file), 'utf8').replace(/\r\n/g, '\n'), base.toString('utf8').replace(/\r\n/g, '\n'), file + ' changed outside scope');
   }
-  const before = execFileSync('git', ['show', 'HEAD:score-your-gtm/index.html'], { cwd: rootPath, encoding: 'utf8' });
+  const before = execFileSync('git', ['show', '6efe75adff6884b0e887e2fa72fa1a837b5b2c2c:score-your-gtm/index.html'], { cwd: rootPath, encoding: 'utf8' });
   const after = fs.readFileSync(path.join(rootPath, 'score-your-gtm/index.html'), 'utf8');
   for (const name of ['AREAS', 'VERDICT', 'FIXES', 'BANDS']) {
     const pattern = new RegExp('var ' + name + ' = ([\\s\\S]*?);');
