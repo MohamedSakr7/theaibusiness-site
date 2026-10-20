@@ -32,7 +32,7 @@ test('Every catalogue entry generates a correctly ordered card, image, descripti
 
 test('Library has canonical, Open Graph, CollectionPage and the catalogue ItemList', () => {
   const html = read('resources/index.html');
-  assert.match(html, /<title>Free B2B Go-to-Market Guides &amp; Tools \| The AI Business<\/title>/);
+  assert.match(html, /<title>Free B2B Go-to-Market Guides, Templates &amp; Tools \| The AI Business<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/theaibusiness.net\/resources\/"/);
   assert.match(html, /property="og:url" content="https:\/\/theaibusiness.net\/resources\/"/);
   const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
@@ -49,7 +49,7 @@ test('Public landing content, answers and resource count are generated before Ja
   const publicView = html.slice(html.indexOf('<div id="library-access-panel">'), html.indexOf('<section id="resource-access"'));
   assert.match(publicView, /<h1>Your free B2B/);
   assert.match(publicView, /go-to-market library/);
-  assert.ok(publicView.includes('<strong>' + catalogue.length + '</strong> free guides &amp; tools'));
+  assert.ok(publicView.includes('<strong>' + catalogue.length + '</strong> free guides, templates &amp; tools'));
   const copy = JSON.parse(read('resources/library.json'));
   for (const resource of catalogue) assert.ok(publicView.includes(escapeHtml(resource.title)));
   for (const faq of copy.faq) {
@@ -89,14 +89,19 @@ test('All resource pages reuse the library form and provide public content and g
     assert.equal(form(html), form(read('resources/score-your-gtm/index.html')));
     assert.match(html, /id="resource-outcomes"/);
     assert.match(html, /id="resource-related-heading"/);
-    assert.match(html, /data-resource-frame/);
-    const frame = html.match(/<iframe\b[^>]+>/)[0];
-    assert.ok(!/\ssrc=/.test(frame), 'Do not load gated files before unlock');
+    if (resource.delivery === 'template') {
+      assert.ok(!html.includes('<iframe'), 'Templates open in Notion for duplication');
+      assert.match(html, /Make it yours in Notion/);
+    } else {
+      assert.match(html, /data-resource-frame/);
+      const frame = html.match(/<iframe\b[^>]+>/)[0];
+      assert.ok(!/\ssrc=/.test(frame), 'Do not load gated files before unlock');
+    }
     assert.match(html, /class="resource-honeypot" hidden inert aria-hidden="true"/);
   }
   assert.ok(read('templates/resource-page.html').includes('{{SIGNUP_FORM}}'));
   assert.ok(read('templates/resource-library.html').includes('{{SIGNUP_FORM}}'));
-  assert.match(read('resources/index.html'), /All the guides\. All the tools\./);
+  assert.match(read('resources/index.html'), /All the guides\. All the templates\. All the tools\./);
   assert.equal(fs.readdirSync(path.join(root, 'resources'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length, catalogue.filter(resource => resource.pageUrl === '/resources/' + resource.slug + '/').length);
 });
 
@@ -142,7 +147,7 @@ test('Adding one minimal catalogue entry automatically adds its card and does no
     fs.writeFileSync(path.join(temp, 'resources/catalogue.json'), JSON.stringify(resources));
     execFileSync(process.execPath, [path.join(temp, 'scripts/build-resources.cjs')], { cwd: temp });
     assert.match(fs.readFileSync(path.join(temp, 'resources/index.html'), 'utf8'), /Future example/);
-    assert.ok(fs.readFileSync(path.join(temp, 'resources/index.html'), 'utf8').includes('<strong>' + resources.length + '</strong> free guides &amp; tools'));
+    assert.ok(fs.readFileSync(path.join(temp, 'resources/index.html'), 'utf8').includes('<strong>' + resources.length + '</strong> free guides, templates &amp; tools'));
     assert.equal(fs.existsSync(path.join(temp, 'resources/future-example')), false);
   } finally {
     const resolved = fs.realpathSync(temp);

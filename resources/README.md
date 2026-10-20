@@ -1,6 +1,6 @@
 # Resource catalogue, library and pages
 
-`catalogue.json` is the single source of truth for all nine library entries and resource pages. Each page keeps its public introduction, contents, audience, outcomes, FAQ and related links readable, then opens its PDF or assessment on the same page after signup. The library has a public signup view and an unlocked view with direct destinations.
+`catalogue.json` is the single source of truth for the library entries and resource pages. Each page keeps its public introduction, contents, audience, outcomes, FAQ and related links readable, then opens its PDF or assessment on the same page after signup. The library has a public signup view and an unlocked view with direct destinations.
 
 ## Add a resource
 
@@ -10,7 +10,7 @@ Follow [SOP.md](SOP.md) for the complete source review, approval, publication an
 2. Run `node scripts/build-resources.cjs`. This generates the library cards, filters, CollectionPage/ItemList metadata and enabled resource pages. It retains the library sitemap entry.
 3. Run `node --test tests/resource-*.test.cjs`, preview and publish the source and generated output after approval.
 
-Cards use **manual order**, lowest number first; current entries are numbered 10–90. The order is assessment → ten-workflow overview → complete GTM plan → AI visibility → homepage → sales calls → lost deals → channels → tool stack. This moves from diagnosis and planning through attracting/converting buyers, reviewing results and choosing supporting tools. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
+Cards use **manual order**, lowest number first; current entries use explicit order values. The order is assessment → ten-workflow overview → complete GTM plan → AI visibility → homepage → sales calls → CRM template → lost deals → channels → tool stack. This moves from diagnosis and planning through attracting/converting buyers, reviewing results and choosing supporting tools. No hand-coded card, per-resource JavaScript, filter option or manual library metadata edit is needed.
 
 `accessUrl` is the direct resource destination used inside the unlocked library (a PDF viewer/download or the tool itself). Never set it to another signup page. `accessLabel` is the button text and `format` is the display label. `pageUrl` is reserved for public detail pages and metadata. For a dedicated page, supply the full content fields shown in `score-your-gtm`, then change `pageUrl` to `/resources/<slug>/`. The generator requires the full copy before creating a detail page; card-only entries do not create placeholder pages.
 
@@ -21,6 +21,10 @@ For a complete page, copy a full catalogue entry. Include `longDescription` para
 For Google Drive PDFs, `resourceUrl` and `accessUrl` use `https://drive.google.com/file/d/FILE_ID/view`; `viewerUrl` uses the same path ending `/preview`; `gatedUrl` uses `https://drive.google.com/uc?export=download&id=FILE_ID`. Check anonymous sharing. Set `delivery` to `pdf`, `buttonLabel` to `Download PDF`, and accurate image dimensions/alt text. Optional `attachments` contain `label` and `url`, such as the homepage guide's skill ZIP.
 
 The assessment uses `/score-your-gtm/?embedded=1` for the inline viewer and library destination. Its old contact form and FormSubmit code have been removed entirely. Company website is optional context only. Without `embedded=1`, a browser redirect sends visitors to the public landing page, retaining other query parameters and the hash. The implementation URL is noindex with the public landing page as canonical. Scoring definitions remain intact. The builder extracts its twelve questions for public HTML without copying answer options or result definitions. The library image is a screenshot of the real tool; all eight PDFs use their actual first-page covers.
+
+## Notion templates
+
+Use `type: template`, `delivery: template` and `format: Notion template`. Set `resourceUrl`, `accessUrl`, `gatedUrl` and `viewerUrl` to the verified public Notion template URL. Use an actual screenshot for the cover. Template pages unlock a direct Open Notion template button and copying instructions, rather than a PDF viewer or embedded tool. Reading is anonymous; duplicating requires a Notion account. Verify the public child guide pages, databases and Duplicate entry point. The shared signup and once-only return system is unchanged.
 
 ## Shared pieces
 

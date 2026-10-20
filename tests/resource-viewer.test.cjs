@@ -30,6 +30,41 @@ test('Viewer loads only after unlock, scrolls once, unloads on reset and support
   }
 });
 
+test('Template delivery scrolls on unlock and resets without requiring an iframe', () => {
+  let sync;
+  const scrolls = [];
+  const access = { hidden: true, scrollIntoView: options => scrolls.push(options) };
+  function MutationObserver(callback) { sync = callback; this.observe = () => {}; }
+  vm.runInNewContext(read('resource-viewer.js'), {
+    MutationObserver, window: { matchMedia: () => ({ matches: true }) },
+    document: { getElementById: () => access, querySelector: () => null }
+  });
+  assert.equal(scrolls.length, 0);
+  access.hidden = false; sync(); sync();
+  assert.equal(scrolls.length, 1);
+  access.hidden = true; sync();
+  access.hidden = false; sync();
+  assert.equal(scrolls.length, 2);
+});
+
+test('Notion templates have their own filter, direct destination and HTML CreativeWork metadata', () => {
+  const resource = catalogue.find(r => r.slug === 'claude-notion-crm');
+  const html = read('resources/claude-notion-crm/index.html');
+  const library = read('resources/index.html');
+  const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+  const work = graph.find(n => n['@type'] === 'CreativeWork');
+  assert.equal(resource.type, 'template');
+  assert.equal(resource.delivery, 'template');
+  assert.equal(work.learningResourceType, 'Template');
+  assert.equal(work.encodingFormat, 'text/html');
+  assert.ok(!html.includes('application/pdf') && !html.includes('<iframe'));
+  assert.match(html, /data-gated-url="https:\/\/stellar-echinodon-d3b.notion.site\//);
+  assert.match(html, /Open Notion template/);
+  assert.match(html, /Click Duplicate/);
+  assert.match(library, /data-resource-filter="template" aria-pressed="false">Templates/);
+  assert.ok(!library.includes('>010</span>'));
+});
+
 test('All complete pages have unique metadata, matching FAQs, internal related links and sitemap entries', () => {
   assert.ok(catalogue.length > 0);
   assert.equal(new Set(catalogue.map(r => r.seoTitle)).size, catalogue.length);

@@ -254,7 +254,7 @@
     "related": [
       "why-you-lose-deals",
       "10-ai-workflows",
-      "score-your-gtm"
+      "claude-notion-crm"
     ],
     "delivery": "pdf",
     "resourceUrl": "https://drive.google.com/file/d/11ulSind1vxKraRxVJbRQ_51yA7nKix3V/view",
@@ -434,7 +434,7 @@
     "related": [
       "which-channels-bring-clients",
       "10-ai-workflows",
-      "score-your-gtm"
+      "claude-notion-crm"
     ],
     "delivery": "pdf",
     "resourceUrl": "https://drive.google.com/file/d/1dHXPzn4a-KyIVCzfLIq5wVmydnOZW32j/view",
@@ -802,5 +802,96 @@
     "thumbnailAlt": "Actual cover of The 10 AI workflows every B2B company needs",
     "thumbnailWidth": 746,
     "thumbnailHeight": 1055
+  },
+  {
+    "slug": "claude-notion-crm",
+    "title": "Claude + Notion CRM",
+    "type": "template",
+    "format": "Notion template",
+    "delivery": "template",
+    "pageUrl": "/resources/claude-notion-crm/",
+    "dateAdded": "2026-10-20",
+    "order": 65,
+    "buttonLabel": "Open Notion template",
+    "accessLabel": "Open Notion template",
+    "gatedUrl": "https://stellar-echinodon-d3b.notion.site/Claude-Notion-CRM-3ffcf6add7918139ae64cc6674829bb2",
+    "resourceUrl": "https://stellar-echinodon-d3b.notion.site/Claude-Notion-CRM-3ffcf6add7918139ae64cc6674829bb2",
+    "accessUrl": "https://stellar-echinodon-d3b.notion.site/Claude-Notion-CRM-3ffcf6add7918139ae64cc6674829bb2",
+    "viewerUrl": "https://stellar-echinodon-d3b.notion.site/Claude-Notion-CRM-3ffcf6add7918139ae64cc6674829bb2",
+    "thumbnail": "/assets/resource-covers/claude-notion-crm-screen.png",
+    "thumbnailAlt": "Actual Claude + Notion CRM template showing its setup guide, playbook and Contacts section in Notion.",
+    "thumbnailWidth": 1424,
+    "thumbnailHeight": 834,
+    "thumbnailCaption": "The actual Notion template, with its guide and example databases.",
+    "coverStyle": "template",
+    "duration": "Notion template + setup guide",
+    "seoTitle": "Claude + Notion CRM Template for Solo Sellers | The AI Business",
+    "metaDescription": "A free Notion CRM template with a Claude playbook, contacts, activity log and follow-up queue. Includes setup instructions, example prompts and a practical guide.",
+    "shortDescription": "A Notion CRM with a Claude playbook for contacts, follow-ups and pipeline reviews. Includes a setup guide and worked examples.",
+    "longDescription": [
+      "A free Notion CRM template for founders and solo sellers who want help keeping contacts, follow-ups and deal history up to date. Notion holds the records. You tell Claude what happened, and Claude helps update the CRM, prepare drafts and work out who to contact next. You send every message yourself.",
+      "Duplicate the template into your own Notion workspace, connect Notion to Claude, and follow the guide inside. It includes three linked databases, a playbook you can adapt to your business, example records and ten jobs to try in chat.",
+      "Nothing syncs or runs in the background by default. You report your activity and check what Claude logged. The included limits page explains the gaps: automatic email capture, sending, call recording, team reporting and consent tracking."
+    ],
+    "overviewHeading": "Keep the pipeline current through a conversation.",
+    "whatsInside": [
+      {
+        "title": "Contacts and pipeline",
+        "description": "One record per person, with stages, fit, priority, deal details and dated follow-ups. Saved views cover the pipeline, signals, warm network and more."
+      },
+      {
+        "title": "Activity Log and Connection Requests",
+        "description": "A linked history of touches, a weekly scoreboard and a place to keep the reason behind each connection request."
+      },
+      {
+        "title": "An editable Claude playbook",
+        "description": "Set your follow-up cadence, ideal customer profile, voice rules and offer. The guide includes project instructions to copy into Claude."
+      },
+      {
+        "title": "A guide to setup and everyday use",
+        "description": "Setup steps, ten example jobs, daily and weekly routines, contact import guidance and an explicit explanation of the limits."
+      },
+      {
+        "title": "Invented examples to practise with",
+        "description": "Example contacts, activities and connection requests let you see the workflow before adding your own data."
+      }
+    ],
+    "whoItsFor": [
+      "Founders and solo sellers managing their own B2B pipeline.",
+      "People using Notion and Claude who want a structured follow-up routine.",
+      "Small businesses whose CRM needs centre on contacts, conversation history and the next action."
+    ],
+    "outcomes": [
+      "Copy the CRM into your own workspace and configure the playbook for your business.",
+      "Ask Claude for follow-ups due, research-backed drafts and pipeline updates from your records.",
+      "Log what happened after messages and calls, then review activity against your weekly targets."
+    ],
+    "faq": [
+      {
+        "question": "Is this a PDF guide or a Notion template?",
+        "answer": "It is a duplicable Notion template. The setup guide, playbook, example prompts and routines are pages inside it, alongside the three databases. There is no PDF to download."
+      },
+      {
+        "question": "How do I copy it into my workspace?",
+        "answer": "Enter your name and email here to unlock the template link. Open it in Notion and click Duplicate at the top right, then sign in and choose your own workspace. Website signup also subscribes you to The AI Business newsletter."
+      },
+      {
+        "question": "What do I need to run it?",
+        "answer": "You need a Notion account to save your copy, plus a Claude account connected to Notion to use Claude as the operator. Follow the setup guide in your copy. Claude usage limits and any paid account or add-on costs are separate from the free template."
+      },
+      {
+        "question": "Does Claude send messages or sync my inbox automatically?",
+        "answer": "No. You tell Claude what happened and send messages yourself. The core workflow does not capture email activity automatically or run follow-ups in the background."
+      },
+      {
+        "question": "Can it replace a CRM for a sales team?",
+        "answer": "It is designed around founders and solo sellers. It does not provide a team CRM’s automatic activity capture, sending sequences, call recording, per-rep reporting or consent tracking. Read the limits page before using it."
+      }
+    ],
+    "related": [
+      "prepare-sales-calls-using-ai",
+      "why-you-lose-deals",
+      "the-ultimate-future-proof-gtm-tool-stack"
+    ]
   }
 ]

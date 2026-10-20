@@ -56,7 +56,8 @@ for (const resource of catalogue) {
   assert.ok(Array.isArray(resource.related) && resource.related.length >= 2 && resource.related.length <= 3, 'Use two or three related resources.');
   assert.match(resource.viewerUrl, /^(?:\/(?!\/)|https:\/\/)/, 'viewerUrl must be root-relative or HTTPS.');
   const isTool = resource.delivery === 'tool';
-  const itemLabel = isTool ? 'assessment' : 'guide';
+  const isTemplate = resource.delivery === 'template';
+  const itemLabel = isTemplate ? 'template' : isTool ? 'assessment' : 'guide';
   const publicQuestions = isTool ? '<section class="resource-public-questions" aria-labelledby="assessment-questions-heading"><span class="eyebrow">Before you start</span><h2 id="assessment-questions-heading">The twelve assessment questions</h2><p>These are the scored questions, exactly as they appear in the tool. Scoring, results and next steps are inside the unlocked assessment.</p><ol>' + assessmentQuestions.map(question => '<li>' + esc(question) + '</li>').join('') + '</ol></section>' : '';
   const related = resource.related.map(slug => {
     const match = bySlug.get(slug);
@@ -70,8 +71,8 @@ for (const resource of catalogue) {
       { '@type': 'Organization', '@id': siteUrl + '/#organization', name: 'The AI Business', url: siteUrl + '/' },
       { '@type': isTool ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork', '@id': canonical + '#resource', name: resource.title, description: resource.shortDescription,
         url: canonical, image: new URL(resource.thumbnail, siteUrl).href, genre: resource.type, inLanguage: 'en',
-        isAccessibleForFree: true, learningResourceType: isTool ? 'Assessment' : 'Guide',
-        ...(isTool ? { applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { encodingFormat: 'application/pdf' }),
+        isAccessibleForFree: true, learningResourceType: isTemplate ? 'Template' : isTool ? 'Assessment' : 'Guide',
+        ...(isTool ? { applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { encodingFormat: isTemplate ? 'text/html' : 'application/pdf' }),
         publisher: { '@id': siteUrl + '/#organization' } },
       { '@type': 'FAQPage', '@id': canonical + '#faq', url: canonical, mainEntity: resource.faq.map(item => ({
         '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer }
@@ -93,12 +94,15 @@ for (const resource of catalogue) {
     PUBLIC_QUESTIONS: publicQuestions, RELATED_RESOURCES: related,
     DELIVERY: esc(resource.delivery), VIEWER_URL: esc(resource.viewerUrl),
     ITEM_LABEL: itemLabel,
-    GATE_DESCRIPTION: isTool ? 'Enter your details once to use this assessment. You can then open every guide and tool in this browser.' : 'Enter your details once to read this guide. You can then open every guide and tool in this browser.',
-    UNLOCKED_MESSAGE: isTool ? 'Your assessment is ready. Start below.' : 'Your guide is ready. Read it below or download the PDF.',
-    VIEWER_HEADING: isTool ? 'Your assessment' : 'Read the guide',
+    GATE_DESCRIPTION: 'Enter your details once to ' + (isTemplate ? 'get this Notion template' : isTool ? 'use this assessment' : 'read this guide') + '. You can then open every guide, template and tool in this browser.',
+    UNLOCKED_MESSAGE: isTemplate ? 'Your template is ready. Open it in Notion, then duplicate it into your own workspace.' : isTool ? 'Your assessment is ready. Start below.' : 'Your guide is ready. Read it below or download the PDF.',
+    VIEWER_HEADING: isTemplate ? 'Your Notion template' : isTool ? 'Your assessment' : 'Read the guide',
+    HERO_NOTE: isTemplate ? 'Unlock the template link here. Copy it in Notion. No email to wait for.' : 'Opens here after signup. No email to wait for.',
+    GATE_HEADING: isTemplate ? 'Get the template.' : 'Open it here.',
+    VIEWER_CONTENT: isTemplate ? '<div class="resource-template-steps"><h3>Make it yours in Notion</h3><ol><li>Open the template with the button above. The guide and example databases are public to read.</li><li>Click Duplicate at the top right in Notion, then sign in and choose your own workspace.</li><li>Open Start here in your copy. Connect Notion to Claude, paste the project instructions, and fill in the four marked Playbook sections.</li><li>Try the invented examples before adding your contacts. Keep your real data in your own copy.</li></ol><p>A Notion account is needed to save a copy. Running the CRM with Claude needs a Claude account and the Notion connector. Nothing is sent automatically.</p></div>' : '<iframe class="resource-frame ' + esc(resource.delivery) + '" data-resource-frame data-src="' + esc(resource.viewerUrl) + '" title="' + esc((isTool ? 'Use the assessment: ' : 'Read the PDF: ') + resource.title) + '" allow="fullscreen" allowfullscreen></iframe>',
     VIEWER_TITLE: esc((isTool ? 'Use the assessment: ' : 'Read the PDF: ') + resource.title),
     RESOURCE_URL: esc(resource.resourceUrl || resource.gatedUrl),
-    FALLBACK_LABEL: isTool ? 'Open assessment in a new tab' : 'Open PDF in a new tab',
+    FALLBACK_LABEL: isTemplate ? 'Open the original Notion template' : isTool ? 'Open assessment in a new tab' : 'Open PDF in a new tab',
     ATTACHMENTS: (resource.attachments || []).map(file => '<p class="resource-extra-download"><a href="' + esc(file.url) + '" target="_blank" rel="noopener noreferrer">' + esc(file.label) + ' ↗</a></p>').join('\n'),
     SOCIAL_IMAGE: esc(new URL(resource.thumbnail, siteUrl).href),
     IMAGE_WIDTH: String(resource.thumbnailWidth || 640), IMAGE_HEIGHT: String(resource.thumbnailHeight || 500),
@@ -124,7 +128,7 @@ const cards = catalogue.map((resource, index) => {
   assert.match(destination, /^(?:\/(?!\/)|https:\/\/)/, 'accessUrl must be root-relative or HTTPS');
   const external = destination.startsWith('https://');
   const extra = external ? ' target="_blank" rel="noopener noreferrer"' : '';
-  return '<article class="library-card" data-resource-type="' + esc(resource.type) + '"><div class="library-card-cover ' + (resource.coverStyle === 'publication' ? 'is-publication' : 'is-assessment') + '"><img src="' + esc(resource.libraryThumbnail || resource.thumbnail) + '" alt="' + esc(resource.libraryThumbnailAlt || resource.thumbnailAlt || resource.title) + '" width="640" height="400" loading="lazy"><span class="library-card-number">0' + (index + 1) + '</span></div><div class="library-card-body"><span class="library-card-type">' + esc(resource.format || resource.type) + '</span><h2>' + esc(resource.title) + '</h2><p>' + esc(resource.shortDescription) + '</p><a class="library-card-button" data-library-resource="' + esc(resource.slug) + '" href="' + esc(destination) + '"' + extra + '>' + esc(resource.accessLabel || 'Open resource') + ' <span aria-hidden="true">↗</span></a><span class="library-card-location">' + (external ? 'Opens in a new tab' : 'Interactive tool · about 3 minutes') + '</span></div></article>';
+  return '<article class="library-card" data-resource-type="' + esc(resource.type) + '"><div class="library-card-cover ' + (resource.coverStyle === 'publication' ? 'is-publication' : 'is-assessment') + '"><img src="' + esc(resource.libraryThumbnail || resource.thumbnail) + '" alt="' + esc(resource.libraryThumbnailAlt || resource.thumbnailAlt || resource.title) + '" width="640" height="400" loading="lazy"><span class="library-card-number">' + String(index + 1).padStart(2, '0') + '</span></div><div class="library-card-body"><span class="library-card-type">' + esc(resource.format || resource.type) + '</span><h2>' + esc(resource.title) + '</h2><p>' + esc(resource.shortDescription) + '</p><a class="library-card-button" data-library-resource="' + esc(resource.slug) + '" href="' + esc(destination) + '"' + extra + '>' + esc(resource.accessLabel || 'Open resource') + ' <span aria-hidden="true">↗</span></a><span class="library-card-location">' + (external ? resource.delivery === 'template' ? 'Opens in Notion · duplicate to your workspace' : 'Opens in a new tab' : 'Interactive tool · about 3 minutes') + '</span></div></article>';
 }).join('\n');
 const previews = catalogue.map((resource, index) => '<li id="' + esc(resource.slug) + '"><span class="preview-number">' + String(index+1).padStart(2,'0') + '</span><div><h3><a href="' + esc(resource.pageUrl) + '">' + esc(resource.title) + '</a></h3><span class="preview-format">' + esc(resource.format || resource.type) + '</span></div><span class="preview-included" aria-label="Included">✓</span></li>').join('\n');
 const libraryFAQ = libraryCopy.faq.map(item => '<details><summary>' + esc(item.question) + '</summary><p>' + esc(item.answer) + '</p></details>').join('\n');
