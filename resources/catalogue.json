@@ -519,8 +519,8 @@
     "seoTitle": "Why Do You Lose B2B Deals? Free AI Guide | The AI Business",
     "metaDescription": "Find patterns in lost B2B deals with ChatGPT or Claude. Free guide with four prompts, eight reasons to check, a scorecard and a worked example.",
     "related": [
+      "find-your-competitive-gap",
       "prepare-sales-calls-using-ai",
-      "score-your-gtm",
       "which-channels-bring-clients"
     ],
     "delivery": "pdf",
@@ -616,8 +616,8 @@
       }
     ],
     "related": [
+      "find-your-competitive-gap",
       "does-chatgpt-recommend-you",
-      "10-ai-workflows",
       "build-your-gtm-in-one-ai-workflow"
     ],
     "delivery": "pdf",
@@ -893,5 +893,97 @@
       "why-you-lose-deals",
       "the-ultimate-future-proof-gtm-tool-stack"
     ]
+  },
+  {
+    "slug": "find-your-competitive-gap",
+    "pageUrl": "/resources/find-your-competitive-gap/",
+    "dateAdded": "2026-10-24",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/find-your-competitive-gap.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "16-page PDF guide",
+    "order": 35,
+    "title": "Find the gap you can own against competitors",
+    "shortDescription": "Compare your claims and proof with three competitors, then turn a credible difference into your headline and sales pitch.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/1mZVT9J95sbxUum102fVEZli37lcQZ9qF/view",
+    "thumbnailAlt": "Actual cover of the guide, titled Find the gap your competitors can’t claim.",
+    "thumbnailWidth": 745,
+    "thumbnailHeight": 1054,
+    "pageCount": 16,
+    "longDescription": [
+      "When your website sounds like every competitor, buyers have little to compare beyond price. This 16-page guide helps B2B service and software companies compare what they claim, what they can prove and what buyers actually value.",
+      "Use one setup prompt and six guided steps in Claude or ChatGPT to compare your business with three competitors. Build a claims-vs-proof map, choose a position you can support, and draft the headline, proof points and sales answer that explain why a buyer should choose you. The guide includes a fictional worked example, blank worksheets and a 14-day rollout plan."
+    ],
+    "whatsInside": [
+      {
+        "title": "One setup and six guided steps",
+        "description": "Interview your business, collect competitor claims, check proof, read buyer feedback, pick your edge and write the words."
+      },
+      {
+        "title": "A claims-vs-proof map",
+        "description": "Compare four companies across eight themes and mark claims Proven, Weak or None. Find evidence you have but do not show."
+      },
+      {
+        "title": "Buyer feedback and an edge scorecard",
+        "description": "Use review quotes and won/lost deal notes, then score possible positions on buyer interest, proof, difference and consistency."
+      },
+      {
+        "title": "A worked example and blank worksheets",
+        "description": "Follow fictional company Fellgate IT through the map, position scores and before-and-after homepage copy. Use the blank map and scorecard yourself."
+      },
+      {
+        "title": "Copy and a plan to use it",
+        "description": "Draft a headline, subheadline, three proof points, a sales answer and a one-line pitch, with a 30-day proof list and 14-day rollout."
+      }
+    ],
+    "whoItsFor": [
+      "Founders and leaders of B2B service and software companies, roughly $500k to $15M in revenue.",
+      "Teams hearing that they look similar to competitors or losing compared deals on price.",
+      "People who can bring website pages, customer reviews, deal notes and evidence of their work."
+    ],
+    "outcomes": [
+      "See where you and your competitors make the same claims, and who can support them.",
+      "Choose a position buyers care about that you can prove and keep delivering.",
+      "Draft consistent messaging for your homepage, proposals and sales calls.",
+      "Identify the proof you still need before making a claim public."
+    ],
+    "faq": [
+      {
+        "question": "What does “a gap you can own” mean?",
+        "answer": "A position that buyers value, that you can prove today, that your three competitors would struggle to claim truthfully, and that you can keep delivering. The guide scores candidate positions against all four tests."
+      },
+      {
+        "question": "What do I need to run the workflow?",
+        "answer": "Claude or ChatGPT with web search, your website and three relevant competitors, customer reviews and your own proof and deal notes. If a page cannot be opened, paste its text. The guide includes a collection checklist."
+      },
+      {
+        "question": "How long does it take?",
+        "answer": "The guide estimates about two hours for a full run, mostly gathering pages and reviews. It also gives a shorter route through the interview, claims, proof and position steps. Allow extra time to collect missing evidence."
+      },
+      {
+        "question": "Is the worked example a real client result?",
+        "answer": "No. Fellgate IT and its competitors are invented companies. Their pages, reviews, deal notes and figures are fictional inputs used to demonstrate the workflow, not client results or a promise of performance."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email to read the PDF on this page immediately and download a copy. You also subscribe to The AI Business newsletter and can unsubscribe at any time. The same browser remembers your access."
+      }
+    ],
+    "seoTitle": "Find Your Competitive Gap: B2B AI Guide | The AI Business",
+    "metaDescription": "Find a B2B position you can prove against three competitors. Free 16-page AI guide with six steps, a claims-vs-proof map, scorecard and messaging prompts.",
+    "related": [
+      "why-you-lose-deals",
+      "rewrite-your-homepage-with-ai",
+      "build-your-gtm-in-one-ai-workflow"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1mZVT9J95sbxUum102fVEZli37lcQZ9qF/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1mZVT9J95sbxUum102fVEZli37lcQZ9qF",
+    "viewerUrl": "https://drive.google.com/file/d/1mZVT9J95sbxUum102fVEZli37lcQZ9qF/preview"
   }
 ]

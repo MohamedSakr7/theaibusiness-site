@@ -10,7 +10,7 @@ const root = path.resolve(__dirname, '..');
 const baseline = '6efe75adff6884b0e887e2fa72fa1a837b5b2c2c';
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const original = file => execFileSync('git', ['show', baseline + ':' + file], { cwd: root, encoding: 'utf8' });
-const normalize = text => text.replace(/\r\n/g, '\n');
+const normalize = text => text.replace(/\r\n/g, '\n').trimEnd();
 const escapeHtml = text => text.replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[char]));
 const catalogue = JSON.parse(read('resources/catalogue.json')).sort((a, b) => (a.order ?? 1000) - (b.order ?? 1000) || a.title.localeCompare(b.title));
 const navPages = ['index.html', 'about/index.html', 'methodology/index.html', 'newsletter/index.html', '404.html', 'guides/check-ai-visibility/index.html', 'guides/ai-go-to-market-roi/index.html', 'resources/index.html', 'resources/score-your-gtm/index.html'];
