@@ -519,9 +519,9 @@
     "seoTitle": "Why Do You Lose B2B Deals? Free AI Guide | The AI Business",
     "metaDescription": "Find patterns in lost B2B deals with ChatGPT or Claude. Free guide with four prompts, eight reasons to check, a scorecard and a worked example.",
     "related": [
+      "find-revenue-in-your-crm",
       "find-your-competitive-gap",
-      "prepare-sales-calls-using-ai",
-      "which-channels-bring-clients"
+      "prepare-sales-calls-using-ai"
     ],
     "delivery": "pdf",
     "resourceUrl": "https://drive.google.com/file/d/1BxeK751zz2onXghCr9IAtv0g0E4ZvEcT/view",
@@ -889,9 +889,9 @@
       }
     ],
     "related": [
+      "find-revenue-in-your-crm",
       "prepare-sales-calls-using-ai",
-      "why-you-lose-deals",
-      "the-ultimate-future-proof-gtm-tool-stack"
+      "why-you-lose-deals"
     ]
   },
   {
@@ -985,5 +985,98 @@
     "resourceUrl": "https://drive.google.com/file/d/1mZVT9J95sbxUum102fVEZli37lcQZ9qF/view",
     "gatedUrl": "https://drive.google.com/uc?export=download&id=1mZVT9J95sbxUum102fVEZli37lcQZ9qF",
     "viewerUrl": "https://drive.google.com/file/d/1mZVT9J95sbxUum102fVEZli37lcQZ9qF/preview"
+  },
+  {
+    "slug": "find-revenue-in-your-crm",
+    "pageUrl": "/resources/find-revenue-in-your-crm/",
+    "dateAdded": "2026-10-25",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/find-revenue-in-your-crm.webp",
+    "thumbnailCaption": "The actual cover of the guide.",
+    "duration": "11-page PDF guide",
+    "order": 55,
+    "title": "Find the revenue buried in your CRM",
+    "shortDescription": "Use AI to find leads waiting, overdue follow-ups and deals going quiet, then turn your CRM data into a weekly action plan.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX/view",
+    "thumbnailAlt": "Actual PDF cover: Find the revenue buried in your CRM, by Mo Sakr.",
+    "thumbnailWidth": 745,
+    "thumbnailHeight": 1054,
+    "pageCount": 11,
+    "longDescription": [
+      "Your CRM can show a busy pipeline while new leads wait, follow-ups slip and proposals go quiet. This free 11-page guide helps B2B founders and sales leaders use AI to inspect their CRM data and turn those gaps into actions with owners and deadlines.",
+      "Follow the setup guide, connect your CRM or upload CSV exports, then run one main prompt. It checks waiting leads, overdue or missing next steps, quiet deals, recent wins and losses, recurring patterns and data gaps. Six follow-up prompts help you draft replies, investigate one area, review losses, clean up records, estimate a forecast and compare next week with this week.",
+      "The workflow asks for evidence and confidence levels and stays read-only unless you request changes. The guide includes a fictional Fellgate IT example and a weekly review routine. Results depend on the records your AI can access; missing activity history limits what it can conclude. Spot-check findings against your CRM before acting."
+    ],
+    "whatsInside": [
+      {
+        "title": "CRM setup and an export checklist",
+        "description": "A connection-route reference plus the fields to export for deals, activities and leads. A quick-check prompt confirms the record counts, date range and recent activity before analysis."
+      },
+      {
+        "title": "One main prompt, in two parts",
+        "description": "Answer five questions about your stages, sales cycle, quiet-deal threshold, owners and reply target. Get a brief covering this week, recurring patterns and a plan."
+      },
+      {
+        "title": "Six follow-up prompts",
+        "description": "Draft follow-ups, investigate a stage, owner or source, review lost deals, create a clean-up list, estimate a forecast and compare weekly progress."
+      },
+      {
+        "title": "A fictional worked example",
+        "description": "See a shortened brief from invented company Fellgate IT: 52 deals, 164 activities and 12 new leads. Its names and figures demonstrate the workflow, rather than report client results."
+      },
+      {
+        "title": "A weekly review routine",
+        "description": "Run the brief, compare it with last week and assign three moves with owners and deadlines. Change one habit at a time and track its measure."
+      }
+    ],
+    "whoItsFor": [
+      "Founders and sales leaders at B2B service and software companies, roughly $500k to $15M in revenue.",
+      "Teams using a CRM who need to find missed follow-ups, stalled proposals and repeated sales-process gaps.",
+      "People who can provide deal, lead and activity records through a permitted connection or CSV exports."
+    ],
+    "outcomes": [
+      "Identify leads past your reply target and deals with overdue or missing next steps.",
+      "See which open deals have gone quiet and the pipeline value attached to them.",
+      "Investigate recurring patterns and distinguish evidence from low-confidence findings.",
+      "Choose three actions for the week and one habit to improve over time."
+    ],
+    "faq": [
+      {
+        "question": "How can AI help find revenue leaks in a CRM?",
+        "answer": "Give it deal, lead and activity records, then use the guide’s prompt to check slow replies, overdue or missing next steps, deals going quiet and recurring patterns. The brief names records, dates, owners and amounts. Pipeline value at risk is not a prediction or guarantee of recovered revenue."
+      },
+      {
+        "question": "Is this a single prompt or a PDF guide?",
+        "answer": "It is an 11-page PDF guide with setup instructions, an export checklist, a main prompt in two parts, six follow-up prompts, a fictional example brief and a weekly review routine."
+      },
+      {
+        "question": "Can I use the guide without a CRM connector?",
+        "answer": "Yes. The guide gives a CSV route: export deals, activities and recent leads or contacts, then attach them to an AI tool that accepts file uploads. A spreadsheet can also supply the records. Start with the last 90 days, or more for a longer sales cycle."
+      },
+      {
+        "question": "What do I need, and will the AI change my CRM?",
+        "answer": "You need permission to use the records and an AI tool with the connection or file-upload access you need. Available connections, plans and admin requirements vary; check the current directory in your tool. The prompts instruct the AI to read only and draft messages without sending them or changing CRM records. Missing data limits the analysis, so spot-check its findings."
+      },
+      {
+        "question": "How do I get the guide?",
+        "answer": "Enter your full name and email to read the PDF on this page immediately and download a copy. You also subscribe to The AI Business newsletter and can unsubscribe at any time. This browser remembers your access; there is no email to wait for."
+      }
+    ],
+    "seoTitle": "Find Revenue in Your CRM: AI Sales Guide | The AI Business",
+    "metaDescription": "Find slow replies, missed follow-ups and stalled deals in your CRM. Free 11-page AI guide with setup steps, a main prompt and six follow-up prompts.",
+    "related": [
+      "why-you-lose-deals",
+      "prepare-sales-calls-using-ai",
+      "claude-notion-crm"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX",
+    "viewerUrl": "https://drive.google.com/file/d/1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX/preview"
   }
 ]
