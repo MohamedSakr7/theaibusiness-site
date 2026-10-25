@@ -889,9 +889,9 @@
       }
     ],
     "related": [
+      "find-buyers-in-your-list",
       "find-revenue-in-your-crm",
-      "prepare-sales-calls-using-ai",
-      "why-you-lose-deals"
+      "prepare-sales-calls-using-ai"
     ]
   },
   {
@@ -1070,13 +1070,106 @@
     "seoTitle": "Find Revenue in Your CRM: AI Sales Guide | The AI Business",
     "metaDescription": "Find slow replies, missed follow-ups and stalled deals in your CRM. Free 11-page AI guide with setup steps, a main prompt and six follow-up prompts.",
     "related": [
+      "find-buyers-in-your-list",
       "why-you-lose-deals",
-      "prepare-sales-calls-using-ai",
-      "claude-notion-crm"
+      "prepare-sales-calls-using-ai"
     ],
     "delivery": "pdf",
     "resourceUrl": "https://drive.google.com/file/d/1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX/view",
     "gatedUrl": "https://drive.google.com/uc?export=download&id=1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX",
     "viewerUrl": "https://drive.google.com/file/d/1EVG7RhLWOtJ132zZQ-jeE-gtzHn08JHX/preview"
+  },
+  {
+    "slug": "find-buyers-in-your-list",
+    "pageUrl": "/resources/find-buyers-in-your-list/",
+    "dateAdded": "2026-10-25",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/find-buyers-in-your-list.webp",
+    "thumbnailCaption": "The actual cover of the guide. Figures shown are from a fictional test list.",
+    "duration": "15-page PDF guide",
+    "order": 52,
+    "title": "Find the buyers hiding in your list",
+    "shortDescription": "Use Claude to clean old contacts, score buyer fit and research a shortlist, then prepare CRM imports, messages and follow-ups.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj/view",
+    "thumbnailAlt": "Actual PDF cover: Find the buyers hiding in your list, by Mo Sakr. The example list and figures are fictional.",
+    "thumbnailWidth": 745,
+    "thumbnailHeight": 1054,
+    "pageCount": 15,
+    "longDescription": [
+      "Your next buyers may already be among your newsletter subscribers, LinkedIn connections and old leads. This free 15-page guide helps B2B founders use Claude to clean those lists, score buyer fit and research a shortlist before preparing one-to-one messages.",
+      "Start with the data you have: email addresses, names and companies, or richer LinkedIn profiles. Follow seven steps and 11 prompts to merge duplicates, remove opt-outs, filter unsuitable groups, sort companies, score contacts and research the strongest candidates. Optional data enrichment comes after the free filtering steps, so you only look up companies still worth considering.",
+      "Finish with research cards, a CRM import file, first-message drafts and dated follow-ups. A weekly review prompt helps choose the next batch. The guide demonstrates the process on a generated 2,568-contact list for invented company Fellgate IT; its example contacts, figures and messages are fictional, not client results or a promise of sales. Review the shortlist and edit every message yourself. A good fit or a newsletter signup does not establish buying intent or permission for sales outreach."
+    ],
+    "whatsInside": [
+      {
+        "title": "Claude setup and three starting routes",
+        "description": "A reusable Project brief and export instructions for newsletter subscribers, LinkedIn connections, old CRM records and event lists. Choose the route that matches the data you already hold."
+      },
+      {
+        "title": "Clean, merge and filter before researching",
+        "description": "Use code to merge people across lists, remove duplicates and opt-outs, park unknowns and sort companies. Keep every exclusion in a separate file with its reason."
+      },
+      {
+        "title": "A transparent buyer-scoring framework",
+        "description": "Score company fit out of four, role out of three and signals out of three. Split contacts into A, B and C tiers, then review the top tier yourself."
+      },
+      {
+        "title": "Optional enrichment and sourced research cards",
+        "description": "Decide when missing company size, location or emails justify a data tool. Research ten shortlisted contacts at a time, with source links, confidence levels and unknowns left visible."
+      },
+      {
+        "title": "CRM imports, messages and a weekly routine",
+        "description": "Prepare a CRM-ready CSV, draft first messages and follow-ups, handle replies and plan the next batch. Eleven prompts cover the workflow, including the optional enrichment prompt."
+      }
+    ],
+    "whoItsFor": [
+      "B2B founders with newsletter subscribers, LinkedIn connections, event contacts or old leads they have not reviewed properly.",
+      "Teams that know their target industries, company sizes, locations and buyer roles, or can define them in the supplied brief.",
+      "People who can work with permitted list exports in Claude and review research and messages before taking action."
+    ],
+    "outcomes": [
+      "Combine scattered lists while preserving sources, opt-outs and the reasons for every exclusion.",
+      "Prioritize contacts by company fit, decision-making role and actual engagement signals.",
+      "Research a manageable batch with evidence, an opening angle and a confidence level for each contact.",
+      "Prepare a CRM import and a weekly contact plan with message drafts and dated next steps."
+    ],
+    "faq": [
+      {
+        "question": "How can I use Claude to find potential buyers in an old contact list?",
+        "answer": "Define your ideal customer and buyer roles, then upload your list exports. The guide walks through cleanup, group filtering, company sorting and scoring before researching the strongest candidates. A high fit score makes someone worth reviewing; it does not prove they want to buy."
+      },
+      {
+        "question": "What lists and tools do I need?",
+        "answer": "Start with newsletter subscribers, LinkedIn connections, old CRM contacts or event lists in CSV form. The guide is built for Claude with file handling, code execution and web search. It includes a reusable Project brief and routes for email-only lists, names plus companies and richer profiles. Check current Claude features and usage limits before starting."
+      },
+      {
+        "question": "Do I need a paid enrichment tool or a CRM?",
+        "answer": "Neither is required for every list. The guide explains when missing company size, location or work emails justify enrichment, and includes free and paid options. A spreadsheet can hold the final shortlist if you have no CRM. Vendor plans, prices and export menus can change."
+      },
+      {
+        "question": "Are the 2,568 contacts and 45 shortlisted buyers real client results?",
+        "answer": "No. The guide uses generated contacts for an invented company, Fellgate IT. The counts come from a test run on that fictional list, with a sample enrichment export. It also describes company-level research checks on three real firms. These are workflow demonstrations, not evidence of clients won or guaranteed results."
+      },
+      {
+        "question": "How do I get the guide, and does it send messages for me?",
+        "answer": "Enter your full name and email to read the PDF on this page immediately and download it. You also subscribe to The AI Business newsletter and can unsubscribe at any time. This browser remembers your access. The guide produces drafts and files; you review, import and send them yourself, respect opt-outs and check permission before outreach."
+      }
+    ],
+    "seoTitle": "Find Buyers in Your List with Claude | The AI Business",
+    "metaDescription": "Turn old contacts into a researched B2B buyer shortlist with Claude. Free 15-page guide with 11 prompts for cleanup, scoring, CRM imports and follow-ups.",
+    "related": [
+      "claude-notion-crm",
+      "find-revenue-in-your-crm",
+      "prepare-sales-calls-using-ai"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj",
+    "viewerUrl": "https://drive.google.com/file/d/1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj/preview"
   }
 ]
