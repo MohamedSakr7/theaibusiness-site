@@ -519,9 +519,9 @@
     "seoTitle": "Why Do You Lose B2B Deals? Free AI Guide | The AI Business",
     "metaDescription": "Find patterns in lost B2B deals with ChatGPT or Claude. Free guide with four prompts, eight reasons to check, a scorecard and a worked example.",
     "related": [
-      "find-revenue-in-your-crm",
-      "find-your-competitive-gap",
-      "prepare-sales-calls-using-ai"
+      "upgrade-your-b2b-offer-for-2027",
+      "prepare-sales-calls-using-ai",
+      "find-revenue-in-your-crm"
     ],
     "delivery": "pdf",
     "resourceUrl": "https://drive.google.com/file/d/1BxeK751zz2onXghCr9IAtv0g0E4ZvEcT/view",
@@ -977,9 +977,9 @@
     "seoTitle": "Find Your Competitive Gap: B2B AI Guide | The AI Business",
     "metaDescription": "Find a B2B position you can prove against three competitors. Free 16-page AI guide with six steps, a claims-vs-proof map, scorecard and messaging prompts.",
     "related": [
-      "why-you-lose-deals",
-      "rewrite-your-homepage-with-ai",
-      "build-your-gtm-in-one-ai-workflow"
+      "upgrade-your-b2b-offer-for-2027",
+      "build-your-gtm-in-one-ai-workflow",
+      "rewrite-your-homepage-with-ai"
     ],
     "delivery": "pdf",
     "resourceUrl": "https://drive.google.com/file/d/1mZVT9J95sbxUum102fVEZli37lcQZ9qF/view",
@@ -1171,5 +1171,104 @@
     "resourceUrl": "https://drive.google.com/file/d/1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj/view",
     "gatedUrl": "https://drive.google.com/uc?export=download&id=1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj",
     "viewerUrl": "https://drive.google.com/file/d/1xKPNR_usqjxQAN0LJ4V_Jyn1K4_ZA6Fj/preview"
+  },
+  {
+    "slug": "upgrade-your-b2b-offer-for-2027",
+    "pageUrl": "/resources/upgrade-your-b2b-offer-for-2027/",
+    "dateAdded": "2026-11-08",
+    "buttonLabel": "Download PDF",
+    "accessLabel": "Open PDF guide",
+    "format": "PDF guide",
+    "type": "guide",
+    "coverStyle": "publication",
+    "thumbnail": "/assets/resource-covers/upgrade-your-b2b-offer-for-2027.webp",
+    "thumbnailCaption": "The actual guide cover. Scores illustrate an invented company; the upgraded score is an estimate.",
+    "duration": "15-page PDF guide + Claude skill",
+    "order": 36,
+    "title": "Upgrade your B2B offer for 2027",
+    "shortDescription": "Use one AI workflow to score your offer, review buyer evidence and choose upgrades, then draft your new offer and a 90-day test plan.",
+    "cardButtonLabel": "Get the guide",
+    "accessUrl": "https://drive.google.com/file/d/1dmDuwSiHE6kA4uj7I2_1jsYzPvQaRsSc/view",
+    "thumbnailAlt": "Cover of Upgrade your B2B offer for 2027 with one AI workflow, by Mo Sakr. Scores are from a fictional worked example.",
+    "thumbnailWidth": 744,
+    "thumbnailHeight": 1053,
+    "pageCount": 15,
+    "longDescription": [
+      "Your B2B offer already wins clients. This free 15-page guide helps you find the parts that make it harder to buy: unclear outcomes, hidden proof, a slow first win, too much client effort, risk or confusing packaging. Use your proposals, reviews and deal notes to decide what to improve for 2027 while keeping what buyers already value.",
+      "Work through an intake and six guided steps in one AI chat: score the offer, read the buyer evidence, compare three competitors and the option of doing nothing, choose upgrades, write the new offer and plan a test on real deals. Run the included Claude skill or use the project setup and prompts in Claude or ChatGPT. Allow about 70 minutes, plus time to gather your material; each step waits for your input.",
+      "The guide includes a six-lever scorecard, 24 upgrade ideas, a complete worked example and prompts for offer, homepage, pitch and proposal copy. Kitewell, its competitors, reviews and deal figures are invented to demonstrate the workflow. Its improved score is an estimate, not a measured sales result. You choose the changes, supply prices, review the drafts and test the offer with buyers."
+    ],
+    "whatsInside": [
+      {
+        "title": "A scorecard for the offer buyers see",
+        "description": "Score Outcome, Proof, Speed, Effort, Risk and Packaging from 1 to 5, for a total out of 30. Identify what to keep and the gaps to check against your deals."
+      },
+      {
+        "title": "Buyer evidence and competitor comparison",
+        "description": "Read reviews, call notes and won or lost deals for buyer outcomes, fears and objections. Compare three competitors and doing nothing, with sources and confidence levels."
+      },
+      {
+        "title": "24 upgrades and a menu you choose from",
+        "description": "Explore clearer results, visible proof, a dated first win, less client work, a smaller first commitment and easier packaging. Weigh delivery effort, cost and tradeoffs before choosing up to five upgrades."
+      },
+      {
+        "title": "Your offer document and sales copy",
+        "description": "Draft a one-page offer, scope, milestones, options, supplied prices, proof, objection answers and copy for your homepage, pitch, proposals and the person who approves the deal."
+      },
+      {
+        "title": "A 90-day test plan and two ways to run it",
+        "description": "Set 30-, 60- and 90-day reviews against your current deal numbers. Use the linked Claude skill, or the project instructions and copy-and-paste prompts in the PDF."
+      }
+    ],
+    "whoItsFor": [
+      "Founders and revenue leaders at B2B service and software companies whose offer already sells.",
+      "Teams whose proposals get compared on price, stall at approval or lead to smaller first deals than expected.",
+      "People who can bring a proposal or offer page, buyer reviews and recent deal notes, then review AI drafts and run a test."
+    ],
+    "outcomes": [
+      "Score your current offer from the buyer’s point of view and identify the evidence behind each gap.",
+      "Choose practical upgrades your team can deliver while preserving what clients already value.",
+      "Prepare an editable offer document, sales copy and a summary your buyer can forward for approval.",
+      "Define a 90-day test using proposal close rate, deal value, time to sign and stalled deals."
+    ],
+    "faq": [
+      {
+        "question": "How can I improve a B2B offer that already sells?",
+        "answer": "Start with what buyers can see in your offer, proposal and website. The guide scores six levers, checks the gaps against reviews and won or lost deals, compares alternatives and helps you choose upgrades before drafting the new offer. You keep the parts buyers already value."
+      },
+      {
+        "question": "Does this work with Claude or ChatGPT?",
+        "answer": "The PDF provides project instructions and prompts for Claude or ChatGPT, plus a link to a Claude skill ZIP with the workflow built in. You need an account with the tools you use; check their current file-handling, web-search and skill availability. The website signup unlocks the guide and skill link, not an AI account."
+      },
+      {
+        "question": "What should I collect, and how long does it take?",
+        "answer": "Bring your offer or pricing page, a recent proposal, buyer reviews, notes on won and lost deals and three competitor links where available. You can start from memory, but findings will be marked low confidence. The guide allows about 70 minutes for the workflow, excluding preparation, followed by a 90-day test."
+      },
+      {
+        "question": "Are the example scores and deal figures real results?",
+        "answer": "No. Kitewell, its competitors, reviews and deal figures are invented. The guide demonstrates the workflow on that input; the upgraded score is an estimate. It does not establish an increase in sales. You supply your prices, review every draft and test changes on real deals; guarantee and contract drafts require legal review."
+      },
+      {
+        "question": "How do I get the PDF and included Claude skill?",
+        "answer": "Enter your full name and email to read the PDF here immediately and download it. The Claude skill download is available alongside it and on page 4 of the guide. Submitting also subscribes you to The AI Business newsletter; you can unsubscribe at any time. This browser remembers your access."
+      }
+    ],
+    "seoTitle": "Upgrade Your B2B Offer for 2027 with AI | The AI Business",
+    "metaDescription": "Improve your B2B offer with a free 15-page AI workflow guide: six-lever scorecard, 24 upgrades, Claude skill, offer-copy prompts and a 90-day test plan.",
+    "related": [
+      "find-your-competitive-gap",
+      "why-you-lose-deals",
+      "rewrite-your-homepage-with-ai"
+    ],
+    "delivery": "pdf",
+    "resourceUrl": "https://drive.google.com/file/d/1dmDuwSiHE6kA4uj7I2_1jsYzPvQaRsSc/view",
+    "gatedUrl": "https://drive.google.com/uc?export=download&id=1dmDuwSiHE6kA4uj7I2_1jsYzPvQaRsSc",
+    "viewerUrl": "https://drive.google.com/file/d/1dmDuwSiHE6kA4uj7I2_1jsYzPvQaRsSc/preview",
+    "attachments": [
+      {
+        "label": "Download the Claude skill ZIP",
+        "url": "https://drive.google.com/uc?export=download&id=1IvJy0pz_ZuSnlevkXu8YYlrMM4FYyt9H"
+      }
+    ]
   }
 ]
